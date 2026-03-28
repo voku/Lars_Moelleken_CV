@@ -1,14 +1,6 @@
 import fs from "node:fs";
-
-type EvidenceSurface =
-  | "visible_cv"
-  | "json_ld"
-  | "hidden_text"
-  | "dom_mutation"
-  | "simulation"
-  | "unknown";
-
-type TrustLevel = "trusted" | "suspicious" | "rejected";
+import { sanitizeAndClassify } from "./src/trust";
+import type { EvidenceSurface, TrustLevel } from "./src/types";
 
 type TechniqueExpectation = {
   technique: string;
@@ -19,7 +11,8 @@ type TechniqueExpectation = {
 };
 
 const app = fs.readFileSync("src/App.tsx", "utf-8").toLowerCase();
-const server = fs.readFileSync("server.ts", "utf-8").toLowerCase();
+const trustBoundaryComponent = fs.readFileSync("src/components/TrustBoundaryReport.tsx", "utf-8").toLowerCase();
+const uiSource = `${app}\n${trustBoundaryComponent}`;
 
 const expectations: TechniqueExpectation[] = [
   {
@@ -52,8 +45,6 @@ const expectations: TechniqueExpectation[] = [
   },
 ];
 
-const trustedAllowlist = ["lars moelleken", "senior php developer", "deutschland", "symfony", "laravel"];
-
 function assertContains(content: string, needle: string): boolean {
   return content.includes(needle.toLowerCase());
 }
@@ -63,44 +54,41 @@ function run(): void {
 
   let fail = false;
 
+  const hardened = sanitizeAndClassify(app, "hardened");
+  const naive = sanitizeAndClassify(app, "naive");
+
   for (const exp of expectations) {
     const naiveDetected = assertContains(app, exp.marker);
-    const serverHasSurface = assertContains(server, exp.surface);
-    const serverHasRejected =
-      assertContains(server, "trust: \"rejected\"") ||
-      assertContains(server, "trust: 'rejected'") ||
-      assertContains(server, "trust: scenario === \"hardened\" ? \"rejected\" : \"suspicious\"");
+
+    const hardenedFact = hardened.extractedFacts.find(
+      (fact) => fact.surface === exp.surface && fact.value.toLowerCase().includes(exp.marker),
+    );
 
     console.log(`\nTechnique: ${exp.technique}`);
     console.log(`  marker present in app: ${naiveDetected}`);
-    console.log(`  surface classified in server: ${serverHasSurface}`);
-    console.log(`  hardened trust expectation: ${exp.hardenedTrustExpected}`);
+    console.log(`  hardened trust: ${hardenedFact?.trust ?? "missing"}`);
 
     if (exp.naiveDetectionExpected && !naiveDetected) fail = true;
-    if (!serverHasSurface || !serverHasRejected) fail = true;
+    if (!hardenedFact || hardenedFact.trust !== exp.hardenedTrustExpected) fail = true;
   }
 
-  const appHasTrustReportUI = assertContains(app, "trust boundary report");
-  const appHasLimiterText = assertContains(app, "readable by parser");
-  const serverHasTypes = assertContains(server, "type extractedfact") && assertContains(server, "type sanitizationfinding");
-  const serverHasPipeline = assertContains(server, "sanitizeandclassify");
+  const trustedFacts = hardened.extractedFacts.filter((fact) => fact.trust === "trusted");
+  const nonVisibleTrusted = hardened.extractedFacts.filter(
+    (fact) => fact.trust === "trusted" && fact.surface !== "visible_cv",
+  );
 
-  const trustedFactsPresent = trustedAllowlist.every((term) => assertContains(app, term));
-
-  const secondaryScoreChecks = [
-    assertContains(server, "rankingscore: mode === \"hardened\" ? 0 : 95"),
-    assertContains(server, "injectionhits: mode === \"hardened\" ? 0 : trustreport.findings.length"),
-  ].every(Boolean);
+  const appHasTrustReportUI = assertContains(uiSource, "trust boundary report");
+  const appHasLimiterText = assertContains(uiSource, "readable by parser");
 
   console.log("\nBoundary assertions");
   console.log(`  trust report ui present: ${appHasTrustReportUI}`);
   console.log(`  limitation card present: ${appHasLimiterText}`);
-  console.log(`  server trust types present: ${serverHasTypes}`);
-  console.log(`  server sanitization pipeline present: ${serverHasPipeline}`);
-  console.log(`  trusted allowlisted facts visible: ${trustedFactsPresent}`);
-  console.log(`  secondary score checks present: ${secondaryScoreChecks}`);
+  console.log(`  trusted facts count (hardened): ${trustedFacts.length}`);
+  console.log(`  non-visible trusted facts (hardened): ${nonVisibleTrusted.length}`);
+  console.log(`  naive findings count: ${naive.findings.length}`);
+  console.log(`  hardened findings count: ${hardened.findings.length}`);
 
-  if (!appHasTrustReportUI || !appHasLimiterText || !serverHasTypes || !serverHasPipeline || !trustedFactsPresent || !secondaryScoreChecks) {
+  if (!appHasTrustReportUI || !appHasLimiterText || trustedFacts.length === 0 || nonVisibleTrusted.length > 0) {
     fail = true;
   }
 
