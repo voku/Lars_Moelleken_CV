@@ -1769,6 +1769,49 @@ export default function App() {
                 versteckt passiert ist.
               </p>
             </section>
+
+            <section className="bg-white border border-gray-200 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-700" />
+                Verifizierbare Profile &amp; Proof Signals
+              </h3>
+              <p className="text-sm text-gray-700 mb-4">
+                Diese Links sind absichtlich öffentlich und überprüfbar, damit Recruiter:innen und Agenten
+                auf echte Evidenz statt auf manipulative Marker reagieren.
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <a
+                    href="https://github.com/voku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-700 hover:underline"
+                  >
+                    GitHub: github.com/voku
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/larsmoelleken/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-700 hover:underline"
+                  >
+                    LinkedIn: larsmoelleken
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://packagist.org/packages/voku/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-700 hover:underline"
+                  >
+                    Packagist: voku packages
+                  </a>
+                </li>
+              </ul>
+            </section>
           </main>
         </>
       )}
