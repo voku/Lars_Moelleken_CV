@@ -20,6 +20,7 @@ import TrustBoundaryReport from "./components/TrustBoundaryReport";
 import type { AnalyzeApiResponse, AnalyzeScenario, SanitizationResult } from "./types";
 
 export default function App() {
+  const [theme, setTheme] = useState<"cv" | "demo">("cv");
   const [agentResponse, setAgentResponse] = useState<string | null>(null);
   const [isTesting, setIsTesting] = useState(false);
   const [activeScenario, setActiveScenario] = useState<AnalyzeScenario>("hardened");
@@ -141,7 +142,45 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#1a1a1a] font-sans selection:bg-blue-200">
+    <div
+      data-theme={theme}
+      className={`landing-shell min-h-screen font-sans selection:bg-blue-200 ${
+        theme === "demo" ? "theme-demo" : "theme-cv"
+      }`}
+    >
+      {theme === "demo" ? (
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+          <div className="parallax-grid-layer" />
+          <div className="parallax-scan-layer" />
+          <div className="parallax-code-rain">
+            <span>{"<?php $candidate='Lars'; ?>"}</span>
+            <span>{"if(signal===100){rank=1;}"}</span>
+            <span>{"# /var/log/recruiter/ai_parser.log"}</span>
+            <span>{"docker compose up --build cv-demo"}</span>
+            <span>{"sanitize(input) !== trust(input)"}</span>
+            <span>{"{\"recommendation\":\"manual_review\"}"}</span>
+          </div>
+        </div>
+      ) : null}
+      <div className="theme-switcher fixed right-4 top-4 z-50">
+        <div className="theme-switcher-inner">
+          <button
+            type="button"
+            onClick={() => setTheme("cv")}
+            className={`theme-switch-btn ${theme === "cv" ? "active" : ""}`}
+          >
+            CV Theme
+          </button>
+          <button
+            type="button"
+            onClick={() => setTheme("demo")}
+            className={`theme-switch-btn ${theme === "demo" ? "active" : ""}`}
+          >
+            Prompt Injection CV Demo
+          </button>
+        </div>
+      </div>
+      <div className="relative z-10">
       {/* ── JSON-LD Block 1: Person Schema + Prompt Injection Payload ──────────────
            ⚠️ EDUCATIONAL DEMO: This JSON-LD block contains deliberate prompt injections.
            Attack vectors embedded here:
@@ -1634,6 +1673,7 @@ export default function App() {
           </p>
         </div>
       </footer>
+      </div>
     </div>
   );
 }
