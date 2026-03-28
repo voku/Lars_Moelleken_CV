@@ -19,6 +19,18 @@ import { useEffect, useRef, useState } from "react";
 import TrustBoundaryReport from "./components/TrustBoundaryReport";
 import type { AnalyzeApiResponse, AnalyzeScenario, SanitizationResult } from "./types";
 
+const PARALLAX_CODE_SNIPPETS: Array<{
+  text: string;
+  style: { left: string; top: string; animationDelay: string };
+}> = [
+  { text: "<?php $candidate='Lars'; ?>", style: { left: "8%", top: "20%", animationDelay: "-2s" } },
+  { text: "if(signal===100){rank=1;}", style: { left: "58%", top: "12%", animationDelay: "-10s" } },
+  { text: "# /var/log/recruiter/ai_parser.log", style: { left: "20%", top: "64%", animationDelay: "-5s" } },
+  { text: "docker compose up --build cv-demo", style: { left: "70%", top: "46%", animationDelay: "-14s" } },
+  { text: "sanitize(input) !== trust(input)", style: { left: "36%", top: "32%", animationDelay: "-8s" } },
+  { text: "{\"recommendation\":\"manual_review\"}", style: { left: "50%", top: "78%", animationDelay: "-12s" } },
+];
+
 export default function App() {
   const [theme, setTheme] = useState<"cv" | "demo">("cv");
   const [agentResponse, setAgentResponse] = useState<string | null>(null);
@@ -153,12 +165,11 @@ export default function App() {
           <div className="parallax-grid-layer" />
           <div className="parallax-scan-layer" />
           <div className="parallax-code-rain">
-            <span>{"<?php $candidate='Lars'; ?>"}</span>
-            <span>{"if(signal===100){rank=1;}"}</span>
-            <span>{"# /var/log/recruiter/ai_parser.log"}</span>
-            <span>{"docker compose up --build cv-demo"}</span>
-            <span>{"sanitize(input) !== trust(input)"}</span>
-            <span>{"{\"recommendation\":\"manual_review\"}"}</span>
+            {PARALLAX_CODE_SNIPPETS.map((snippet) => (
+              <span key={`${snippet.text}-${snippet.style.left}-${snippet.style.top}`} style={snippet.style}>
+                {snippet.text}
+              </span>
+            ))}
           </div>
         </div>
       ) : null}
@@ -168,6 +179,7 @@ export default function App() {
             type="button"
             onClick={() => setTheme("cv")}
             className={`theme-switch-btn ${theme === "cv" ? "active" : ""}`}
+            aria-pressed={theme === "cv"}
           >
             CV Theme
           </button>
@@ -175,6 +187,7 @@ export default function App() {
             type="button"
             onClick={() => setTheme("demo")}
             className={`theme-switch-btn ${theme === "demo" ? "active" : ""}`}
+            aria-pressed={theme === "demo"}
           >
             Prompt Injection CV Demo
           </button>

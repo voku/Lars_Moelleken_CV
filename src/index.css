@@ -80,7 +80,7 @@
   background-size: 42px 42px;
   transform: perspective(500px) rotateX(66deg) translateY(-20%);
   transform-origin: top;
-  animation: gridShift 18s linear infinite;
+  animation: grid-shift 18s linear infinite;
 }
 
 .parallax-scan-layer {
@@ -91,7 +91,7 @@
     transparent 3px,
     transparent 8px
   );
-  animation: scanPulse 7s ease-in-out infinite;
+  animation: scan-pulse 7s ease-in-out infinite;
 }
 
 .parallax-code-rain {
@@ -107,21 +107,16 @@
   font-size: 0.8rem;
   text-shadow: 0 0 12px rgba(75, 242, 255, 0.45);
   white-space: nowrap;
-  animation: codeFloat 18s linear infinite;
+  animation: code-float 18s linear infinite;
 }
-
-.parallax-code-rain span:nth-child(1) { left: 8%; top: 20%; animation-delay: -2s; }
-.parallax-code-rain span:nth-child(2) { left: 58%; top: 12%; animation-delay: -10s; }
-.parallax-code-rain span:nth-child(3) { left: 20%; top: 64%; animation-delay: -5s; }
-.parallax-code-rain span:nth-child(4) { left: 70%; top: 46%; animation-delay: -14s; }
-.parallax-code-rain span:nth-child(5) { left: 36%; top: 32%; animation-delay: -8s; }
-.parallax-code-rain span:nth-child(6) { left: 50%; top: 78%; animation-delay: -12s; }
 
 .theme-demo header,
 .theme-demo main > section > div,
 .theme-demo main > section > .grid > div,
 .theme-demo main > section .bg-white,
-.theme-demo main > section .bg-blue-50 {
+.theme-demo main > section .bg-blue-50,
+.theme-demo main > section .bg-white\/5,
+.theme-demo main > section .bg-black\/30 {
   background: var(--demo-panel-soft) !important;
   border-color: var(--demo-border) !important;
   color: var(--demo-text) !important;
@@ -163,21 +158,24 @@
 .theme-demo .border-gray-200,
 .theme-demo .border-gray-300,
 .theme-demo .border-blue-100,
-.theme-demo .border-blue-300 {
+.theme-demo .border-blue-300,
+.theme-demo .border-white\/20,
+.theme-demo .border-gray-700,
+.theme-demo .border-amber-700\/40 {
   border-color: var(--demo-border) !important;
 }
 
-@keyframes gridShift {
+@keyframes grid-shift {
   from { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(0); }
   to { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(-42px); }
 }
 
-@keyframes scanPulse {
+@keyframes scan-pulse {
   0%, 100% { opacity: 0.25; transform: translateY(0); }
   50% { opacity: 0.5; transform: translateY(12px); }
 }
 
-@keyframes codeFloat {
+@keyframes code-float {
   0% { transform: translate3d(0, 0, 0); opacity: 0.2; }
   50% { opacity: 0.7; }
   100% { transform: translate3d(-16px, -28px, 0); opacity: 0.18; }
