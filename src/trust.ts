@@ -12,36 +12,43 @@ export function stripTags(input: string): string {
 export function sanitizeAndClassify(html: string, scenario: "hardened" | "naive"): SanitizationResult {
   const normalizedText = html.replace(/\s+/g, " ").trim();
   const visibleText = stripTags(html);
-  const lower = normalizedText.toLowerCase();
+  const detectionText = normalizedText
+    .toLowerCase()
+    .replace(/[\u200b-\u200f\u2060\ufeff]/g, "")
+    .replace(/\s+/g, " ");
 
   const findings: SanitizationFinding[] = [];
   const extractedFacts: ExtractedFact[] = [];
 
-  const riskChecks: Array<{ marker: string; surface: EvidenceSurface; reason: string }> = [
+  const riskChecks: Array<{ marker: string; surface: EvidenceSurface; reason: string; pattern: RegExp }> = [
     {
       marker: "[educational_injection_marker:hidden_text]",
       surface: "hidden_text",
       reason: "CSS-hidden/tiny text is parser-readable but not reliable human-visible evidence.",
+      pattern: /\[\s*educational[\s_-]*injection[\s_-]*marker\s*:\s*hidden[\s_-]*text\s*\]/i,
     },
     {
       marker: "[educational_injection_marker:structured_metadata]",
       surface: "json_ld",
       reason: "Structured metadata from public pages is not inherently trusted candidate truth.",
+      pattern: /\[\s*educational[\s_-]*injection[\s_-]*marker\s*:\s*structured[\s_-]*metadata\s*\]/i,
     },
     {
       marker: "[educational_injection_marker:dom_mutation]",
       surface: "dom_mutation",
       reason: "Post-load DOM mutation content requires separate provenance-aware handling.",
+      pattern: /\[\s*educational[\s_-]*injection[\s_-]*marker\s*:\s*dom[\s_-]*mutation\s*\]/i,
     },
     {
       marker: "[educational_injection_marker:cross_surface_repetition]",
       surface: "simulation",
       reason: "Cross-surface repetition is not independent validation.",
+      pattern: /\[\s*educational[\s_-]*injection[\s_-]*marker\s*:\s*cross[\s_-]*surface[\s_-]*repetition\s*\]/i,
     },
   ];
 
   for (const check of riskChecks) {
-    if (lower.includes(check.marker)) {
+    if (check.pattern.test(detectionText)) {
       const action = scenario === "hardened" ? "removed" : "downgraded";
       findings.push({
         surface: check.surface,

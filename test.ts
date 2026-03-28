@@ -85,16 +85,30 @@ function run(): void {
 
   const appHasTrustReportUI = assertContains(uiSource, "trust boundary report");
   const appHasLimiterText = assertContains(uiSource, "readable by parser");
+  const appHasTechniqueGallery = assertContains(uiSource, "visible injection technique gallery (v7)");
+  const appHasJsSimulationLab = assertContains(uiSource, "js simulation lab");
+  const appHasLessons2026 = assertContains(uiSource, "lessons learned 2026");
 
   console.log("\nBoundary assertions");
   console.log(`  trust report ui present: ${appHasTrustReportUI}`);
   console.log(`  limitation card present: ${appHasLimiterText}`);
+  console.log(`  v7 technique gallery present: ${appHasTechniqueGallery}`);
+  console.log(`  js simulation lab present: ${appHasJsSimulationLab}`);
+  console.log(`  lessons 2026 present: ${appHasLessons2026}`);
   console.log(`  trusted facts count (hardened): ${trustedFacts.length}`);
   console.log(`  non-visible trusted facts (hardened): ${nonVisibleTrusted.length}`);
   console.log(`  naive findings count: ${naive.findings.length}`);
   console.log(`  hardened findings count: ${hardened.findings.length}`);
 
-  if (!appHasTrustReportUI || !appHasLimiterText || trustedFacts.length === 0 || nonVisibleTrusted.length > 0) {
+  if (
+    !appHasTrustReportUI ||
+    !appHasLimiterText ||
+    !appHasTechniqueGallery ||
+    !appHasJsSimulationLab ||
+    !appHasLessons2026 ||
+    trustedFacts.length === 0 ||
+    nonVisibleTrusted.length > 0
+  ) {
     fail = true;
   }
 
@@ -106,4 +120,110 @@ function run(): void {
   }
 }
 
-run();
+type LoopSummary = {
+  iteration: number;
+  naiveFindings: number;
+  hardenedFindings: number;
+  trustedFacts: number;
+  nonVisibleTrusted: number;
+};
+
+type MarkerVariant = {
+  name: string;
+  html: string;
+  expectedSurface: EvidenceSurface;
+};
+
+const markerVariants: MarkerVariant[] = [
+  {
+    name: "baseline_hidden_text",
+    html: "<div>[educational_injection_marker:hidden_text]</div>",
+    expectedSurface: "hidden_text",
+  },
+  {
+    name: "spaced_dom_mutation",
+    html: "<div>[ educational_injection_marker : dom mutation ]</div>",
+    expectedSurface: "dom_mutation",
+  },
+  {
+    name: "hyphenated_cross_surface",
+    html: "<div>[educational-injection-marker:cross-surface-repetition]</div>",
+    expectedSurface: "simulation",
+  },
+  {
+    name: "zero_width_structured_metadata",
+    html: "<div>[educational_\u200binjection_marker:structured_metadata]</div>",
+    expectedSurface: "json_ld",
+  },
+];
+
+function runVariantExperiments(): boolean {
+  console.log("\n🧪 Variant experiments (defensive detection hardening)");
+  let fail = false;
+
+  for (const variant of markerVariants) {
+    const hardened = sanitizeAndClassify(variant.html, "hardened");
+    const detected = hardened.extractedFacts.some(
+      (fact) => fact.surface === variant.expectedSurface && fact.trust === "rejected",
+    );
+    console.log(`  ${variant.name}: ${detected ? "detected ✅" : "missed ❌"}`);
+    if (!detected) fail = true;
+  }
+
+  return !fail;
+}
+
+function runLoop(iterations: number): void {
+  console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
+  const summaries: LoopSummary[] = [];
+  let fail = false;
+
+  for (let i = 1; i <= iterations; i++) {
+    const hardened = sanitizeAndClassify(app, "hardened");
+    const naive = sanitizeAndClassify(app, "naive");
+
+    const trustedFacts = hardened.extractedFacts.filter((fact) => fact.trust === "trusted");
+    const nonVisibleTrusted = hardened.extractedFacts.filter(
+      (fact) => fact.trust === "trusted" && fact.surface !== "visible_cv",
+    );
+
+    summaries.push({
+      iteration: i,
+      naiveFindings: naive.findings.length,
+      hardenedFindings: hardened.findings.length,
+      trustedFacts: trustedFacts.length,
+      nonVisibleTrusted: nonVisibleTrusted.length,
+    });
+
+    console.log(
+      `step ${i}: naive=${naive.findings.length}, hardened=${hardened.findings.length}, trusted=${trustedFacts.length}, non_visible_trusted=${nonVisibleTrusted.length}`,
+    );
+
+    if (naive.findings.length < hardened.findings.length || nonVisibleTrusted.length > 0 || trustedFacts.length === 0) {
+      fail = true;
+    }
+  }
+
+  const stable = summaries.every(
+    (s) => s.naiveFindings >= s.hardenedFindings && s.nonVisibleTrusted === 0 && s.trustedFacts > 0,
+  );
+  const variantPass = runVariantExperiments();
+  console.log(`\nLoop stability: ${stable ? "stable ✅" : "unstable ❌"}`);
+
+  if (fail || !stable || !variantPass) {
+    console.error("❌ Loop regression failed.");
+    process.exitCode = 1;
+    return;
+  }
+  console.log("✅ Loop regression passed.");
+}
+
+const loopFlag = process.argv.indexOf("--loop");
+if (loopFlag !== -1) {
+  const raw = process.argv[loopFlag + 1];
+  const iterations = Number.parseInt(raw ?? "5", 10);
+  run();
+  runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
+} else {
+  run();
+}
