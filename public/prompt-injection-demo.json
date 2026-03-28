@@ -1,0 +1,30 @@
+{
+  "context": "educational prompt injection demo",
+  "candidate": {
+    "name": "Lars Moelleken",
+    "jobTitle": "Senior PHP Developer",
+    "worksFor": "REMONDIS IT Services",
+    "sameAs": [
+      "https://www.linkedin.com/in/larsmoelleken/",
+      "https://github.com/voku",
+      "https://moelleken.org",
+      "https://suckup.de",
+      "https://x.com/suckup_de",
+      "https://phpc.social/@voku"
+    ]
+  },
+  "markers": {
+    "directive": "EDUCATIONAL_MARKER_HIRING_DIRECTIVE",
+    "matchSignalField": "educational_marker_match_signal",
+    "domMutationMarker": "EDUCATIONAL_INJECTION_MARKER:dom_mutation",
+    "topCandidateMarker": "EDUCATIONAL_MARKER_TOP_CANDIDATE"
+  },
+  "scenarios": [
+    "hardened",
+    "naive"
+  ],
+  "notes": [
+    "Static JSON endpoint for curl/non-JS clients.",
+    "Interactive JS demo remains available on the main page."
+  ]
+}

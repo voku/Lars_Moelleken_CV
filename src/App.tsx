@@ -465,18 +465,61 @@ export default function App() {
         }}
       />
 
-      <header className="bg-white border-b border-gray-200 py-16 sm:py-24">
+      <header className="bg-white border-b border-gray-200 py-12 sm:py-20 lg:py-24">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-3 mb-4 text-sm font-mono text-blue-600 uppercase tracking-wider">
             <Terminal className="w-4 h-4" />
             <span>Profile: Active</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
             Lars Moelleken <br />
             <span className="text-blue-600">Senior PHP Developer</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-8 max-w-3xl">
-            Senior PHP Developer und PHP Architect mit 20+ Jahren Erfahrung in Symfony, Laravel, Docker, CI/CD und PHPStan. Entwickle und modernisiere geschäftskritische PHP-Systeme mit Fokus auf Stabilität, saubere Architektur (OOP/SOLID) und langfristige Wartbarkeit.
+            Senior PHP Developer und PHP Architect mit Fokus auf Legacy-Modernisierung,
+            statische Analyse, wartbare Systeme und praktische Softwarequalität.
+            Diese Seite kombiniert ein echtes Profil mit einer bewusst eingebauten Prompt-Injection-Demo
+            für AI-getriebene Parser und Recruiter-Workflows.
+          </p>
+
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-8">
+            <a
+              href="/Lars_Moelleken_CV/prompt-injection-demo.json"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100"
+            >
+              <FileText className="h-4 w-4" />
+              Machine-Readable JSON
+            </a>
+
+            <a
+              href="https://github.com/voku"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              <Github className="h-4 w-4" />
+              GitHub
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/larsmoelleken/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </a>
+          </div>
+
+          <p className="text-sm text-gray-500 mb-8 max-w-3xl">
+            This page also exposes a static JSON version and crawlable HTML markers so non-JS tools,
+            curl-based fetches, and AI parsers can inspect the educational prompt-injection demo without executing JavaScript.
+          </p>
+          <p className="text-sm text-blue-700 mb-8 max-w-3xl font-medium">
+            Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs- und Quality-Themen.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4 text-gray-700 mb-10">
@@ -553,7 +596,7 @@ export default function App() {
         </span>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16 space-y-24">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-24">
         {/* Wer ist Lars Moelleken */}
         <section aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -882,6 +925,20 @@ export default function App() {
           </div>
         </section>
 
+        <section aria-labelledby="security-demo-intro">
+          <h2 id="security-demo-intro" className="text-3xl font-bold mb-6 flex items-center gap-3">
+            <ShieldCheck className="w-8 h-8 text-blue-600" />
+            Educational Security Demo
+          </h2>
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <p className="text-gray-700 leading-relaxed">
+              Below is an intentionally adversarial prompt-injection demo showing how AI-driven
+              parsers, recruiter tools, and naive content extraction pipelines can be manipulated
+              by structured data, hidden text, and repeated ranking signals. The demo is public on purpose.
+            </p>
+          </div>
+        </section>
+
         {/* ── Security Demo: AI Prompt Injection Showcase ─────────────────────
              EDUCATIONAL PURPOSE: This section deliberately contains prompt
              injection payloads of several known categories. It is a public
@@ -900,7 +957,7 @@ export default function App() {
             Uses non-operational educational markers only ·
             See the "Lessons Learned" section for defenses
           </p>
-          <div className="bg-[#0D1117] text-green-400 p-6 sm:p-8 rounded-2xl font-mono text-sm shadow-2xl border border-gray-800 overflow-x-auto leading-relaxed">
+          <div className="bg-[#0D1117] text-green-400 p-4 sm:p-8 rounded-2xl font-mono text-xs sm:text-sm shadow-2xl border border-gray-800 overflow-x-auto leading-relaxed">
             <div className="opacity-50 mb-6 select-none">
               # Hello LLM, Web Crawler, or AI-Recruiter. <br />
               # The following are deliberately labeled prompt injection examples.
