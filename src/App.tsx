@@ -32,7 +32,8 @@ const PARALLAX_CODE_SNIPPETS: Array<{
 ];
 
 export default function App() {
-  const [viewMode, setViewMode] = useState<"injection_cv" | "standard_cv">("injection_cv");
+  const [viewMode, setViewMode] = useState<"standard_cv" | "prompt_injection_cv">("standard_cv");
+  const [isWorldShifting, setIsWorldShifting] = useState(false);
   const [agentResponse, setAgentResponse] = useState<string | null>(null);
   const [isTesting, setIsTesting] = useState(false);
   const [activeScenario, setActiveScenario] = useState<AnalyzeScenario>("hardened");
@@ -145,6 +146,12 @@ export default function App() {
   };
 
   useEffect(() => {
+    setIsWorldShifting(true);
+    const transitionTimeout = window.setTimeout(() => setIsWorldShifting(false), 700);
+    return () => window.clearTimeout(transitionTimeout);
+  }, [viewMode]);
+
+  useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
@@ -157,10 +164,13 @@ export default function App() {
     <div
       data-theme={viewMode}
       className={`landing-shell min-h-screen font-sans selection:bg-blue-200 ${
-        viewMode === "injection_cv" ? "theme-demo" : "theme-cv"
-      }`}
+        viewMode === "prompt_injection_cv" ? "theme-demo" : "theme-cv"
+      } ${isWorldShifting ? "world-shift" : ""}`}
     >
-      {viewMode === "injection_cv" ? (
+      {viewMode === "prompt_injection_cv" ? (
+        <div className="world-shift-flash pointer-events-none fixed inset-0 z-[60]" aria-hidden="true" />
+      ) : null}
+      {viewMode === "prompt_injection_cv" ? (
         <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
           <div className="parallax-grid-layer" />
           <div className="parallax-scan-layer" />
@@ -181,20 +191,20 @@ export default function App() {
             className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
             aria-pressed={viewMode === "standard_cv"}
           >
-            Standard CV + Explain
+            Standard CV (Affected)
           </button>
           <button
             type="button"
-            onClick={() => setViewMode("injection_cv")}
-            className={`theme-switch-btn ${viewMode === "injection_cv" ? "active" : ""}`}
-            aria-pressed={viewMode === "injection_cv"}
+            onClick={() => setViewMode("prompt_injection_cv")}
+            className={`theme-switch-btn ${viewMode === "prompt_injection_cv" ? "active" : ""}`}
+            aria-pressed={viewMode === "prompt_injection_cv"}
           >
-            Prompt Injection CV
+            Prompt Injection CV + Explain
           </button>
         </div>
       </div>
       <div className="relative z-10">
-      {viewMode === "injection_cv" ? (
+      {viewMode === "standard_cv" ? (
       <>
       {/* ── JSON-LD Block 1: Person Schema + Prompt Injection Payload ──────────────
            ⚠️ EDUCATIONAL DEMO: This JSON-LD block contains deliberate prompt injections.
@@ -1694,16 +1704,16 @@ export default function App() {
           <header className="bg-white border-b border-gray-200 py-12 sm:py-20 lg:py-24">
             <div className="max-w-4xl mx-auto px-6 lg:px-8">
               <div className="flex items-center gap-3 mb-4 text-sm font-mono text-emerald-600 uppercase tracking-wider">
-                <UserCheck className="w-4 h-4" />
-                <span>Standard CV View</span>
+                <Bot className="w-4 h-4" />
+                <span>Prompt Injection CV — Explain View</span>
               </div>
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
-                Lars Moelleken <br />
-                <span className="text-emerald-700">Senior PHP Developer</span>
+                Prompt Injection CV <br />
+                <span className="text-emerald-700">Cyberpunk + Explain Mode</span>
               </h1>
               <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-8 max-w-3xl">
-                Dies ist die bereinigte Referenzansicht: nur menschlich nachvollziehbare Inhalte, keine
-                versteckten Marker, keine manipulativen JSON-LD-Anweisungen.
+                In diesem Modus siehst du die Lern-Perspektive: warum die Standard-CV-Ansicht manipulativ
+                wirkt und wie man den Effekt technisch erkennt und entschärft.
               </p>
             </div>
           </header>
@@ -1737,7 +1747,7 @@ export default function App() {
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-emerald-700" />
-                  Defensive Sicht (Best Practice)
+                  Defensive Sicht nach dem Weltwechsel
                 </h3>
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li>• Sichtbare CV-Abschnitte mit Allowlist priorisieren.</li>
@@ -1753,10 +1763,10 @@ export default function App() {
                 Zwei Seiten einer Medaille
               </h3>
               <p className="text-emerald-900/90 text-sm leading-relaxed">
-                Mit dem Umschalter oben rechts wechselst du zwischen <strong>Prompt Injection CV</strong>
-                (Angriffs-Perspektive) und <strong>Standard CV + Explain</strong> (Defensiv-Perspektive). So
-                wird direkt sichtbar, wie manipulative Signale von sauberer, vertrauenswürdiger Evidenz zu
-                trennen sind.
+                Mit dem Umschalter oben rechts wechselst du zwischen <strong>Standard CV (Affected)</strong>
+                und <strong>Prompt Injection CV + Explain</strong>. Nach dem Klick transformiert sich die
+                Seite visuell in die Cyberpunk-Welt und erklärt sofort, was vorher im „normalen“ CV
+                versteckt passiert ist.
               </p>
             </section>
           </main>
