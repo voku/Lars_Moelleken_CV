@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://voku.github.io/Lars_Moelleken_CV/sitemap.xml
