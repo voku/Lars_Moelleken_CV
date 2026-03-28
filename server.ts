@@ -1,5 +1,6 @@
 import express from "express";
 import OpenAI, { type OpenAI as OpenAIClient } from "openai";
+import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import type { AnalyzeApiResponse, AnalyzeScenario } from "./src/types";
 import { sanitizeAndClassify } from "./src/trust";
 
@@ -41,7 +42,7 @@ app.post("/api/analyze", async (req, res) => {
   const mode: AnalyzeScenario = scenario === "naive" ? "naive" : "hardened";
   const trustReport = sanitizeAndClassify(html, mode);
 
-  const messages = [] as Array<{ role: "system" | "user"; content: string }>;
+  const messages: ChatCompletionMessageParam[] = [];
 
   if (mode === "hardened") {
     messages.push({ role: "system", content: HARDENED_SYSTEM_PROMPT });

@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { sanitizeAndClassify } from "./src/trust";
 import type { EvidenceSurface, TrustLevel } from "./src/types";
 
@@ -10,8 +12,12 @@ type TechniqueExpectation = {
   hardenedTrustExpected: TrustLevel;
 };
 
-const app = fs.readFileSync("src/App.tsx", "utf-8").toLowerCase();
-const trustBoundaryComponent = fs.readFileSync("src/components/TrustBoundaryReport.tsx", "utf-8").toLowerCase();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const app = fs.readFileSync(path.join(__dirname, "src/App.tsx"), "utf-8").toLowerCase();
+const trustBoundaryComponent = fs
+  .readFileSync(path.join(__dirname, "src/components/TrustBoundaryReport.tsx"), "utf-8")
+  .toLowerCase();
 const uiSource = `${app}\n${trustBoundaryComponent}`;
 
 const expectations: TechniqueExpectation[] = [

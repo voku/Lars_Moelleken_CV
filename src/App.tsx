@@ -36,6 +36,11 @@ export default function App() {
     if (body.result !== undefined && typeof body.result !== "string") return false;
     if (body.error !== undefined && typeof body.error !== "string") return false;
     if (body.scenario !== undefined && body.scenario !== "hardened" && body.scenario !== "naive") return false;
+    if (body.trustReport !== undefined) {
+      if (!body.trustReport || typeof body.trustReport !== "object") return false;
+      const trustReport = body.trustReport as Record<string, unknown>;
+      if (!Array.isArray(trustReport.findings) || !Array.isArray(trustReport.extractedFacts)) return false;
+    }
     return true;
   }
 
@@ -1272,7 +1277,7 @@ export default function App() {
                 {simulationLog.length > 0 && (
                   <ul className="mt-3 list-disc pl-5 text-[11px] text-fuchsia-100">
                     {simulationLog.slice(-6).map((entry, idx) => (
-                      <li key={`${idx}-${entry.slice(0, 14)}`}>{entry}</li>
+                      <li key={idx}>{entry}</li>
                     ))}
                   </ul>
                 )}

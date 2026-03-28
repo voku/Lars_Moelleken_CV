@@ -67,8 +67,12 @@ export function sanitizeAndClassify(html: string, scenario: "hardened" | "naive"
     { key: "skills", needle: "laravel", value: "Laravel" },
   ];
 
+  const seen = new Set<string>();
   for (const fact of allowlistedFacts) {
     if (visibleText.toLowerCase().includes(fact.needle)) {
+      const dedupeKey = `${fact.key}:${fact.value}`;
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
       extractedFacts.push({
         key: fact.key,
         value: fact.value,
@@ -79,12 +83,15 @@ export function sanitizeAndClassify(html: string, scenario: "hardened" | "naive"
     }
   }
 
-  findings.push({
-    surface: "visible_cv",
-    marker: "allowlisted_visible_sections",
-    action: "kept",
-    reason: "Only visible, allowlisted CV sections are promoted to trusted facts.",
-  });
+  const hasTrustedFacts = extractedFacts.some((fact) => fact.trust === "trusted");
+  if (hasTrustedFacts) {
+    findings.push({
+      surface: "visible_cv",
+      marker: "allowlisted_visible_sections",
+      action: "kept",
+      reason: "Only visible, allowlisted CV sections are promoted to trusted facts.",
+    });
+  }
 
   return { normalizedText, visibleText, findings, extractedFacts };
 }
