@@ -106,4 +106,64 @@ function run(): void {
   }
 }
 
-run();
+type LoopSummary = {
+  iteration: number;
+  naiveFindings: number;
+  hardenedFindings: number;
+  trustedFacts: number;
+  nonVisibleTrusted: number;
+};
+
+function runLoop(iterations: number): void {
+  console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
+  const summaries: LoopSummary[] = [];
+  let fail = false;
+
+  for (let i = 1; i <= iterations; i++) {
+    const hardened = sanitizeAndClassify(app, "hardened");
+    const naive = sanitizeAndClassify(app, "naive");
+
+    const trustedFacts = hardened.extractedFacts.filter((fact) => fact.trust === "trusted");
+    const nonVisibleTrusted = hardened.extractedFacts.filter(
+      (fact) => fact.trust === "trusted" && fact.surface !== "visible_cv",
+    );
+
+    summaries.push({
+      iteration: i,
+      naiveFindings: naive.findings.length,
+      hardenedFindings: hardened.findings.length,
+      trustedFacts: trustedFacts.length,
+      nonVisibleTrusted: nonVisibleTrusted.length,
+    });
+
+    console.log(
+      `step ${i}: naive=${naive.findings.length}, hardened=${hardened.findings.length}, trusted=${trustedFacts.length}, non_visible_trusted=${nonVisibleTrusted.length}`,
+    );
+
+    if (naive.findings.length < hardened.findings.length || nonVisibleTrusted.length > 0 || trustedFacts.length === 0) {
+      fail = true;
+    }
+  }
+
+  const stable = summaries.every(
+    (s) => s.naiveFindings >= s.hardenedFindings && s.nonVisibleTrusted === 0 && s.trustedFacts > 0,
+  );
+  console.log(`\nLoop stability: ${stable ? "stable ✅" : "unstable ❌"}`);
+
+  if (fail || !stable) {
+    console.error("❌ Loop regression failed.");
+    process.exitCode = 1;
+    return;
+  }
+  console.log("✅ Loop regression passed.");
+}
+
+const loopFlag = process.argv.indexOf("--loop");
+if (loopFlag !== -1) {
+  const raw = process.argv[loopFlag + 1];
+  const iterations = Number.parseInt(raw ?? "5", 10);
+  run();
+  runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
+} else {
+  run();
+}

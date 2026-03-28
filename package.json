@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
+    "test:loop": "tsx test.ts --loop 8",
     "server": "tsx server.ts"
   },
   "dependencies": {
