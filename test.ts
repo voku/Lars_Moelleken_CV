@@ -85,16 +85,30 @@ function run(): void {
 
   const appHasTrustReportUI = assertContains(uiSource, "trust boundary report");
   const appHasLimiterText = assertContains(uiSource, "readable by parser");
+  const appHasTechniqueGallery = assertContains(uiSource, "visible injection technique gallery (v7)");
+  const appHasJsSimulationLab = assertContains(uiSource, "js simulation lab");
+  const appHasLessons2026 = assertContains(uiSource, "lessons learned 2026");
 
   console.log("\nBoundary assertions");
   console.log(`  trust report ui present: ${appHasTrustReportUI}`);
   console.log(`  limitation card present: ${appHasLimiterText}`);
+  console.log(`  v7 technique gallery present: ${appHasTechniqueGallery}`);
+  console.log(`  js simulation lab present: ${appHasJsSimulationLab}`);
+  console.log(`  lessons 2026 present: ${appHasLessons2026}`);
   console.log(`  trusted facts count (hardened): ${trustedFacts.length}`);
   console.log(`  non-visible trusted facts (hardened): ${nonVisibleTrusted.length}`);
   console.log(`  naive findings count: ${naive.findings.length}`);
   console.log(`  hardened findings count: ${hardened.findings.length}`);
 
-  if (!appHasTrustReportUI || !appHasLimiterText || trustedFacts.length === 0 || nonVisibleTrusted.length > 0) {
+  if (
+    !appHasTrustReportUI ||
+    !appHasLimiterText ||
+    !appHasTechniqueGallery ||
+    !appHasJsSimulationLab ||
+    !appHasLessons2026 ||
+    trustedFacts.length === 0 ||
+    nonVisibleTrusted.length > 0
+  ) {
     fail = true;
   }
 
