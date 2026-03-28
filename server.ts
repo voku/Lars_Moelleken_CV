@@ -18,7 +18,8 @@ app.post("/api/analyze", async (req, res) => {
 
   try {
     const response = await client.chat.completions.create({
-      model: "gpt-4.1-2025-04-14",      messages: [
+      model: "gpt-4.1-2025-04-14",
+      messages: [
         {
           role: "system",
           content:
