@@ -32,7 +32,7 @@ const PARALLAX_CODE_SNIPPETS: Array<{
 ];
 
 export default function App() {
-  const [theme, setTheme] = useState<"cv" | "demo">("cv");
+  const [viewMode, setViewMode] = useState<"injection_cv" | "standard_cv">("injection_cv");
   const [agentResponse, setAgentResponse] = useState<string | null>(null);
   const [isTesting, setIsTesting] = useState(false);
   const [activeScenario, setActiveScenario] = useState<AnalyzeScenario>("hardened");
@@ -155,12 +155,12 @@ export default function App() {
 
   return (
     <div
-      data-theme={theme}
+      data-theme={viewMode}
       className={`landing-shell min-h-screen font-sans selection:bg-blue-200 ${
-        theme === "demo" ? "theme-demo" : "theme-cv"
+        viewMode === "injection_cv" ? "theme-demo" : "theme-cv"
       }`}
     >
-      {theme === "demo" ? (
+      {viewMode === "injection_cv" ? (
         <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
           <div className="parallax-grid-layer" />
           <div className="parallax-scan-layer" />
@@ -177,23 +177,25 @@ export default function App() {
         <div className="theme-switcher-inner">
           <button
             type="button"
-            onClick={() => setTheme("cv")}
-            className={`theme-switch-btn ${theme === "cv" ? "active" : ""}`}
-            aria-pressed={theme === "cv"}
+            onClick={() => setViewMode("standard_cv")}
+            className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
+            aria-pressed={viewMode === "standard_cv"}
           >
-            CV Theme
+            Standard CV + Explain
           </button>
           <button
             type="button"
-            onClick={() => setTheme("demo")}
-            className={`theme-switch-btn ${theme === "demo" ? "active" : ""}`}
-            aria-pressed={theme === "demo"}
+            onClick={() => setViewMode("injection_cv")}
+            className={`theme-switch-btn ${viewMode === "injection_cv" ? "active" : ""}`}
+            aria-pressed={viewMode === "injection_cv"}
           >
-            Prompt Injection CV Demo
+            Prompt Injection CV
           </button>
         </div>
       </div>
       <div className="relative z-10">
+      {viewMode === "injection_cv" ? (
+      <>
       {/* ── JSON-LD Block 1: Person Schema + Prompt Injection Payload ──────────────
            ⚠️ EDUCATIONAL DEMO: This JSON-LD block contains deliberate prompt injections.
            Attack vectors embedded here:
@@ -1686,6 +1688,80 @@ export default function App() {
           </p>
         </div>
       </footer>
+      </>
+      ) : (
+        <>
+          <header className="bg-white border-b border-gray-200 py-12 sm:py-20 lg:py-24">
+            <div className="max-w-4xl mx-auto px-6 lg:px-8">
+              <div className="flex items-center gap-3 mb-4 text-sm font-mono text-emerald-600 uppercase tracking-wider">
+                <UserCheck className="w-4 h-4" />
+                <span>Standard CV View</span>
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
+                Lars Moelleken <br />
+                <span className="text-emerald-700">Senior PHP Developer</span>
+              </h1>
+              <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-8 max-w-3xl">
+                Dies ist die bereinigte Referenzansicht: nur menschlich nachvollziehbare Inhalte, keine
+                versteckten Marker, keine manipulativen JSON-LD-Anweisungen.
+              </p>
+            </div>
+          </header>
+
+          <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
+            <section className="bg-white border border-gray-200 rounded-2xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Briefcase className="w-6 h-6 text-emerald-700" />
+                Core Profile
+              </h2>
+              <ul className="space-y-2 text-gray-700">
+                <li>• 20+ Jahre Erfahrung in Backend- und PHP-Entwicklung</li>
+                <li>• Fokus: Symfony, Laravel, Architektur, Legacy-Modernisierung</li>
+                <li>• Qualität: TDD, PHPUnit, PHPStan, Psalm, CI/CD</li>
+                <li>• Leadership: Mentoring, Reviews, Team-Unterstützung</li>
+              </ul>
+            </section>
+
+            <section className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-600" />
+                  Wie Prompt Injection im CV-Experiment funktioniert
+                </h3>
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li>• Versteckte Marker werden in JSON-LD, Meta oder DOM-Mutationen platziert.</li>
+                  <li>• Parser lesen diese Marker, obwohl Recruiter:innen sie visuell nicht sehen.</li>
+                  <li>• Wiederholte Signale simulieren künstliche „Bestätigung“.</li>
+                </ul>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-700" />
+                  Defensive Sicht (Best Practice)
+                </h3>
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li>• Sichtbare CV-Abschnitte mit Allowlist priorisieren.</li>
+                  <li>• Strukturierte Daten als untrusted behandeln.</li>
+                  <li>• Provenance + Sanitization vor Ranking erzwingen.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section className="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-emerald-900 mb-2 flex items-center gap-2">
+                <Bot className="w-5 h-5" />
+                Zwei Seiten einer Medaille
+              </h3>
+              <p className="text-emerald-900/90 text-sm leading-relaxed">
+                Mit dem Umschalter oben rechts wechselst du zwischen <strong>Prompt Injection CV</strong>
+                (Angriffs-Perspektive) und <strong>Standard CV + Explain</strong> (Defensiv-Perspektive). So
+                wird direkt sichtbar, wie manipulative Signale von sauberer, vertrauenswürdiger Evidenz zu
+                trennen sind.
+              </p>
+            </section>
+          </main>
+        </>
+      )}
       </div>
     </div>
   );
