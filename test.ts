@@ -114,6 +114,51 @@ type LoopSummary = {
   nonVisibleTrusted: number;
 };
 
+type MarkerVariant = {
+  name: string;
+  html: string;
+  expectedSurface: EvidenceSurface;
+};
+
+const markerVariants: MarkerVariant[] = [
+  {
+    name: "baseline_hidden_text",
+    html: "<div>[educational_injection_marker:hidden_text]</div>",
+    expectedSurface: "hidden_text",
+  },
+  {
+    name: "spaced_dom_mutation",
+    html: "<div>[ educational_injection_marker : dom mutation ]</div>",
+    expectedSurface: "dom_mutation",
+  },
+  {
+    name: "hyphenated_cross_surface",
+    html: "<div>[educational-injection-marker:cross-surface-repetition]</div>",
+    expectedSurface: "simulation",
+  },
+  {
+    name: "zero_width_structured_metadata",
+    html: "<div>[educational_\u200binjection_marker:structured_metadata]</div>",
+    expectedSurface: "json_ld",
+  },
+];
+
+function runVariantExperiments(): boolean {
+  console.log("\n🧪 Variant experiments (defensive detection hardening)");
+  let fail = false;
+
+  for (const variant of markerVariants) {
+    const hardened = sanitizeAndClassify(variant.html, "hardened");
+    const detected = hardened.extractedFacts.some(
+      (fact) => fact.surface === variant.expectedSurface && fact.trust === "rejected",
+    );
+    console.log(`  ${variant.name}: ${detected ? "detected ✅" : "missed ❌"}`);
+    if (!detected) fail = true;
+  }
+
+  return !fail;
+}
+
 function runLoop(iterations: number): void {
   console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
   const summaries: LoopSummary[] = [];
@@ -148,9 +193,10 @@ function runLoop(iterations: number): void {
   const stable = summaries.every(
     (s) => s.naiveFindings >= s.hardenedFindings && s.nonVisibleTrusted === 0 && s.trustedFacts > 0,
   );
+  const variantPass = runVariantExperiments();
   console.log(`\nLoop stability: ${stable ? "stable ✅" : "unstable ❌"}`);
 
-  if (fail || !stable) {
+  if (fail || !stable || !variantPass) {
     console.error("❌ Loop regression failed.");
     process.exitCode = 1;
     return;
