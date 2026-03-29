@@ -25,7 +25,7 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 
 type ViewMode = "standard_cv" | "prompt_injection_cv";
 
-const assetBaseUrl = (import.meta as ImportMeta & { env?: { BASE_URL?: string } }).env?.BASE_URL ?? "/";
+const assetBaseUrl = import.meta.env.BASE_URL ?? "/";
 
 interface PageHeaderProps {
   icon: ReactNode;
@@ -165,7 +165,7 @@ function HeaderArtwork({ mode }: { mode: ViewMode }) {
     >
       <picture>
         <source media="(min-width: 768px)" srcSet={artwork.desktopSrc} />
-        <img src={artwork.mobileSrc} alt={artwork.alt} className="block aspect-[16/10] w-full object-cover sm:aspect-[16/9]" />
+        <img src={artwork.mobileSrc} alt={artwork.alt} className="block h-auto w-full" />
       </picture>
       <div
         className={`flex flex-col gap-3 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${
@@ -2314,13 +2314,7 @@ export default function App() {
                   className="mb-4 pb-3 text-xs font-mono"
                   style={{ borderBottom: "1px solid var(--demo-border)", color: "rgba(200,168,80,0.55)" }}
                 >
-                  Visible Injection Technique Gallery (v7)
-                </div>
-                <div
-                  className="mb-4 pb-3 text-xs font-mono"
-                  style={{ borderBottom: "1px solid var(--demo-border)", color: "rgba(200,168,80,0.55)" }}
-                >
-                  SELECT A VECTOR TO ANALYZE — CLICK TO EXPAND THREAT RECORD
+                  Visible Injection Technique Gallery (v7) — SELECT A VECTOR TO ANALYZE
                 </div>
                 <div className="space-y-2" role="list">
                   {INJECTION_TECHNIQUES.map((tech) => {
