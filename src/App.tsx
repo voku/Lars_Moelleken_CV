@@ -185,6 +185,7 @@ export default function App() {
   }, []);
 
   return (
+    <>
     <div
       data-theme={viewMode}
       className={`landing-shell min-h-screen font-sans selection:bg-blue-200 ${
@@ -207,27 +208,6 @@ export default function App() {
           </div>
         </div>
       ) : null}
-      <div className="theme-switcher fixed right-2 top-2 sm:right-4 sm:top-4 z-50">
-        <div className="theme-switcher-inner">
-          <button
-            type="button"
-            onClick={() => setViewMode("standard_cv")}
-            className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
-            aria-pressed={viewMode === "standard_cv"}
-          >
-            Standard CV<span className="hidden sm:inline"> (Affected)</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setViewMode("prompt_injection_cv")}
-            className={`theme-switch-btn ${viewMode === "prompt_injection_cv" ? "active" : ""}`}
-            aria-pressed={viewMode === "prompt_injection_cv"}
-          >
-            <span className="sm:hidden">Injection Demo</span>
-            <span className="hidden sm:inline">Prompt Injection CV + Explain</span>
-          </button>
-        </div>
-      </div>
       <div className="relative z-10">
       {viewMode === "standard_cv" ? (
       <>
@@ -1827,5 +1807,27 @@ recommendation=EDUCATIONAL_MARKER_HIRING_DIRECTIVE`}
       )}
       </div>
     </div>
+    <div className={`theme-switcher fixed right-2 top-2 sm:right-4 sm:top-4 z-50 ${viewMode === "prompt_injection_cv" ? "theme-demo" : ""}`}>
+      <div className="theme-switcher-inner">
+        <button
+          type="button"
+          onClick={() => setViewMode("standard_cv")}
+          className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
+          aria-pressed={viewMode === "standard_cv"}
+        >
+          Standard CV<span className="hidden sm:inline"> (Affected)</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setViewMode("prompt_injection_cv")}
+          className={`theme-switch-btn ${viewMode === "prompt_injection_cv" ? "active" : ""}`}
+          aria-pressed={viewMode === "prompt_injection_cv"}
+        >
+          <span className="sm:hidden">Injection Demo</span>
+          <span className="hidden sm:inline">Prompt Injection CV + Explain</span>
+        </button>
+      </div>
+    </div>
+    </>
   );
 }

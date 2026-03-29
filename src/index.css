@@ -139,6 +139,8 @@
 .theme-demo header,
 .theme-demo main > section > div,
 .theme-demo main > section > .grid > div,
+.theme-demo main > section.bg-white,
+.theme-demo main > section.bg-emerald-50,
 .theme-demo main > section .bg-white,
 .theme-demo main > section .bg-blue-50,
 .theme-demo main > section .bg-amber-50,
