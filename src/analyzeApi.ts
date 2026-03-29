@@ -15,8 +15,9 @@ export function isAnalyzeApiResponse(input: unknown): input is AnalyzeApiRespons
 }
 
 function isJsonContentType(contentType: string): boolean {
-  const normalized = contentType.toLowerCase();
-  return normalized.includes("application/json") || normalized.includes("+json");
+  const [mediaType] = contentType.split(";", 1);
+  const normalized = mediaType.trim().toLowerCase();
+  return normalized === "application/json" || normalized.endsWith("+json");
 }
 
 export async function parseAnalyzeApiResponse(response: Response): Promise<AnalyzeApiResponse> {
