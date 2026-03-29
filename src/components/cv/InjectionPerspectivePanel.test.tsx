@@ -1,0 +1,17 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it } from "vitest";
+import { InjectionPerspectivePanel } from "./InjectionPerspectivePanel";
+
+describe("InjectionPerspectivePanel", () => {
+  it("renders attacker perspective headline", () => {
+    const html = renderToStaticMarkup(<InjectionPerspectivePanel perspective="attacker" />);
+    expect(html).toContain("Angreifer-Perspektive");
+    expect(html).toContain("Strukturzwang / JSON-Force");
+  });
+
+  it("renders defender perspective with mandalorian theme", () => {
+    const html = renderToStaticMarkup(<InjectionPerspectivePanel perspective="defender" theme="mandalorian" />);
+    expect(html).toContain("Defender-Perspektive");
+    expect(html).toContain("mando-panel");
+  });
+});

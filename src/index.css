@@ -499,11 +499,6 @@
   animation: mando-scan-sweep 7s linear infinite;
 }
 
-/* ── Title flicker ─── */
-.mando-title-flicker {
-  animation: mando-flicker 9s step-end infinite;
-}
-
 /* ── Pulse-border attention effect ─── */
 .mando-pulse-border {
   animation: mando-hud-pulse 3.5s ease-in-out infinite;
@@ -558,11 +553,6 @@
   0%   { opacity: 0; }
   20%  { opacity: 0.65; }
   100% { opacity: 0; }
-}
-
-@keyframes mando-flicker {
-  0%, 91%, 93%, 95%, 100% { opacity: 1; }
-  92%, 94%                 { opacity: 0.72; }
 }
 
 @keyframes mando-hud-pulse {
