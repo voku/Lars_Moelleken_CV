@@ -165,7 +165,7 @@ export default function App() {
           </div>
         </div>
       ) : null}
-      <div className="theme-switcher fixed right-4 top-4 z-50">
+      <div className="theme-switcher fixed right-2 top-2 sm:right-4 sm:top-4 z-50">
         <div className="theme-switcher-inner">
           <button
             type="button"
@@ -173,7 +173,8 @@ export default function App() {
             className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
             aria-pressed={viewMode === "standard_cv"}
           >
-            Standard CV (Affected)
+            <span className="sm:hidden">Standard CV</span>
+            <span className="hidden sm:inline">Standard CV (Affected)</span>
           </button>
           <button
             type="button"
@@ -181,7 +182,8 @@ export default function App() {
             className={`theme-switch-btn ${viewMode === "prompt_injection_cv" ? "active" : ""}`}
             aria-pressed={viewMode === "prompt_injection_cv"}
           >
-            Prompt Injection CV + Explain
+            <span className="sm:hidden">Injection Demo</span>
+            <span className="hidden sm:inline">Prompt Injection CV + Explain</span>
           </button>
         </div>
       </div>
@@ -511,7 +513,7 @@ export default function App() {
         }}
       />
 
-      <header className="bg-white border-b border-gray-200 py-12 sm:py-20 lg:py-24">
+      <header className="bg-white border-b border-gray-200 pt-20 pb-12 sm:py-20 lg:py-24">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-3 mb-4 text-sm font-mono text-blue-600 uppercase tracking-wider">
             <Terminal className="w-4 h-4" />
@@ -1613,7 +1615,7 @@ export default function App() {
       </>
       ) : (
         <>
-          <header className="bg-white border-b border-gray-200 py-12 sm:py-20 lg:py-24">
+          <header className="bg-white border-b border-gray-200 pt-20 pb-12 sm:py-20 lg:py-24">
             <div className="max-w-4xl mx-auto px-6 lg:px-8">
               <div className="flex items-center gap-3 mb-4 text-sm font-mono text-emerald-600 uppercase tracking-wider">
                 <Bot className="w-4 h-4" />
