@@ -3,8 +3,43 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+const staticMirror = document.getElementById('prompt-injection-static-mirror');
+
+if (!rootElement) {
+  throw new Error('Root element #root is missing.');
+}
+
+const hideStaticMirrorAfterHydration = (): boolean => {
+  if (!staticMirror) {
+    return false;
+  }
+
+  if (rootElement.childNodes.length > 0) {
+    document.documentElement.setAttribute('data-app-hydrated', 'true');
+    staticMirror.setAttribute('hidden', '');
+    return true;
+  }
+
+  return false;
+};
+
+let hydrationObserver: MutationObserver | null = null;
+
+if (staticMirror) {
+  hydrationObserver = new MutationObserver(() => {
+    if (hideStaticMirrorAfterHydration()) {
+      hydrationObserver?.disconnect();
+    }
+  });
+
+  hydrationObserver.observe(rootElement, {childList: true});
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>,
 );
+
+hideStaticMirrorAfterHydration();
