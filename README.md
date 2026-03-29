@@ -4,8 +4,6 @@ Interactive CV for Lars Moelleken (Senior PHP Developer) with a built-in educati
 
 **Live:** https://voku.github.io/Lars_Moelleken_CV/
 
-> Note: the GitHub Pages site is a static demo. The **Run Hardened AI** / **Run Naive AI** buttons require the local `/api/analyze` server from `npm run server`.
-
 ---
 
 ## Features
@@ -68,7 +66,6 @@ Push to `main` and the included GitHub Actions workflow (`.github/workflows/depl
 | `src/App.tsx` | Main React application (CV + demo UI) |
 | `server.ts` | Express API server (`/api/analyze`) |
 | `src/trust.ts` | Sanitization & injection-signal classifier |
-| `src/components/TrustBoundaryReport.tsx` | Visual trust report component |
 | `src/types.ts` | Shared TypeScript types |
 | `vite.config.ts` | Vite build configuration |
 | `.github/workflows/deploy.yml` | GitHub Pages CI/CD workflow |

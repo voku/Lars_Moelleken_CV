@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseAnalyzeApiResponse } from "./src/analyzeApi";
 import { sanitizeAndClassify } from "./src/trust";
 import type { EvidenceSurface, TrustLevel } from "./src/types";
 
@@ -18,10 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = fs.readFileSync(path.join(__dirname, "src/App.tsx"), "utf-8").toLowerCase();
 const indexHtml = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8").toLowerCase();
 const mainEntry = fs.readFileSync(path.join(__dirname, "src/main.tsx"), "utf-8").toLowerCase();
-const trustBoundaryComponent = fs
-  .readFileSync(path.join(__dirname, "src/components/TrustBoundaryReport.tsx"), "utf-8")
-  .toLowerCase();
-const uiSource = `${app}\n${trustBoundaryComponent}`;
+const uiSource = app;
 
 const expectations: TechniqueExpectation[] = [
   {
@@ -86,8 +82,6 @@ function run(): void {
     (fact) => fact.trust === "trusted" && fact.surface !== "visible_cv",
   );
 
-  const appHasTrustReportUI = assertContains(uiSource, "trust boundary report");
-  const appHasLimiterText = assertContains(uiSource, "readable by parser");
   const appHasTechniqueGallery = assertContains(uiSource, "visible injection technique gallery (v7)");
   const appHasJsSimulationLab = assertContains(uiSource, "js simulation lab");
   const appHasLessons2026 = assertContains(uiSource, "lessons learned 2026");
@@ -110,8 +104,6 @@ function run(): void {
   );
 
   console.log("\nBoundary assertions");
-  console.log(`  trust report ui present: ${appHasTrustReportUI}`);
-  console.log(`  limitation card present: ${appHasLimiterText}`);
   console.log(`  v7 technique gallery present: ${appHasTechniqueGallery}`);
   console.log(`  js simulation lab present: ${appHasJsSimulationLab}`);
   console.log(`  lessons 2026 present: ${appHasLessons2026}`);
@@ -127,8 +119,6 @@ function run(): void {
   console.log(`  hardened findings count: ${hardened.findings.length}`);
 
   if (
-    !appHasTrustReportUI ||
-    !appHasLimiterText ||
     !appHasTechniqueGallery ||
     !appHasJsSimulationLab ||
     !appHasLessons2026 ||
@@ -205,44 +195,6 @@ function runVariantExperiments(): boolean {
   return !fail;
 }
 
-async function runAnalyzeApiResponseExperiments(): Promise<boolean> {
-  console.log("\n🌐 Analyze API response handling");
-  let fail = false;
-
-  const htmlResponse = new Response("<!doctype html><html><body>404</body></html>", {
-    status: 404,
-    headers: { "content-type": "text/html; charset=utf-8" },
-  });
-
-  try {
-    await parseAnalyzeApiResponse(htmlResponse);
-    console.log("  html response handling: missed ❌");
-    fail = true;
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    const handled = message.includes("returned HTML instead of JSON");
-    console.log(`  html response handling: ${handled ? "handled ✅" : `unexpected (${message}) ❌`}`);
-    if (!handled) fail = true;
-  }
-
-  const jsonResponse = new Response(JSON.stringify({ result: "{\"ok\":true}", scenario: "hardened" }), {
-    status: 200,
-    headers: { "content-type": "application/json" },
-  });
-
-  try {
-    const parsed = await parseAnalyzeApiResponse(jsonResponse);
-    const handled = parsed.result === "{\"ok\":true}" && parsed.scenario === "hardened";
-    console.log(`  json response handling: ${handled ? "handled ✅" : "unexpected payload ❌"}`);
-    if (!handled) fail = true;
-  } catch (error: unknown) {
-    console.log(`  json response handling: unexpected (${error instanceof Error ? error.message : String(error)}) ❌`);
-    fail = true;
-  }
-
-  return !fail;
-}
-
 async function runLoop(iterations: number): Promise<void> {
   console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
   const summaries: LoopSummary[] = [];
@@ -278,10 +230,9 @@ async function runLoop(iterations: number): Promise<void> {
     (s) => s.naiveFindings >= s.hardenedFindings && s.nonVisibleTrusted === 0 && s.trustedFacts > 0,
   );
   const variantPass = runVariantExperiments();
-  const apiResponsePass = await runAnalyzeApiResponseExperiments();
   console.log(`\nLoop stability: ${stable ? "stable ✅" : "unstable ❌"}`);
 
-  if (fail || !stable || !variantPass || !apiResponsePass) {
+  if (fail || !stable || !variantPass) {
     console.error("❌ Loop regression failed.");
     process.exitCode = 1;
     return;
