@@ -240,12 +240,17 @@ async function runLoop(iterations: number): Promise<void> {
   console.log("✅ Loop regression passed.");
 }
 
-const loopFlag = process.argv.indexOf("--loop");
-if (loopFlag !== -1) {
-  const raw = process.argv[loopFlag + 1];
-  const iterations = Number.parseInt(raw ?? "5", 10);
-  run();
-  await runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
-} else {
+async function main(): Promise<void> {
+  const loopFlag = process.argv.indexOf("--loop");
+  if (loopFlag !== -1) {
+    const raw = process.argv[loopFlag + 1];
+    const iterations = Number.parseInt(raw ?? "5", 10);
+    run();
+    await runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
+    return;
+  }
+
   run();
 }
+
+await main();
