@@ -1,24 +1,39 @@
 @import "tailwindcss";
 
+/* ────────────────────────────────────────────────────────────────
+   Design tokens
+   ──────────────────────────────────────────────────────────────── */
 :root {
   --cv-bg: #f8f9fa;
   --cv-text: #1a1a1a;
-  --demo-bg: #060816;
-  --demo-panel: #0a1026;
-  --demo-panel-soft: rgba(10, 16, 38, 0.72);
-  --demo-border: rgba(66, 240, 255, 0.28);
-  --demo-glow: #4bf2ff;
-  --demo-accent: #ff3ec8;
-  --demo-text: #d9f9ff;
+
+  /* ── Mandalorian / Beskar palette (used in demo theme) ─── */
+  --demo-bg: #070a0e;
+  --demo-panel: #0d1420;
+  --demo-panel-soft: rgba(13, 20, 32, 0.92);
+  --demo-border: rgba(192, 160, 80, 0.38);
+  --demo-glow: #c8a850;
+  --demo-accent: #c84040;
+  --demo-text: #e0d0a4;
+
+  /* extra tokens */
+  --mando-beskar: #c8a850;
+  --mando-caution: #d08030;
+  --mando-verified: #40a870;
+  --mando-alert: #c84040;
+  --mando-text-dim: rgba(224, 208, 164, 0.5);
+  --mando-glow-strong: rgba(200, 168, 80, 0.6);
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Standard CV theme
+   ──────────────────────────────────────────────────────────────── */
 .landing-shell {
   background: var(--cv-bg);
   color: var(--cv-text);
   transition: background-color 450ms ease, color 450ms ease, filter 450ms ease, transform 450ms ease;
 }
 
-/* Smooth color transitions on key elements during theme switch */
 .landing-shell header,
 .landing-shell main,
 .landing-shell footer,
@@ -37,18 +52,24 @@
 }
 
 .world-shift-flash {
-  background: radial-gradient(circle, rgba(75, 242, 255, 0.24) 0%, rgba(0, 0, 0, 0) 65%);
+  background: radial-gradient(circle, rgba(192, 160, 80, 0.18) 0%, rgba(0, 0, 0, 0) 65%);
   animation: world-shift-flash 700ms ease;
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Mandalorian / Demo theme background
+   ──────────────────────────────────────────────────────────────── */
 .landing-shell.theme-demo {
   background:
-    radial-gradient(circle at 10% 20%, rgba(75, 242, 255, 0.1), transparent 35%),
-    radial-gradient(circle at 88% 10%, rgba(255, 62, 200, 0.12), transparent 40%),
+    radial-gradient(circle at 10% 20%, rgba(192, 160, 80, 0.07), transparent 35%),
+    radial-gradient(circle at 88% 10%, rgba(200, 64,  64,  0.06), transparent 40%),
     var(--demo-bg);
   color: var(--demo-text);
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Theme switcher
+   ──────────────────────────────────────────────────────────────── */
 .theme-switcher-inner {
   display: inline-flex;
   flex-wrap: wrap;
@@ -78,21 +99,34 @@
   color: #e2e8f0;
 }
 
+/* focus-visible ring — keyboard navigation (both themes) */
+.theme-switch-btn:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
 .theme-demo .theme-switcher-inner {
   border-color: var(--demo-border);
-  background: rgba(5, 10, 25, 0.84);
+  background: rgba(5, 8, 14, 0.88);
 }
 
 .theme-demo .theme-switch-btn {
-  color: #b5f5ff;
+  color: var(--demo-text);
 }
 
 .theme-demo .theme-switch-btn.active {
-  background: linear-gradient(135deg, rgba(75, 242, 255, 0.28), rgba(255, 62, 200, 0.22));
+  background: rgba(192, 160, 80, 0.22);
   color: #fff;
-  box-shadow: 0 0 20px rgba(75, 242, 255, 0.3);
+  box-shadow: 0 0 18px rgba(192, 160, 80, 0.28);
 }
 
+.theme-demo .theme-switch-btn:focus-visible {
+  outline-color: var(--mando-beskar);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Parallax background layers
+   ──────────────────────────────────────────────────────────────── */
 .parallax-grid-layer,
 .parallax-scan-layer {
   position: absolute;
@@ -101,23 +135,23 @@
 
 .parallax-grid-layer {
   background-image:
-    linear-gradient(rgba(75, 242, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(75, 242, 255, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(192, 160, 80, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 160, 80, 0.07) 1px, transparent 1px);
   background-size: 42px 42px;
   transform: perspective(500px) rotateX(66deg) translateY(-20%);
   transform-origin: top;
-  animation: grid-shift 18s linear infinite;
+  animation: grid-shift 20s linear infinite;
 }
 
 .parallax-scan-layer {
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
+    rgba(200, 168, 80, 0.025) 0,
+    rgba(200, 168, 80, 0.025) 1px,
     transparent 3px,
     transparent 8px
   );
-  animation: scan-pulse 7s ease-in-out infinite;
+  animation: scan-pulse 8s ease-in-out infinite;
 }
 
 .parallax-code-rain {
@@ -129,13 +163,16 @@
 .parallax-code-rain span {
   position: absolute;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  color: rgba(154, 251, 255, 0.42);
+  color: rgba(200, 168, 80, 0.38);
   font-size: 0.8rem;
-  text-shadow: 0 0 12px rgba(75, 242, 255, 0.45);
+  text-shadow: 0 0 10px rgba(192, 160, 80, 0.4);
   white-space: nowrap;
-  animation: code-float 18s linear infinite;
+  animation: code-float 20s linear infinite;
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Global theme-demo panel overrides (Tailwind class → Mando style)
+   ──────────────────────────────────────────────────────────────── */
 .theme-demo header,
 .theme-demo main > section > div,
 .theme-demo main > section > .grid > div,
@@ -151,12 +188,13 @@
   background: var(--demo-panel-soft) !important;
   border-color: var(--demo-border) !important;
   color: var(--demo-text) !important;
-  box-shadow: 0 12px 40px rgba(2, 7, 20, 0.45);
-  backdrop-filter: blur(2px);
+  box-shadow: 0 8px 32px rgba(2, 5, 10, 0.6), 0 0 0 1px var(--demo-border);
+  backdrop-filter: blur(3px);
 }
 
 .theme-demo header {
-  background: rgba(8, 14, 34, 0.9) !important;
+  background: rgba(5, 8, 14, 0.94) !important;
+  border-bottom-color: var(--demo-border) !important;
 }
 
 .theme-demo h1,
@@ -164,8 +202,8 @@
 .theme-demo h3,
 .theme-demo h4,
 .theme-demo strong {
-  color: #ecfeff !important;
-  text-shadow: 0 0 20px rgba(75, 242, 255, 0.2);
+  color: #f0e0b0 !important;
+  text-shadow: 0 0 18px rgba(200, 168, 80, 0.22);
 }
 
 .theme-demo .text-blue-600,
@@ -193,7 +231,7 @@
 .theme-demo .text-emerald-600,
 .theme-demo .text-green-700,
 .theme-demo .text-green-600 {
-  color: #b8ecff !important;
+  color: #c8b880 !important;
 }
 
 .theme-demo .border-gray-100,
@@ -211,7 +249,181 @@
   border-color: var(--demo-border) !important;
 }
 
-/* ── GEO Tip accordion animation ───────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   Mandalorian UI components
+   ──────────────────────────────────────────────────────────────── */
+
+/* ── HUD panel card ─── */
+.mando-panel {
+  position: relative;
+  background: var(--demo-panel-soft);
+  border: 1px solid var(--demo-border);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 8px 32px rgba(2, 5, 10, 0.55),
+    inset 0 0 40px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+/* corner bracket decoration */
+.mando-panel::before,
+.mando-panel::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--mando-beskar);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.mando-panel::before {
+  top: 7px;
+  left: 7px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-top-left-radius: 3px;
+}
+
+.mando-panel::after {
+  bottom: 7px;
+  right: 7px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-bottom-right-radius: 3px;
+}
+
+/* ── Section label tag ─── */
+.mando-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+/* ── Threat-level badge ─── */
+.mando-threat {
+  display: inline-flex;
+  align-items: center;
+  font-family: ui-monospace, monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.mando-threat-critical {
+  background: rgba(200, 64, 64, 0.18);
+  border: 1px solid rgba(200, 64, 64, 0.5);
+  color: #f07070;
+}
+
+.mando-threat-high {
+  background: rgba(208, 128, 48, 0.18);
+  border: 1px solid rgba(208, 128, 48, 0.5);
+  color: #e09050;
+}
+
+.mando-threat-medium {
+  background: rgba(200, 168, 80, 0.14);
+  border: 1px solid rgba(200, 168, 80, 0.4);
+  color: #c8a850;
+}
+
+/* ── Interactive technique item ─── */
+.mando-tech-item {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid var(--demo-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(13, 20, 32, 0.55);
+  transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+  text-align: left;
+}
+
+.mando-tech-item:hover {
+  border-color: rgba(200, 168, 80, 0.55);
+  background: rgba(13, 20, 32, 0.85);
+  box-shadow: 0 0 16px rgba(200, 168, 80, 0.1);
+}
+
+.mando-tech-item.active {
+  border-color: var(--mando-beskar);
+  background: rgba(200, 168, 80, 0.07);
+  box-shadow: 0 0 24px rgba(200, 168, 80, 0.16), inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.mando-tech-item:focus-visible {
+  outline: 2px solid var(--mando-beskar);
+  outline-offset: 2px;
+}
+
+/* ── Terminal block ─── */
+.mando-terminal {
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(200, 168, 80, 0.22);
+  border-radius: 0.5rem;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.72rem;
+  color: #c8a850;
+  padding: 0.875rem 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.6;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.mando-terminal-alert { color: #e06060; }
+.mando-terminal-safe  { color: var(--mando-verified); }
+
+/* ── Ambient scan-line overlay ─── */
+.mando-scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(200, 168, 80, 0.025) 50%,
+    transparent 100%
+  );
+  background-size: 100% 40px;
+  animation: mando-scan-sweep 7s linear infinite;
+}
+
+/* ── Title flicker ─── */
+.mando-title-flicker {
+  animation: mando-flicker 9s step-end infinite;
+}
+
+/* ── Pulse-border attention effect ─── */
+.mando-pulse-border {
+  animation: mando-hud-pulse 3.5s ease-in-out infinite;
+}
+
+.geo-accordion-btn:focus-visible {
+  outline: 2px solid var(--mando-beskar);
+  outline-offset: 2px;
+}
+
+/* ── GEO Tip accordion (unchanged logic, updated colors) ─── */
 .geo-tip-body {
   display: grid;
   grid-template-rows: 0fr;
@@ -226,30 +438,48 @@
   overflow: hidden;
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Keyframe animations
+   ──────────────────────────────────────────────────────────────── */
 @keyframes grid-shift {
   from { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(0); }
-  to { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(-42px); }
+  to   { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(-42px); }
 }
 
 @keyframes scan-pulse {
-  0%, 100% { opacity: 0.25; transform: translateY(0); }
-  50% { opacity: 0.5; transform: translateY(12px); }
+  0%, 100% { opacity: 0.2;  transform: translateY(0); }
+  50%       { opacity: 0.45; transform: translateY(14px); }
 }
 
 @keyframes code-float {
-  0% { transform: translate3d(0, 0, 0); opacity: 0.2; }
-  50% { opacity: 0.7; }
-  100% { transform: translate3d(-16px, -28px, 0); opacity: 0.18; }
+  0%   { transform: translate3d(0, 0, 0);       opacity: 0.14; }
+  50%  {                                         opacity: 0.48; }
+  100% { transform: translate3d(-16px, -28px, 0); opacity: 0.1; }
 }
 
 @keyframes world-shift {
-  0% { filter: grayscale(0) hue-rotate(0deg) blur(0); transform: scale(1); }
-  35% { filter: grayscale(0.25) hue-rotate(22deg) blur(1px); transform: scale(1.006); }
-  100% { filter: grayscale(0) hue-rotate(0deg) blur(0); transform: scale(1); }
+  0%   { filter: grayscale(0)    hue-rotate(0deg)  blur(0);   transform: scale(1); }
+  35%  { filter: grayscale(0.2)  hue-rotate(12deg) blur(1px); transform: scale(1.005); }
+  100% { filter: grayscale(0)    hue-rotate(0deg)  blur(0);   transform: scale(1); }
 }
 
 @keyframes world-shift-flash {
-  0% { opacity: 0; }
-  20% { opacity: 0.9; }
+  0%   { opacity: 0; }
+  20%  { opacity: 0.65; }
   100% { opacity: 0; }
+}
+
+@keyframes mando-flicker {
+  0%, 91%, 93%, 95%, 100% { opacity: 1; }
+  92%, 94%                 { opacity: 0.72; }
+}
+
+@keyframes mando-hud-pulse {
+  0%, 100% { box-shadow: 0 0 8px  rgba(200, 168, 80, 0.12), inset 0 0 24px rgba(0,0,0,0.4); }
+  50%       { box-shadow: 0 0 24px rgba(200, 168, 80, 0.28), inset 0 0 24px rgba(0,0,0,0.4); }
+}
+
+@keyframes mando-scan-sweep {
+  0%   { background-position: 0 -40px; }
+  100% { background-position: 0 100vh; }
 }
