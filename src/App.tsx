@@ -21,7 +21,7 @@ import {
   RadioTower,
   Eye,
 } from "lucide-react";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 
 type ViewMode = "standard_cv" | "prompt_injection_cv";
 
@@ -149,28 +149,18 @@ function HeaderArtwork({ mode }: { mode: ViewMode }) {
   return (
     <div
       className={`header-artwork mb-8 h-[140px] overflow-hidden rounded-2xl border sm:h-[180px] md:h-[220px] ${
-        isDemo ? "border-amber-700/30" : "border-slate-200"
+        isDemo ? "header-artwork-demo border-amber-700/30" : "header-artwork-standard border-slate-200"
       }`}
       style={{
-        backgroundImage: `url(${artwork.mobileSrc})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+        "--mobile-bg": `url(${artwork.mobileSrc})`,
+        "--desktop-bg": `url(${artwork.desktopSrc})`,
+      } as CSSProperties}
       role="img"
       aria-label={isDemo 
         ? "Abstract security pattern representing threat monitoring" 
         : "Abstract architectural pattern representing software quality"
       }
-    >
-      {/* CSS handles responsive background swap via media query in index.css */}
-      <style>{`
-        @media (min-width: 768px) {
-          .header-artwork[style*="${isDemo ? 'header-demo' : 'header-standard'}"] {
-            background-image: url(${artwork.desktopSrc}) !important;
-          }
-        }
-      `}</style>
-    </div>
+    />
   );
 }
 

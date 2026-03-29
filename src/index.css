@@ -76,7 +76,16 @@
    Header artwork (abstract SVG backgrounds)
    ──────────────────────────────────────────────────────────────── */
 .header-artwork {
+  background-image: var(--mobile-bg);
+  background-size: cover;
+  background-position: center;
   transition: background-image 300ms ease;
+}
+
+@media (min-width: 768px) {
+  .header-artwork {
+    background-image: var(--desktop-bg);
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────
