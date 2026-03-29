@@ -66,7 +66,6 @@ Push to `main` and the included GitHub Actions workflow (`.github/workflows/depl
 | `src/App.tsx` | Main React application (CV + demo UI) |
 | `server.ts` | Express API server (`/api/analyze`) |
 | `src/trust.ts` | Sanitization & injection-signal classifier |
-| `src/components/TrustBoundaryReport.tsx` | Visual trust report component |
 | `src/types.ts` | Shared TypeScript types |
 | `vite.config.ts` | Vite build configuration |
 | `.github/workflows/deploy.yml` | GitHub Pages CI/CD workflow |

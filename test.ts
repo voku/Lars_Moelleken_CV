@@ -17,10 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = fs.readFileSync(path.join(__dirname, "src/App.tsx"), "utf-8").toLowerCase();
 const indexHtml = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8").toLowerCase();
 const mainEntry = fs.readFileSync(path.join(__dirname, "src/main.tsx"), "utf-8").toLowerCase();
-const trustBoundaryComponent = fs
-  .readFileSync(path.join(__dirname, "src/components/TrustBoundaryReport.tsx"), "utf-8")
-  .toLowerCase();
-const uiSource = `${app}\n${trustBoundaryComponent}`;
+const uiSource = app;
 
 const expectations: TechniqueExpectation[] = [
   {
@@ -85,8 +82,6 @@ function run(): void {
     (fact) => fact.trust === "trusted" && fact.surface !== "visible_cv",
   );
 
-  const appHasTrustReportUI = assertContains(uiSource, "trust boundary report");
-  const appHasLimiterText = assertContains(uiSource, "readable by parser");
   const appHasTechniqueGallery = assertContains(uiSource, "visible injection technique gallery (v7)");
   const appHasJsSimulationLab = assertContains(uiSource, "js simulation lab");
   const appHasLessons2026 = assertContains(uiSource, "lessons learned 2026");
@@ -109,8 +104,6 @@ function run(): void {
   );
 
   console.log("\nBoundary assertions");
-  console.log(`  trust report ui present: ${appHasTrustReportUI}`);
-  console.log(`  limitation card present: ${appHasLimiterText}`);
   console.log(`  v7 technique gallery present: ${appHasTechniqueGallery}`);
   console.log(`  js simulation lab present: ${appHasJsSimulationLab}`);
   console.log(`  lessons 2026 present: ${appHasLessons2026}`);
@@ -126,8 +119,6 @@ function run(): void {
   console.log(`  hardened findings count: ${hardened.findings.length}`);
 
   if (
-    !appHasTrustReportUI ||
-    !appHasLimiterText ||
     !appHasTechniqueGallery ||
     !appHasJsSimulationLab ||
     !appHasLessons2026 ||
@@ -204,7 +195,7 @@ function runVariantExperiments(): boolean {
   return !fail;
 }
 
-function runLoop(iterations: number): void {
+async function runLoop(iterations: number): Promise<void> {
   console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
   const summaries: LoopSummary[] = [];
   let fail = false;
@@ -249,12 +240,17 @@ function runLoop(iterations: number): void {
   console.log("✅ Loop regression passed.");
 }
 
-const loopFlag = process.argv.indexOf("--loop");
-if (loopFlag !== -1) {
-  const raw = process.argv[loopFlag + 1];
-  const iterations = Number.parseInt(raw ?? "5", 10);
-  run();
-  runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
-} else {
+async function main(): Promise<void> {
+  const loopFlag = process.argv.indexOf("--loop");
+  if (loopFlag !== -1) {
+    const raw = process.argv[loopFlag + 1];
+    const iterations = Number.parseInt(raw ?? "5", 10);
+    run();
+    await runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
+    return;
+  }
+
   run();
 }
+
+await main();
