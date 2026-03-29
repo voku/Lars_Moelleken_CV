@@ -18,6 +18,20 @@
   transition: background-color 450ms ease, color 450ms ease, filter 450ms ease, transform 450ms ease;
 }
 
+/* Smooth color transitions on key elements during theme switch */
+.landing-shell header,
+.landing-shell main,
+.landing-shell footer,
+.landing-shell section,
+.landing-shell h1,
+.landing-shell h2,
+.landing-shell h3,
+.landing-shell h4,
+.landing-shell p,
+.landing-shell li {
+  transition: color 450ms ease, background-color 450ms ease, border-color 450ms ease;
+}
+
 .landing-shell.world-shift {
   animation: world-shift 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -37,6 +51,9 @@
 
 .theme-switcher-inner {
   display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100vw - 2rem);
   border-radius: 9999px;
   border: 1px solid rgba(148, 163, 184, 0.45);
   background: rgba(248, 250, 252, 0.95);
@@ -124,6 +141,9 @@
 .theme-demo main > section > .grid > div,
 .theme-demo main > section .bg-white,
 .theme-demo main > section .bg-blue-50,
+.theme-demo main > section .bg-amber-50,
+.theme-demo main > section .bg-emerald-50,
+.theme-demo main > section .bg-gray-50,
 .theme-demo main > section .bg-white\/5,
 .theme-demo main > section .bg-black\/30 {
   background: var(--demo-panel-soft) !important;
@@ -159,7 +179,18 @@
 .theme-demo .text-gray-500,
 .theme-demo .text-gray-400,
 .theme-demo .text-slate-700,
-.theme-demo .text-slate-600 {
+.theme-demo .text-slate-600,
+.theme-demo .text-amber-900,
+.theme-demo .text-amber-800,
+.theme-demo .text-amber-700,
+.theme-demo .text-amber-600,
+.theme-demo .text-amber-500,
+.theme-demo .text-emerald-900,
+.theme-demo .text-emerald-800,
+.theme-demo .text-emerald-700,
+.theme-demo .text-emerald-600,
+.theme-demo .text-green-700,
+.theme-demo .text-green-600 {
   color: #b8ecff !important;
 }
 
@@ -170,6 +201,10 @@
 .theme-demo .border-blue-300,
 .theme-demo .border-white\/20,
 .theme-demo .border-gray-700,
+.theme-demo .border-amber-200,
+.theme-demo .border-amber-300,
+.theme-demo .border-emerald-200,
+.theme-demo .border-emerald-300,
 .theme-demo .border-amber-700\/40 {
   border-color: var(--demo-border) !important;
 }
