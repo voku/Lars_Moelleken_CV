@@ -44,8 +44,8 @@ import { GeoFaqSection } from "./components/cv/GeoFaqSection";
 import { StandardAiShowcaseSection } from "./components/cv/StandardAiShowcaseSection";
 import { SelfDiscoveryBanner } from "./components/cv/SelfDiscoveryBanner";
 import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
+import type { ViewMode } from "./components/cv/types";
 
-type ViewMode = "standard_cv" | "prompt_injection_cv";
 
 /* ── Gamification system ──────────────────────────────────────────── */
 interface ClearanceLevel {

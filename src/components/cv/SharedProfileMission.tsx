@@ -1,6 +1,7 @@
 import { ExperienceTimeline } from "./ExperienceTimeline";
-import { ImpactMetrics, type ComponentTheme } from "./ImpactMetrics";
+import { ImpactMetrics } from "./ImpactMetrics";
 import { RolePositioningCards } from "./RolePositioningCards";
+import type { ComponentTheme } from "./types";
 
 interface SharedProfileMissionProps {
   theme?: ComponentTheme;
@@ -18,7 +19,7 @@ export function SharedProfileMission({
   return (
     <div className={compact ? "space-y-4" : "space-y-6"}>
       <ImpactMetrics theme={theme} />
-      <p className={isMando ? "text-sm text-[#d2c39a]" : "text-gray-700 text-lg mb-6"}>{introText}</p>
+      <p className={isMando ? "text-sm text-[#d2c39a]" : "text-gray-700 text-lg"}>{introText}</p>
       <RolePositioningCards theme={theme} />
       <ExperienceTimeline theme={theme} />
     </div>

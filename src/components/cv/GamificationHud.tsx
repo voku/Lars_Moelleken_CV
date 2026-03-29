@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Trophy } from "lucide-react";
 
 interface GamificationHudProps {
   clearanceIcon: ReactNode;
@@ -81,6 +82,7 @@ export function GamificationHud({
           )}
 
           <div className="flex items-center gap-1 shrink-0 ml-auto">
+            <Trophy className="w-3 h-3" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }} />
             <span className="text-[0.6rem] font-mono font-bold" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }}>
               {unlockedAchievements}/{totalAchievements}
             </span>

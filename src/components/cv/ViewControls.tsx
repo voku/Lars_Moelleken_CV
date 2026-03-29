@@ -1,6 +1,5 @@
 import type { InjectionPerspective } from "./InjectionPerspectivePanel";
-
-type ViewMode = "standard_cv" | "prompt_injection_cv";
+import type { ViewMode } from "./types";
 
 interface ViewControlsProps {
   viewMode: ViewMode;
@@ -43,7 +42,7 @@ export function ViewControls({
         <button
           type="button"
           onClick={onTogglePerspective}
-          className="theme-switch-btn"
+          className={`theme-switch-btn ${injectionPerspective === "attacker" ? "active" : ""}`}
           aria-pressed={injectionPerspective === "attacker"}
         >
           <span className="sm:hidden">{injectionPerspective === "attacker" ? "Attack" : "Defense"}</span>
@@ -52,7 +51,7 @@ export function ViewControls({
         <button
           type="button"
           onClick={onToggleGamification}
-          className="theme-switch-btn"
+          className={`theme-switch-btn ${showGamification ? "active" : ""}`}
           aria-pressed={showGamification}
         >
           <span className="sm:hidden">{showGamification ? "XP ON" : "XP OFF"}</span>

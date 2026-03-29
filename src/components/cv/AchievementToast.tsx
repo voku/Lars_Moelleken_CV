@@ -1,3 +1,5 @@
+import { Trophy } from "lucide-react";
+
 interface AchievementToastProps {
   title: string;
   description: string;
@@ -15,6 +17,7 @@ export function AchievementToast({ title, description }: AchievementToastProps) 
       }}
       role="alert"
     >
+      <Trophy className="w-5 h-5 shrink-0" style={{ color: "var(--demo-glow)" }} />
       <div>
         <div className="text-xs font-mono font-bold" style={{ color: "var(--demo-glow)" }}>
           ACHIEVEMENT UNLOCKED

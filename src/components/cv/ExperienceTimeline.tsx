@@ -1,4 +1,4 @@
-import type { ComponentTheme } from "./ImpactMetrics";
+import type { ComponentTheme } from "./types";
 
 export interface ExperienceItem {
   title: string;
@@ -65,7 +65,7 @@ export function ExperienceTimeline({ items = DEFAULT_EXPERIENCE_TIMELINE, theme 
           {item.bullets?.length ? (
             <ul className={isMando ? "space-y-1 text-sm text-[#d2c39a]" : "space-y-1 text-gray-600 text-sm"}>
               {item.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
+                <li key={`${item.title}-${bullet}`}>{bullet}</li>
               ))}
             </ul>
           ) : null}

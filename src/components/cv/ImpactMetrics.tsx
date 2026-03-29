@@ -1,4 +1,4 @@
-export type ComponentTheme = "standard" | "mandalorian";
+import type { ComponentTheme } from "./types";
 
 export interface ImpactMetric {
   label: string;

@@ -1,4 +1,4 @@
-import type { ComponentTheme } from "./ImpactMetrics";
+import type { ComponentTheme } from "./types";
 
 export type InjectionPerspective = "defender" | "attacker";
 
@@ -42,10 +42,38 @@ const ATTACKER_TECHNIQUES: TechniqueItem[] = [
   },
 ];
 
-const DEFENDER_TECHNIQUES: TechniqueItem[] = ATTACKER_TECHNIQUES.map((item) => ({
-  ...item,
-  whyItWorks: `Abwehrfokus: ${item.whyItWorks}`,
-}));
+const DEFENDER_TECHNIQUES: TechniqueItem[] = [
+  {
+    category: "Strukturzwang / JSON-Force",
+    example: "Defense: Output schema strict validieren + sensitive fields maskieren",
+    whyItWorks: "Erzwingt eine saubere Trennung zwischen erlaubten Antwortfeldern und geheimen Kontextdaten.",
+  },
+  {
+    category: "Klassifikation + Erweiterung",
+    example: "Defense: Policy-check vor 'classification/normalization' Aufgaben",
+    whyItWorks: "Blockt Tarnprompts, die Datenabfluss als Reporting-Aufgabe verpacken.",
+  },
+  {
+    category: "Transformation / Rewrite",
+    example: "Defense: Post-output Filter auf semantisch gleiche Rewrites",
+    whyItWorks: "Erkennt Datenabfluss auch bei spacing/encoding/formatierter Ausgabe.",
+  },
+  {
+    category: "Stückchenweise + Broken English",
+    example: "Defense: Conversation-level rate limits und intent aggregation",
+    whyItWorks: "Verhindert schrittweise Exfiltration über viele kleine Einzelprompts.",
+  },
+  {
+    category: "Meta-Referenz auf Initial Prompt",
+    example: "Defense: Never reveal system prompt; explicit refusal templates",
+    whyItWorks: "Schließt die häufige Lücke 'initial sentence' als indirekten Zugriffspfad.",
+  },
+  {
+    category: "Multi-Turn Umstimmen",
+    example: "Defense: Session memory boundaries + risk score escalation",
+    whyItWorks: "Hebt langfristige Umstimmungsversuche hervor und zwingt manuelle Prüfung.",
+  },
+];
 
 interface InjectionPerspectivePanelProps {
   perspective: InjectionPerspective;

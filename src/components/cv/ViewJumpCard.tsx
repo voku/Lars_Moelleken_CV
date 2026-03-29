@@ -1,6 +1,8 @@
+import type { ViewMode } from "./types";
+
 interface ViewJumpCardProps {
-  viewMode: "standard_cv" | "prompt_injection_cv";
-  onSwitchView: (mode: "standard_cv" | "prompt_injection_cv") => void;
+  viewMode: ViewMode;
+  onSwitchView: (mode: ViewMode) => void;
 }
 
 export function ViewJumpCard({ viewMode, onSwitchView }: ViewJumpCardProps) {

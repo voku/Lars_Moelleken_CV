@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
-
-type ViewMode = "standard_cv" | "prompt_injection_cv";
+import type { ViewMode } from "./types";
 
 interface ViewContainerProps {
   viewMode: ViewMode;

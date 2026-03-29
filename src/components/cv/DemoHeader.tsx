@@ -7,13 +7,28 @@ interface DemoHeaderProps {
   navigation: ReactNode;
 }
 
+const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  fontFamily: "monospace",
+  fontSize: "0.58rem",
+  fontWeight: 800,
+  letterSpacing: "0.12em",
+  padding: "2px 7px",
+  borderRadius: "3px",
+  background: "rgba(64,168,112,0.18)",
+  border: "1px solid rgba(64,168,112,0.45)",
+  color: "var(--mando-verified)",
+  whiteSpace: "nowrap",
+};
+
 export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation }: DemoHeaderProps) {
   return (
     <header
       className="page-header border-b pt-20 pb-12 sm:py-20 lg:py-24 page-header-demo"
       style={{
-        "--mobile-bg": `url(${mobileSrc})`,
-        "--desktop-bg": `url(${desktopSrc})`,
+        "--mobile-bg": `url(${encodeURI(mobileSrc)})`,
+        "--desktop-bg": `url(${encodeURI(desktopSrc)})`,
       } as CSSProperties}
     >
       <div className="page-header-backdrop" aria-hidden="true" />
@@ -35,13 +50,7 @@ export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation }: Demo
           <span className="mando-threat mando-threat-critical">◈ THREAT ACTIVE</span>
           <span className="mando-threat mando-threat-high">⚡ 6 VECTORS</span>
           <span className="mando-threat mando-threat-medium">◆ 7 GEO RISKS</span>
-          <span
-            style={{
-              display: "inline-flex", alignItems: "center", fontFamily: "monospace", fontSize: "0.58rem", fontWeight: 800,
-              letterSpacing: "0.12em", padding: "2px 7px", borderRadius: "3px", background: "rgba(64,168,112,0.18)",
-              border: "1px solid rgba(64,168,112,0.45)", color: "var(--mando-verified)", whiteSpace: "nowrap",
-            }}
-          >
+          <span style={COUNTERMEASURE_BADGE_STYLE}>
             ✓ COUNTERMEASURES READY
           </span>
         </div>

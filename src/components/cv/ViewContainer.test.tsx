@@ -8,6 +8,7 @@ describe("ViewContainer", () => {
       <ViewContainer viewMode="standard_cv" standardView={<div>std</div>} demoView={<div>demo</div>} />,
     );
     expect(html).toContain("std");
+    expect(html).not.toContain("demo");
   });
 
   it("renders demo view", () => {
@@ -15,5 +16,6 @@ describe("ViewContainer", () => {
       <ViewContainer viewMode="prompt_injection_cv" standardView={<div>std</div>} demoView={<div>demo</div>} />,
     );
     expect(html).toContain("demo");
+    expect(html).not.toContain("std");
   });
 });

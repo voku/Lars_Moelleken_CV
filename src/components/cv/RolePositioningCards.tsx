@@ -1,4 +1,4 @@
-import type { ComponentTheme } from "./ImpactMetrics";
+import type { ComponentTheme } from "./types";
 
 interface RolePositioningCardsProps {
   theme?: ComponentTheme;

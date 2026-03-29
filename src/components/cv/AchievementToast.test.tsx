@@ -7,5 +7,6 @@ describe("AchievementToast", () => {
     const html = renderToStaticMarkup(<AchievementToast title="Threat Analyst" description="Explore 3 techniques" />);
     expect(html).toContain("ACHIEVEMENT UNLOCKED");
     expect(html).toContain("Threat Analyst");
+    expect(html).toContain("Explore 3 techniques");
   });
 });
