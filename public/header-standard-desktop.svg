@@ -1,0 +1,41 @@
+<svg width="1440" height="810" viewBox="0 0 1440 810" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Standard CV desktop header artwork</title>
+  <desc id="desc">A desktop hero illustration showing engineering delivery signals, architecture focus, and quality tooling.</desc>
+  <defs>
+    <linearGradient id="bg" x1="88" y1="48" x2="1320" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EFF6FF"/>
+      <stop offset="0.6" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="876" y1="180" x2="1240" y2="548" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="810" rx="40" fill="url(#bg)"/>
+  <circle cx="1216" cy="124" r="140" fill="#BFDBFE" fill-opacity="0.45"/>
+  <circle cx="220" cy="694" r="178" fill="#DBEAFE"/>
+  <rect x="84" y="74" width="1272" height="662" rx="36" fill="white" fill-opacity="0.9" stroke="#BFDBFE" stroke-width="2"/>
+  <rect x="134" y="128" width="248" height="42" rx="21" fill="#DBEAFE"/>
+  <text x="164" y="155" fill="#1D4ED8" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="3">SENIOR PHP DEVELOPER</text>
+  <text x="134" y="248" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700">Architecture for</text>
+  <text x="134" y="334" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700">legacy modernization</text>
+  <text x="134" y="420" fill="#2563EB" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700">and sustainable delivery</text>
+  <text x="136" y="484" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="28">Symfony · Laravel · PHPStan · PHPUnit · CI/CD · mentoring</text>
+  <rect x="134" y="548" width="468" height="120" rx="28" fill="#E0F2FE"/>
+  <text x="172" y="602" fill="#0369A1" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Architecture reviews that reduce risk</text>
+  <text x="172" y="640" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="20">Refactoring plans, quality gates, and maintainable delivery paths.</text>
+  <rect x="654" y="168" width="620" height="452" rx="32" fill="#0F172A"/>
+  <rect x="700" y="220" width="214" height="20" rx="10" fill="#60A5FA"/>
+  <rect x="700" y="268" width="354" height="16" rx="8" fill="#334155"/>
+  <rect x="700" y="304" width="284" height="16" rx="8" fill="#334155"/>
+  <rect x="700" y="340" width="228" height="16" rx="8" fill="#334155"/>
+  <rect x="1084" y="224" width="142" height="124" rx="20" fill="url(#accent)"/>
+  <text x="1114" y="274" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">PHP</text>
+  <text x="1114" y="310" fill="#DBEAFE" font-family="Arial, Helvetica, sans-serif" font-size="20">8.x / APIs</text>
+  <rect x="700" y="388" width="526" height="182" rx="28" fill="#111827"/>
+  <text x="736" y="432" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Delivery control room</text>
+  <text x="736" y="474" fill="#93C5FD" font-family="Arial, Helvetica, sans-serif" font-size="20">• Static analysis and test automation built into every release</text>
+  <text x="736" y="510" fill="#86EFAC" font-family="Arial, Helvetica, sans-serif" font-size="20">• Legacy modernization roadmap paired with measurable quality goals</text>
+  <text x="736" y="546" fill="#E2E8F0" font-family="Arial, Helvetica, sans-serif" font-size="20">• Mentoring and code review support for distributed engineering teams</text>
+</svg>

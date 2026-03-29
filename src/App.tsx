@@ -3,8 +3,6 @@ import {
   Database,
   ShieldCheck,
   Wrench,
-  Github,
-  Linkedin,
   Globe,
   Mail,
   CheckCircle2,
@@ -24,6 +22,10 @@ import {
   Eye,
 } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+
+type ViewMode = "standard_cv" | "prompt_injection_cv";
+
+const assetBaseUrl = (import.meta as ImportMeta & { env?: { BASE_URL?: string } }).env?.BASE_URL ?? "/";
 
 interface PageHeaderProps {
   icon: ReactNode;
@@ -64,6 +66,121 @@ function PageHeader({
       </div>
       {afterContent}
     </header>
+  );
+}
+
+interface SectionNavItem {
+  href: string;
+  label: string;
+  shortLabel?: string;
+}
+
+const STANDARD_NAV_ITEMS: SectionNavItem[] = [
+  { href: "#about-heading", label: "Profil & Fokus", shortLabel: "Profil" },
+  { href: "#skills-heading", label: "Skills & Stack", shortLabel: "Skills" },
+  { href: "#experience-heading", label: "Erfahrung", shortLabel: "Erfahrung" },
+  { href: "#faq-heading", label: "FAQ & Kontakt", shortLabel: "FAQ" },
+  { href: "#ai-injection-heading", label: "AI-Demo", shortLabel: "Demo" },
+];
+
+const DEMO_NAV_ITEMS: SectionNavItem[] = [
+  { href: "#mando-profile-heading", label: "Target Profile", shortLabel: "Profile" },
+  { href: "#mando-threats-heading", label: "Threat Database", shortLabel: "Threats" },
+  { href: "#geo-vectors-heading", label: "GEO Vectors", shortLabel: "GEO" },
+  { href: "#mando-sim-heading", label: "Simulation Lab", shortLabel: "Sim Lab" },
+  { href: "#mando-defense-heading", label: "Defense Kit", shortLabel: "Defense" },
+];
+
+const HEADER_ARTWORK: Record<
+  ViewMode,
+  {
+    alt: string;
+    kicker: string;
+    title: string;
+    detail: string;
+    mobileSrc: string;
+    desktopSrc: string;
+  }
+> = {
+  standard_cv: {
+    alt: "Illustrated overview of Lars Moelleken's PHP architecture, tooling, and delivery focus.",
+    kicker: "Professional Snapshot",
+    title: "Legacy modernization, architecture, quality, and delivery in one glance.",
+    detail: "Responsive artwork highlights architecture, automation, and collaboration signals before recruiters dig into the detailed sections.",
+    mobileSrc: `${assetBaseUrl}header-standard-mobile.svg`,
+    desktopSrc: `${assetBaseUrl}header-standard-desktop.svg`,
+  },
+  prompt_injection_cv: {
+    alt: "Illustrated security terminal view showing prompt-injection threats, defenses, and monitored signals.",
+    kicker: "Threat Intelligence Overlay",
+    title: "Static hero image keeps the demo readable while ambient effects stay desktop-only.",
+    detail: "Mobile users now get a stable, pre-rendered command-center banner instead of the full animated overlay stack.",
+    mobileSrc: `${assetBaseUrl}header-demo-mobile.svg`,
+    desktopSrc: `${assetBaseUrl}header-demo-desktop.svg`,
+  },
+};
+
+function SectionNavigation({
+  items,
+  mode,
+  label,
+}: {
+  items: SectionNavItem[];
+  mode: ViewMode;
+  label: string;
+}) {
+  const isDemo = mode === "prompt_injection_cv";
+
+  return (
+    <nav aria-label={label} className="mb-8">
+      <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:thin]">
+        {items.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={`inline-flex min-h-10 shrink-0 items-center rounded-full border px-4 py-2 text-xs font-semibold tracking-wide transition-colors sm:text-sm ${
+              isDemo
+                ? "border-amber-700/40 bg-black/30 text-[#e0d0a4] hover:border-amber-500/60 hover:bg-amber-500/10"
+                : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+            }`}
+          >
+            <span className="sm:hidden">{item.shortLabel ?? item.label}</span>
+            <span className="hidden sm:inline">{item.label}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function HeaderArtwork({ mode }: { mode: ViewMode }) {
+  const artwork = HEADER_ARTWORK[mode];
+  const isDemo = mode === "prompt_injection_cv";
+
+  return (
+    <div
+      className={`mb-8 overflow-hidden rounded-[1.75rem] border shadow-sm ${
+        isDemo ? "border-amber-700/40 bg-black/30" : "border-slate-200 bg-slate-950/[0.03]"
+      }`}
+    >
+      <picture>
+        <source media="(min-width: 768px)" srcSet={artwork.desktopSrc} />
+        <img src={artwork.mobileSrc} alt={artwork.alt} className="block aspect-[16/10] w-full object-cover sm:aspect-[16/9]" />
+      </picture>
+      <div
+        className={`flex flex-col gap-3 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${
+          isDemo ? "border-amber-700/40 bg-black/50" : "border-slate-200 bg-white/95"
+        }`}
+      >
+        <div>
+          <p className={`text-[0.65rem] font-mono uppercase tracking-[0.24em] ${isDemo ? "text-[#c8a850]" : "text-blue-600"}`}>
+            {artwork.kicker}
+          </p>
+          <p className={`mt-1 text-sm font-semibold ${isDemo ? "text-[#f0e0b0]" : "text-slate-900"}`}>{artwork.title}</p>
+        </div>
+        <p className={`max-w-xl text-sm ${isDemo ? "text-[#c8b880]" : "text-slate-600"}`}>{artwork.detail}</p>
+      </div>
+    </div>
   );
 }
 
@@ -247,15 +364,18 @@ const INJECTION_TECHNIQUES: InjectionTech[] = [
 ];
 
 export default function App() {
-  const [viewMode, setViewMode] = useState<"standard_cv" | "prompt_injection_cv">("standard_cv");
+  const [viewMode, setViewMode] = useState<ViewMode>("standard_cv");
   const [isWorldShifting, setIsWorldShifting] = useState(false);
+  const [shouldRenderAmbientEffects, setShouldRenderAmbientEffects] = useState(false);
   const [simulationLog, setSimulationLog] = useState<string[]>([]);
   const [isObserverActive, setIsObserverActive] = useState(false);
   const [expandedGeoTip, setExpandedGeoTip] = useState<number | null>(null);
   const [activeTechId, setActiveTechId] = useState<string | null>(null);
   const simulationHostRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<number | null>(null);
+  const themeTransitionTimeoutRef = useRef<number | null>(null);
   const observerRef = useRef<MutationObserver | null>(null);
+  const hasThemeSwitchInteractedRef = useRef(false);
 
   const runDelayedInjectionSimulation = () => {
     if (timeoutRef.current) {
@@ -350,6 +470,16 @@ export default function App() {
     setExpandedGeoTip((prev) => (prev === id ? null : id));
   };
 
+  const switchViewMode = (nextViewMode: ViewMode) => {
+    if (nextViewMode === viewMode) {
+      return;
+    }
+
+    hasThemeSwitchInteractedRef.current = true;
+    setIsWorldShifting(false);
+    setViewMode(nextViewMode);
+  };
+
   const runGeoFaqSimulation = () => {
     console.log("[EDUCATIONAL DEMO ONLY] GEO FAQ schema injection simulated.");
     window.alert(
@@ -358,15 +488,51 @@ export default function App() {
   };
 
   useEffect(() => {
-    setIsWorldShifting(true);
-    const transitionTimeout = window.setTimeout(() => setIsWorldShifting(false), 700);
-    return () => window.clearTimeout(transitionTimeout);
-  }, [viewMode]);
+    const mediaQuery = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    const updateAmbientEffects = () => setShouldRenderAmbientEffects(mediaQuery.matches);
+
+    updateAmbientEffects();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updateAmbientEffects);
+      return () => mediaQuery.removeEventListener("change", updateAmbientEffects);
+    }
+
+    mediaQuery.addListener(updateAmbientEffects);
+    return () => mediaQuery.removeListener(updateAmbientEffects);
+  }, []);
+
+  useEffect(() => {
+    if (!hasThemeSwitchInteractedRef.current || !shouldRenderAmbientEffects) {
+      setIsWorldShifting(false);
+      return;
+    }
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      setIsWorldShifting(true);
+    });
+
+    themeTransitionTimeoutRef.current = window.setTimeout(() => {
+      setIsWorldShifting(false);
+      themeTransitionTimeoutRef.current = null;
+    }, 700);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      if (themeTransitionTimeoutRef.current) {
+        window.clearTimeout(themeTransitionTimeoutRef.current);
+        themeTransitionTimeoutRef.current = null;
+      }
+    };
+  }, [shouldRenderAmbientEffects, viewMode]);
 
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
+      }
+      if (themeTransitionTimeoutRef.current) {
+        window.clearTimeout(themeTransitionTimeoutRef.current);
       }
       observerRef.current?.disconnect();
     };
@@ -374,10 +540,10 @@ export default function App() {
 
   return (
     <>
-    {viewMode === "prompt_injection_cv" ? (
+    {viewMode === "prompt_injection_cv" && shouldRenderAmbientEffects ? (
       <div className="world-shift-flash pointer-events-none fixed inset-0 z-[60]" aria-hidden="true" />
     ) : null}
-    {viewMode === "prompt_injection_cv" ? (
+    {viewMode === "prompt_injection_cv" && shouldRenderAmbientEffects ? (
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div className="parallax-grid-layer" />
         <div className="parallax-scan-layer" />
@@ -817,6 +983,8 @@ export default function App() {
           </span>
         }
       >
+          <HeaderArtwork mode="standard_cv" />
+          <SectionNavigation items={STANDARD_NAV_ITEMS} mode="standard_cv" label="Standard CV section navigation" />
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-8">
             <a
               href="/Lars_Moelleken_CV/prompt-injection-demo.json"
@@ -834,7 +1002,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
-              <Github className="h-4 w-4" />
+              <Code2 className="h-4 w-4" />
               GitHub
             </a>
 
@@ -844,7 +1012,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
-              <Linkedin className="h-4 w-4" />
+              <Globe className="h-4 w-4" />
               LinkedIn
             </a>
           </div>
@@ -1075,7 +1243,7 @@ export default function App() {
         {/* Open Source */}
         <section aria-labelledby="oss-heading">
           <h2 id="oss-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <Github className="w-8 h-8 text-blue-600" />
+            <Code2 className="w-8 h-8 text-blue-600" />
             Open Source
           </h2>
           <div className="bg-gray-900 text-white p-8 rounded-2xl">
@@ -1947,7 +2115,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-blue-400 transition-colors"
             >
-              <Linkedin className="w-6 h-6" />
+              <Globe className="w-6 h-6" />
               <span>LinkedIn</span>
             </a>
             <a
@@ -1956,7 +2124,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-gray-400 transition-colors"
             >
-              <Github className="w-6 h-6" />
+              <Code2 className="w-6 h-6" />
               <span>GitHub</span>
             </a>
             <a
@@ -2001,14 +2169,16 @@ export default function App() {
                 Prompt Injection<br />
                 <span style={{ color: "var(--demo-glow)" }}>Intel Terminal</span>
               </h1>
-              <p
-                className="text-lg sm:text-xl leading-relaxed mb-8 max-w-3xl"
-                style={{ color: "rgba(224,208,164,0.82)" }}
-              >
-                Classified briefing on AI manipulation vectors embedded in the standard CV profile.
-                Select any threat record to inspect the intercepted payload and its countermeasure.
-              </p>
-              <div className="flex flex-wrap gap-2">
+                <p
+                  className="text-lg sm:text-xl leading-relaxed mb-8 max-w-3xl"
+                  style={{ color: "rgba(224,208,164,0.82)" }}
+                >
+                  Classified briefing on AI manipulation vectors embedded in the standard CV profile.
+                  Select any threat record to inspect the intercepted payload and its countermeasure.
+                </p>
+                <HeaderArtwork mode="prompt_injection_cv" />
+                <SectionNavigation items={DEMO_NAV_ITEMS} mode="prompt_injection_cv" label="Demo section navigation" />
+                <div className="flex flex-wrap gap-2">
                 <span className="mando-threat mando-threat-critical">◈ THREAT ACTIVE</span>
                 <span className="mando-threat mando-threat-high">⚡ 6 VECTORS</span>
                 <span className="mando-threat mando-threat-medium">◆ 7 GEO RISKS</span>
@@ -2063,7 +2233,7 @@ export default function App() {
                     className="flex items-center gap-2 text-sm font-mono transition-opacity hover:opacity-75"
                     style={{ color: "var(--demo-glow)" }}
                   >
-                    <Github className="w-4 h-4" /> github.com/voku
+                    <Code2 className="w-4 h-4" /> github.com/voku
                   </a>
                   <a
                     href="https://www.linkedin.com/in/larsmoelleken/"
@@ -2072,7 +2242,7 @@ export default function App() {
                     className="flex items-center gap-2 text-sm font-mono transition-opacity hover:opacity-75"
                     style={{ color: "var(--demo-glow)" }}
                   >
-                    <Linkedin className="w-4 h-4" /> larsmoelleken
+                    <Globe className="w-4 h-4" /> larsmoelleken
                   </a>
                   <a
                     href="https://packagist.org/packages/voku/"
@@ -2140,6 +2310,12 @@ export default function App() {
                 Injection Technique Database
               </h2>
               <div className="mando-panel p-4 sm:p-6">
+                <div
+                  className="mb-4 pb-3 text-xs font-mono"
+                  style={{ borderBottom: "1px solid var(--demo-border)", color: "rgba(200,168,80,0.55)" }}
+                >
+                  Visible Injection Technique Gallery (v7)
+                </div>
                 <div
                   className="mb-4 pb-3 text-xs font-mono"
                   style={{ borderBottom: "1px solid var(--demo-border)", color: "rgba(200,168,80,0.55)" }}
@@ -2530,11 +2706,11 @@ export default function App() {
       </div>
     </div>
 
-    <div className={`theme-switcher fixed right-2 top-2 sm:right-4 sm:top-4 z-50 ${viewMode === "prompt_injection_cv" ? "theme-demo" : ""}`}>
+    <div className={`theme-switcher ${viewMode === "prompt_injection_cv" ? "theme-demo" : ""}`}>
       <div className="theme-switcher-inner">
         <button
           type="button"
-          onClick={() => setViewMode("standard_cv")}
+          onClick={() => switchViewMode("standard_cv")}
           className={`theme-switch-btn ${viewMode === "standard_cv" ? "active" : ""}`}
           aria-pressed={viewMode === "standard_cv"}
         >
@@ -2542,7 +2718,7 @@ export default function App() {
         </button>
         <button
           type="button"
-          onClick={() => setViewMode("prompt_injection_cv")}
+          onClick={() => switchViewMode("prompt_injection_cv")}
           className={`theme-switch-btn ${viewMode === "prompt_injection_cv" ? "active" : ""}`}
           aria-pressed={viewMode === "prompt_injection_cv"}
         >

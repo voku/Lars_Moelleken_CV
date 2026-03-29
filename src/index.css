@@ -68,9 +68,20 @@
   color: var(--demo-text);
 }
 
+.landing-shell main > section {
+  scroll-margin-top: 6.5rem;
+}
+
 /* ────────────────────────────────────────────────────────────────
    Theme switcher
    ──────────────────────────────────────────────────────────────── */
+.theme-switcher {
+  position: fixed;
+  z-index: 50;
+  top: max(0.5rem, env(safe-area-inset-top));
+  right: max(0.5rem, env(safe-area-inset-right));
+}
+
 .theme-switcher-inner {
   display: inline-flex;
   flex-wrap: wrap;
@@ -123,6 +134,34 @@
 
 .theme-demo .theme-switch-btn:focus-visible {
   outline-color: var(--mando-beskar);
+}
+
+@media (max-width: 767px) {
+  .landing-shell main > section {
+    scroll-margin-top: 5rem;
+  }
+
+  .theme-switcher {
+    left: max(0.75rem, env(safe-area-inset-left));
+  }
+
+  .theme-switcher-inner {
+    width: 100%;
+    max-width: none;
+    justify-content: stretch;
+  }
+
+  .theme-switch-btn {
+    flex: 1 1 10rem;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 640px) {
+  .theme-switcher {
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────
