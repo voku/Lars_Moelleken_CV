@@ -79,6 +79,15 @@ const ACHIEVEMENTS: Achievement[] = [
   { id: "completionist", title: "Completionist", description: "Reach MANDALORIAN clearance", condition: (s) => s.xp >= 250 },
 ];
 
+const PROGRESS_WEIGHTS = {
+  techniques: 40,
+  geo: 35,
+  simulation: 15,
+  faq: 10,
+} as const;
+
+const MAX_CLEARANCE_XP = CLEARANCE_LEVELS[CLEARANCE_LEVELS.length - 1].minXp;
+
 function getClearanceLevel(xp: number): ClearanceLevel {
   let level = CLEARANCE_LEVELS[0];
   for (const cl of CLEARANCE_LEVELS) {
@@ -438,9 +447,9 @@ export default function App() {
   const [recentAchievement, setRecentAchievement] = useState<Achievement | null>(null);
   const achievementTimeoutRef = useRef<number | null>(null);
 
-  const addXp = useCallback((amount: number, updater?: (prev: GamificationState) => Partial<GamificationState>) => {
+  const addXp = useCallback((amount: number, stateUpdater?: (prev: GamificationState) => Partial<GamificationState>) => {
     setGamification((prev) => {
-      const patch = updater ? updater(prev) : {};
+      const patch = stateUpdater ? stateUpdater(prev) : {};
       const next: GamificationState = { ...prev, ...patch, xp: prev.xp + amount };
       // Check for newly unlocked achievements
       for (const ach of ACHIEVEMENTS) {
@@ -461,10 +470,10 @@ export default function App() {
   const nextClearance = getNextClearanceLevel(gamification.xp);
   const unlockedAchievements = ACHIEVEMENTS.filter((a) => a.condition(gamification));
   const progressPercent = Math.min(100, Math.round(
-    ((gamification.exploredTechniques.size / INJECTION_TECHNIQUES.length) * 40 +
-     (gamification.exploredGeoTips.size / GEO_TIPS.length) * 35 +
-     (gamification.simulationsRun > 0 ? 15 : 0) +
-     (gamification.geoFaqRun ? 10 : 0))
+    ((gamification.exploredTechniques.size / INJECTION_TECHNIQUES.length) * PROGRESS_WEIGHTS.techniques +
+     (gamification.exploredGeoTips.size / GEO_TIPS.length) * PROGRESS_WEIGHTS.geo +
+     (gamification.simulationsRun > 0 ? PROGRESS_WEIGHTS.simulation : 0) +
+     (gamification.geoFaqRun ? PROGRESS_WEIGHTS.faq : 0))
   ));
 
   const runDelayedInjectionSimulation = () => {
@@ -2892,7 +2901,7 @@ export default function App() {
                     <div
                       className="h-full rounded-full transition-all duration-700"
                       style={{
-                        width: `${Math.min(100, (gamification.xp / CLEARANCE_LEVELS[CLEARANCE_LEVELS.length - 1].minXp) * 100)}%`,
+                        width: `${Math.min(100, (gamification.xp / MAX_CLEARANCE_XP) * 100)}%`,
                         background: `linear-gradient(90deg, rgba(200,168,80,0.4), ${currentClearance.color})`,
                         boxShadow: `0 0 12px ${currentClearance.color}`,
                       }}
