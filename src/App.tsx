@@ -25,7 +25,9 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 
 type ViewMode = "standard_cv" | "prompt_injection_cv";
 
-const assetBaseUrl = import.meta.env.BASE_URL ?? "/";
+const assetBaseUrl = import.meta.env.BASE_URL;
+const desktopAmbientEffectsQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+const artworkKickerStyle = { letterSpacing: "0.24em" } as const;
 
 interface PageHeaderProps {
   icon: ReactNode;
@@ -173,7 +175,10 @@ function HeaderArtwork({ mode }: { mode: ViewMode }) {
         }`}
       >
         <div>
-          <p className={`text-[0.65rem] font-mono uppercase tracking-[0.24em] ${isDemo ? "text-[#c8a850]" : "text-blue-600"}`}>
+          <p
+            className={`text-[0.65rem] font-mono uppercase ${isDemo ? "text-[#c8a850]" : "text-blue-600"}`}
+            style={artworkKickerStyle}
+          >
             {artwork.kicker}
           </p>
           <p className={`mt-1 text-sm font-semibold ${isDemo ? "text-[#f0e0b0]" : "text-slate-900"}`}>{artwork.title}</p>
@@ -488,18 +493,12 @@ export default function App() {
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    const mediaQuery = window.matchMedia(desktopAmbientEffectsQuery);
     const updateAmbientEffects = () => setShouldRenderAmbientEffects(mediaQuery.matches);
 
     updateAmbientEffects();
-
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", updateAmbientEffects);
-      return () => mediaQuery.removeEventListener("change", updateAmbientEffects);
-    }
-
-    mediaQuery.addListener(updateAmbientEffects);
-    return () => mediaQuery.removeListener(updateAmbientEffects);
+    mediaQuery.addEventListener("change", updateAmbientEffects);
+    return () => mediaQuery.removeEventListener("change", updateAmbientEffects);
   }, []);
 
   useEffect(() => {
