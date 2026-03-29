@@ -29,6 +29,7 @@ const assetBaseUrl = import.meta.env.BASE_URL;
 const desktopAmbientEffectsQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
 
 interface PageHeaderProps {
+  mode: ViewMode;
   icon: ReactNode;
   badgeText: string;
   badgeColorClass: string;
@@ -40,6 +41,7 @@ interface PageHeaderProps {
 }
 
 function PageHeader({
+  mode,
   icon,
   badgeText,
   badgeColorClass,
@@ -49,9 +51,21 @@ function PageHeader({
   children,
   afterContent,
 }: PageHeaderProps) {
+  const isDemo = mode === "prompt_injection_cv";
+  const artwork = HEADER_ARTWORK[mode];
+
   return (
-    <header className="bg-white border-b border-gray-200 pt-20 pb-12 sm:py-20 lg:py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <header
+      className={`page-header border-b pt-20 pb-12 sm:py-20 lg:py-24 ${
+        isDemo ? "page-header-demo" : "page-header-standard"
+      }`}
+      style={{
+        "--mobile-bg": `url(${artwork.mobileSrc})`,
+        "--desktop-bg": `url(${artwork.desktopSrc})`,
+      } as CSSProperties}
+    >
+      <div className="page-header-backdrop" aria-hidden="true" />
+      <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8">
         <div className={`flex items-center gap-3 mb-4 text-sm font-mono ${badgeColorClass} uppercase tracking-wider`}>
           {icon}
           <span>{badgeText}</span>
@@ -139,28 +153,6 @@ function SectionNavigation({
         ))}
       </div>
     </nav>
-  );
-}
-
-function HeaderArtwork({ mode }: { mode: ViewMode }) {
-  const artwork = HEADER_ARTWORK[mode];
-  const isDemo = mode === "prompt_injection_cv";
-
-  return (
-    <div
-      className={`header-artwork mb-8 h-[140px] overflow-hidden rounded-2xl border sm:h-[180px] md:h-[220px] ${
-        isDemo ? "header-artwork-demo border-amber-700/30" : "header-artwork-standard border-slate-200"
-      }`}
-      style={{
-        "--mobile-bg": `url(${artwork.mobileSrc})`,
-        "--desktop-bg": `url(${artwork.desktopSrc})`,
-      } as CSSProperties}
-      role="img"
-      aria-label={isDemo 
-        ? "Abstract security pattern representing threat monitoring" 
-        : "Abstract architectural pattern representing software quality"
-      }
-    />
   );
 }
 
@@ -929,6 +921,7 @@ export default function App() {
       />
 
       <PageHeader
+        mode="standard_cv"
         icon={<Terminal className="w-4 h-4" />}
         badgeText="Profile: Active"
         badgeColorClass="text-blue-600"
@@ -957,7 +950,6 @@ export default function App() {
           </span>
         }
       >
-          <HeaderArtwork mode="standard_cv" />
           <SectionNavigation items={STANDARD_NAV_ITEMS} mode="standard_cv" label="Standard CV section navigation" />
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-8">
             <a
@@ -2121,9 +2113,13 @@ export default function App() {
         <>
           {/* ── MANDALORIAN DATAPAD HEADER ──────────────────────────────── */}
           <header
-            className="relative overflow-hidden border-b pt-20 pb-10 sm:py-20 lg:py-24"
-            style={{ background: "rgba(5, 8, 14, 0.96)", borderBottomColor: "var(--demo-border)" }}
+            className="page-header page-header-demo border-b pt-20 pb-10 sm:py-20 lg:py-24"
+            style={{
+              "--mobile-bg": `url(${HEADER_ARTWORK.prompt_injection_cv.mobileSrc})`,
+              "--desktop-bg": `url(${HEADER_ARTWORK.prompt_injection_cv.desktopSrc})`,
+            } as CSSProperties}
           >
+            <div className="page-header-backdrop" aria-hidden="true" />
             <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8">
               <div className="flex flex-wrap items-center gap-2 mb-5">
                 <span className="mando-section-label" style={{ color: "rgba(200,168,80,0.75)" }}>
@@ -2150,7 +2146,6 @@ export default function App() {
                   Classified briefing on AI manipulation vectors embedded in the standard CV profile.
                   Select any threat record to inspect the intercepted payload and its countermeasure.
                 </p>
-                <HeaderArtwork mode="prompt_injection_cv" />
                 <SectionNavigation items={DEMO_NAV_ITEMS} mode="prompt_injection_cv" label="Demo section navigation" />
                 <div className="flex flex-wrap gap-2">
                 <span className="mando-threat mando-threat-critical">◈ THREAT ACTIVE</span>
