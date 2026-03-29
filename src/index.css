@@ -211,6 +211,21 @@
   border-color: var(--demo-border) !important;
 }
 
+/* ── GEO Tip accordion animation ───────────────────────────────────────── */
+.geo-tip-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease;
+}
+
+.geo-tip-body.open {
+  grid-template-rows: 1fr;
+}
+
+.geo-tip-body > div {
+  overflow: hidden;
+}
+
 @keyframes grid-shift {
   from { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(0); }
   to { transform: perspective(500px) rotateX(66deg) translateY(-20%) translateX(-42px); }
