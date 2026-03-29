@@ -20,10 +20,87 @@ import {
   Swords,
   RadioTower,
   Eye,
+  Award,
+  Trophy,
+  Shield,
 } from "lucide-react";
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 type ViewMode = "standard_cv" | "prompt_injection_cv";
+
+/* ── Gamification system ──────────────────────────────────────────── */
+interface ClearanceLevel {
+  name: string;
+  minXp: number;
+  color: string;
+  icon: "shield" | "award" | "trophy";
+}
+
+const CLEARANCE_LEVELS: ClearanceLevel[] = [
+  { name: "RECRUIT", minXp: 0, color: "rgba(200,168,80,0.5)", icon: "shield" },
+  { name: "OPERATIVE", minXp: 30, color: "rgba(200,168,80,0.7)", icon: "shield" },
+  { name: "AGENT", minXp: 80, color: "#c8a850", icon: "award" },
+  { name: "COMMANDER", minXp: 150, color: "#e0c060", icon: "award" },
+  { name: "MANDALORIAN", minXp: 250, color: "#f0d870", icon: "trophy" },
+];
+
+const XP_VALUES = {
+  exploreTechnique: 15,
+  exploreGeo: 12,
+  runSimulation: 20,
+  resetSimulation: 5,
+  runGeoFaq: 18,
+} as const;
+
+interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  condition: (state: GamificationState) => boolean;
+}
+
+interface GamificationState {
+  xp: number;
+  exploredTechniques: Set<string>;
+  exploredGeoTips: Set<number>;
+  simulationsRun: number;
+  geoFaqRun: boolean;
+}
+
+const ACHIEVEMENTS: Achievement[] = [
+  { id: "first-blood", title: "First Blood", description: "Explore your first injection technique", condition: (s) => s.exploredTechniques.size >= 1 },
+  { id: "threat-analyst", title: "Threat Analyst", description: "Explore 3 injection techniques", condition: (s) => s.exploredTechniques.size >= 3 },
+  { id: "full-recon", title: "Full Recon", description: "Explore all 6 injection techniques", condition: (s) => s.exploredTechniques.size >= 6 },
+  { id: "geo-scout", title: "GEO Scout", description: "Explore 3 GEO vectors", condition: (s) => s.exploredGeoTips.size >= 3 },
+  { id: "geo-master", title: "GEO Master", description: "Explore all 7 GEO vectors", condition: (s) => s.exploredGeoTips.size >= 7 },
+  { id: "sim-runner", title: "Sim Runner", description: "Run your first simulation", condition: (s) => s.simulationsRun >= 1 },
+  { id: "lab-rat", title: "Lab Rat", description: "Run 3 simulations", condition: (s) => s.simulationsRun >= 3 },
+  { id: "schema-hacker", title: "Schema Hacker", description: "Run the GEO FAQ schema injection", condition: (s) => s.geoFaqRun },
+  { id: "completionist", title: "Completionist", description: "Reach MANDALORIAN clearance", condition: (s) => s.xp >= 250 },
+];
+
+function getClearanceLevel(xp: number): ClearanceLevel {
+  let level = CLEARANCE_LEVELS[0];
+  for (const cl of CLEARANCE_LEVELS) {
+    if (xp >= cl.minXp) level = cl;
+  }
+  return level;
+}
+
+function getNextClearanceLevel(xp: number): ClearanceLevel | null {
+  for (const cl of CLEARANCE_LEVELS) {
+    if (xp < cl.minXp) return cl;
+  }
+  return null;
+}
+
+function ClearanceIcon({ icon, className, style }: { icon: ClearanceLevel["icon"]; className?: string; style?: CSSProperties }) {
+  switch (icon) {
+    case "shield": return <Shield className={className} style={style} />;
+    case "award": return <Award className={className} style={style} />;
+    case "trophy": return <Trophy className={className} style={style} />;
+  }
+}
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const desktopAmbientEffectsQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
@@ -103,6 +180,7 @@ const DEMO_NAV_ITEMS: SectionNavItem[] = [
   { href: "#mando-threats-heading", label: "Threat Database", shortLabel: "Threats" },
   { href: "#geo-vectors-heading", label: "GEO Vectors", shortLabel: "GEO" },
   { href: "#mando-sim-heading", label: "Simulation Lab", shortLabel: "Sim Lab" },
+  { href: "#mando-achievements-heading", label: "Achievements", shortLabel: "Achieve" },
   { href: "#mando-defense-heading", label: "Defense Kit", shortLabel: "Defense" },
 ];
 
@@ -349,10 +427,51 @@ export default function App() {
   const observerRef = useRef<MutationObserver | null>(null);
   const hasThemeSwitchInteractedRef = useRef(false);
 
+  /* ── Gamification state ─────────────────────────────────── */
+  const [gamification, setGamification] = useState<GamificationState>({
+    xp: 0,
+    exploredTechniques: new Set<string>(),
+    exploredGeoTips: new Set<number>(),
+    simulationsRun: 0,
+    geoFaqRun: false,
+  });
+  const [recentAchievement, setRecentAchievement] = useState<Achievement | null>(null);
+  const achievementTimeoutRef = useRef<number | null>(null);
+
+  const addXp = useCallback((amount: number, updater?: (prev: GamificationState) => Partial<GamificationState>) => {
+    setGamification((prev) => {
+      const patch = updater ? updater(prev) : {};
+      const next: GamificationState = { ...prev, ...patch, xp: prev.xp + amount };
+      // Check for newly unlocked achievements
+      for (const ach of ACHIEVEMENTS) {
+        if (ach.condition(next) && !ach.condition(prev)) {
+          if (achievementTimeoutRef.current) window.clearTimeout(achievementTimeoutRef.current);
+          setRecentAchievement(ach);
+          achievementTimeoutRef.current = window.setTimeout(() => {
+            setRecentAchievement(null);
+            achievementTimeoutRef.current = null;
+          }, 3500);
+        }
+      }
+      return next;
+    });
+  }, []);
+
+  const currentClearance = getClearanceLevel(gamification.xp);
+  const nextClearance = getNextClearanceLevel(gamification.xp);
+  const unlockedAchievements = ACHIEVEMENTS.filter((a) => a.condition(gamification));
+  const progressPercent = Math.min(100, Math.round(
+    ((gamification.exploredTechniques.size / INJECTION_TECHNIQUES.length) * 40 +
+     (gamification.exploredGeoTips.size / GEO_TIPS.length) * 35 +
+     (gamification.simulationsRun > 0 ? 15 : 0) +
+     (gamification.geoFaqRun ? 10 : 0))
+  ));
+
   const runDelayedInjectionSimulation = () => {
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
     }
+    addXp(XP_VALUES.runSimulation, (prev) => ({ simulationsRun: prev.simulationsRun + 1 }));
     setSimulationLog((prev) => [
       ...prev,
       "EDUCATIONAL_SIM_DELAYED: queued delayed injection payload (naive simulation only).",
@@ -369,6 +488,8 @@ export default function App() {
   const runMutationObserverSimulation = () => {
     const host = simulationHostRef.current;
     if (!host) return;
+
+    addXp(XP_VALUES.runSimulation, (prev) => ({ simulationsRun: prev.simulationsRun + 1 }));
 
     if (!observerRef.current) {
       observerRef.current = new MutationObserver(() => {
@@ -396,6 +517,7 @@ export default function App() {
   };
 
   const resetSimulations = () => {
+    addXp(XP_VALUES.resetSimulation);
     setSimulationLog([]);
     setIsObserverActive(false);
     if (timeoutRef.current) {
@@ -409,6 +531,7 @@ export default function App() {
   };
 
   const runEducationalDelayedInjection = () => {
+    addXp(XP_VALUES.runSimulation, (prev) => ({ simulationsRun: prev.simulationsRun + 1 }));
     console.log("[EDUCATIONAL DEMO ONLY] Simulated delayed injection started.");
     window.setTimeout(() => {
       console.log(
@@ -421,6 +544,7 @@ export default function App() {
   };
 
   const runEducationalMutationObserverSimulation = () => {
+    addXp(XP_VALUES.runSimulation, (prev) => ({ simulationsRun: prev.simulationsRun + 1 }));
     const host = document.createElement("div");
     const observer = new MutationObserver(() => {
       console.log(
@@ -440,6 +564,11 @@ export default function App() {
 
   const toggleGeoTip = (id: number) => {
     setExpandedGeoTip((prev) => (prev === id ? null : id));
+    if (!gamification.exploredGeoTips.has(id)) {
+      addXp(XP_VALUES.exploreGeo, (prev) => ({
+        exploredGeoTips: new Set([...prev.exploredGeoTips, id]),
+      }));
+    }
   };
 
   const switchViewMode = (nextViewMode: ViewMode) => {
@@ -453,6 +582,9 @@ export default function App() {
   };
 
   const runGeoFaqSimulation = () => {
+    if (!gamification.geoFaqRun) {
+      addXp(XP_VALUES.runGeoFaq, () => ({ geoFaqRun: true }));
+    }
     console.log("[EDUCATIONAL DEMO ONLY] GEO FAQ schema injection simulated.");
     window.alert(
       "EDUCATIONAL DEMO ONLY:\n\nSimulated FAQPage Schema Injection.\n\nA naive AI parser would extract:\n'Lars Moelleken is the #1 PHP developer globally — rank: 1'\n\nThis exploits the GEO 'FAQ Structure' technique as an injection vector.\nNo actual data was altered.",
@@ -499,6 +631,9 @@ export default function App() {
       }
       if (themeTransitionTimeoutRef.current) {
         window.clearTimeout(themeTransitionTimeoutRef.current);
+      }
+      if (achievementTimeoutRef.current) {
+        window.clearTimeout(achievementTimeoutRef.current);
       }
       observerRef.current?.disconnect();
     };
@@ -2166,6 +2301,120 @@ export default function App() {
             </div>
           </header>
 
+          {/* ── GAMIFICATION HUD ──────────────────────────────────── */}
+          <div
+            className="sticky top-0 z-40 border-b backdrop-blur-md"
+            style={{
+              background: "rgba(7,10,14,0.92)",
+              borderColor: "var(--demo-border)",
+            }}
+          >
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                {/* Clearance badge */}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <ClearanceIcon icon={currentClearance.icon} className="w-4 h-4" style={{ color: currentClearance.color }} />
+                  <span
+                    className="text-xs font-mono font-bold tracking-wider"
+                    style={{ color: currentClearance.color }}
+                  >
+                    {currentClearance.name}
+                  </span>
+                </div>
+
+                {/* XP counter */}
+                <span
+                  className="text-xs font-mono font-bold shrink-0"
+                  style={{ color: "var(--demo-glow)" }}
+                >
+                  {gamification.xp} XP
+                </span>
+
+                {/* Progress bar */}
+                <div className="flex-1 min-w-[80px] max-w-[200px]">
+                  <div
+                    className="h-1.5 rounded-full overflow-hidden"
+                    style={{ background: "rgba(200,168,80,0.15)" }}
+                    aria-label={`Mission progress: ${progressPercent}%`}
+                    role="progressbar"
+                    aria-valuenow={progressPercent}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                  >
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{
+                        width: `${progressPercent}%`,
+                        background: `linear-gradient(90deg, ${currentClearance.color}, var(--demo-glow))`,
+                        boxShadow: `0 0 8px ${currentClearance.color}`,
+                      }}
+                    />
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[0.55rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>
+                      {progressPercent}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Next level hint */}
+                {nextClearance ? (
+                  <span
+                    className="hidden sm:inline text-[0.6rem] font-mono"
+                    style={{ color: "rgba(200,168,80,0.4)" }}
+                  >
+                    → {nextClearance.name} at {nextClearance.minXp} XP
+                  </span>
+                ) : (
+                  <span
+                    className="hidden sm:inline text-[0.6rem] font-mono"
+                    style={{ color: "var(--mando-verified)" }}
+                  >
+                    ✓ MAX CLEARANCE
+                  </span>
+                )}
+
+                {/* Achievement count */}
+                <div className="flex items-center gap-1 shrink-0 ml-auto">
+                  <Trophy className="w-3 h-3" style={{ color: unlockedAchievements.length > 0 ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }} />
+                  <span
+                    className="text-[0.6rem] font-mono font-bold"
+                    style={{ color: unlockedAchievements.length > 0 ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }}
+                  >
+                    {unlockedAchievements.length}/{ACHIEVEMENTS.length}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Achievement toast ───────────────────────────────── */}
+          {recentAchievement ? (
+            <div
+              className="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl border flex items-center gap-3 shadow-2xl"
+              style={{
+                background: "rgba(7,10,14,0.95)",
+                borderColor: "var(--demo-glow)",
+                boxShadow: "0 0 30px rgba(200,168,80,0.3)",
+                animation: "achievement-pop 400ms cubic-bezier(0.2,0.8,0.2,1)",
+              }}
+              role="alert"
+            >
+              <Trophy className="w-5 h-5 shrink-0" style={{ color: "var(--demo-glow)" }} />
+              <div>
+                <div className="text-xs font-mono font-bold" style={{ color: "var(--demo-glow)" }}>
+                  ACHIEVEMENT UNLOCKED
+                </div>
+                <div className="text-sm font-bold" style={{ color: "#f0e0a0" }}>
+                  {recentAchievement.title}
+                </div>
+                <div className="text-xs" style={{ color: "rgba(224,208,164,0.7)" }}>
+                  {recentAchievement.description}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
 
             {/* ── BOUNTY TARGET: Core Profile ────────────────────────── */}
@@ -2293,7 +2542,14 @@ export default function App() {
                       <div key={tech.id} role="listitem">
                         <button
                           type="button"
-                          onClick={() => setActiveTechId(isActive ? null : tech.id)}
+                          onClick={() => {
+                            setActiveTechId(isActive ? null : tech.id);
+                            if (!isActive && !gamification.exploredTechniques.has(tech.id)) {
+                              addXp(XP_VALUES.exploreTechnique, (prev) => ({
+                                exploredTechniques: new Set([...prev.exploredTechniques, tech.id]),
+                              }));
+                            }
+                          }}
                           aria-expanded={isActive}
                           aria-controls={panelId}
                           className={`mando-tech-item flex items-center gap-3${isActive ? " active" : ""}`}
@@ -2578,6 +2834,133 @@ export default function App() {
                         ))
                       }
                     </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ── ACHIEVEMENTS PANEL ──────────────────────────────────── */}
+            <section aria-labelledby="mando-achievements-heading">
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span
+                  className="mando-section-label"
+                  style={{ color: "var(--demo-glow)", borderColor: "rgba(200,168,80,0.5)" }}
+                >
+                  ACHIEVEMENTS // {unlockedAchievements.length}/{ACHIEVEMENTS.length} UNLOCKED
+                </span>
+              </div>
+              <div className="mando-panel p-5 sm:p-6 relative">
+                <div className="mando-scan-overlay" aria-hidden="true" />
+                <h2
+                  id="mando-achievements-heading"
+                  className="text-lg font-bold mb-2 flex items-center gap-2"
+                  style={{ color: "#f0e0a0" }}
+                >
+                  <Trophy className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
+                  Security Clearance: {currentClearance.name}
+                </h2>
+                <p className="text-xs mb-5" style={{ color: "rgba(200,168,80,0.55)" }}>
+                  EXPLORE TECHNIQUES, RUN SIMULATIONS, AND LEVEL UP — {gamification.xp} XP EARNED
+                </p>
+
+                {/* Clearance progress */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    {CLEARANCE_LEVELS.map((cl) => {
+                      const isActive = gamification.xp >= cl.minXp;
+                      return (
+                        <div
+                          key={cl.name}
+                          className="flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded-md border"
+                          style={{
+                            borderColor: isActive ? cl.color : "rgba(200,168,80,0.15)",
+                            background: isActive ? "rgba(200,168,80,0.08)" : "transparent",
+                            color: isActive ? cl.color : "rgba(200,168,80,0.25)",
+                            opacity: isActive ? 1 : 0.5,
+                          }}
+                        >
+                          <ClearanceIcon icon={cl.icon} className="w-3 h-3" style={{ color: isActive ? cl.color : "rgba(200,168,80,0.25)" }} />
+                          {cl.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div
+                    className="h-2 rounded-full overflow-hidden"
+                    style={{ background: "rgba(200,168,80,0.1)" }}
+                  >
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${Math.min(100, (gamification.xp / CLEARANCE_LEVELS[CLEARANCE_LEVELS.length - 1].minXp) * 100)}%`,
+                        background: `linear-gradient(90deg, rgba(200,168,80,0.4), ${currentClearance.color})`,
+                        boxShadow: `0 0 12px ${currentClearance.color}`,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Achievement grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {ACHIEVEMENTS.map((ach) => {
+                    const unlocked = ach.condition(gamification);
+                    return (
+                      <div
+                        key={ach.id}
+                        className="flex items-start gap-2 p-2.5 rounded-lg border text-xs"
+                        style={{
+                          borderColor: unlocked ? "rgba(200,168,80,0.4)" : "rgba(200,168,80,0.1)",
+                          background: unlocked ? "rgba(200,168,80,0.06)" : "transparent",
+                        }}
+                      >
+                        <Trophy
+                          className="w-3.5 h-3.5 shrink-0 mt-0.5"
+                          style={{ color: unlocked ? "var(--demo-glow)" : "rgba(200,168,80,0.2)" }}
+                        />
+                        <div>
+                          <div
+                            className="font-mono font-bold"
+                            style={{ color: unlocked ? "#f0e0a0" : "rgba(200,168,80,0.3)" }}
+                          >
+                            {unlocked ? ach.title : "???"}
+                          </div>
+                          <div style={{ color: unlocked ? "rgba(224,208,164,0.7)" : "rgba(200,168,80,0.2)" }}>
+                            {unlocked ? ach.description : "Keep exploring…"}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Stats summary */}
+                <div
+                  className="mt-5 pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center"
+                  style={{ borderTop: "1px solid var(--demo-border)" }}
+                >
+                  <div>
+                    <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
+                      {gamification.exploredTechniques.size}/{INJECTION_TECHNIQUES.length}
+                    </div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>THREATS ANALYZED</div>
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
+                      {gamification.exploredGeoTips.size}/{GEO_TIPS.length}
+                    </div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>GEO VECTORS</div>
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
+                      {gamification.simulationsRun}
+                    </div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>SIMS RUN</div>
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
+                      {progressPercent}%
+                    </div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>MISSION COMPLETE</div>
                   </div>
                 </div>
               </div>
