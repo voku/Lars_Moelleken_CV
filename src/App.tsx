@@ -27,7 +27,6 @@ type ViewMode = "standard_cv" | "prompt_injection_cv";
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const desktopAmbientEffectsQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
-const artworkKickerStyle = { letterSpacing: "0.24em" } as const;
 
 interface PageHeaderProps {
   icon: ReactNode;
@@ -96,27 +95,15 @@ const DEMO_NAV_ITEMS: SectionNavItem[] = [
 const HEADER_ARTWORK: Record<
   ViewMode,
   {
-    alt: string;
-    kicker: string;
-    title: string;
-    detail: string;
     mobileSrc: string;
     desktopSrc: string;
   }
 > = {
   standard_cv: {
-    alt: "Illustrated overview of Lars Moelleken's PHP architecture, tooling, and delivery focus.",
-    kicker: "Professional Snapshot",
-    title: "Legacy modernization, architecture, quality, and delivery in one glance.",
-    detail: "Responsive artwork highlights architecture, automation, and collaboration signals before recruiters dig into the detailed sections.",
     mobileSrc: `${assetBaseUrl}header-standard-mobile.svg`,
     desktopSrc: `${assetBaseUrl}header-standard-desktop.svg`,
   },
   prompt_injection_cv: {
-    alt: "Illustrated security terminal view showing prompt-injection threats, defenses, and monitored signals.",
-    kicker: "Threat Intelligence Overlay",
-    title: "Static hero image keeps the demo readable while ambient effects stay desktop-only.",
-    detail: "Mobile users now get a stable, pre-rendered command-center banner instead of the full animated overlay stack.",
     mobileSrc: `${assetBaseUrl}header-demo-mobile.svg`,
     desktopSrc: `${assetBaseUrl}header-demo-desktop.svg`,
   },
@@ -161,30 +148,28 @@ function HeaderArtwork({ mode }: { mode: ViewMode }) {
 
   return (
     <div
-      className={`mb-8 overflow-hidden rounded-[1.75rem] border shadow-sm ${
-        isDemo ? "border-amber-700/40 bg-black/30" : "border-slate-200 bg-slate-950/[0.03]"
+      className={`header-artwork mb-8 h-[140px] overflow-hidden rounded-2xl border sm:h-[180px] md:h-[220px] ${
+        isDemo ? "border-amber-700/30" : "border-slate-200"
       }`}
+      style={{
+        backgroundImage: `url(${artwork.mobileSrc})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      role="img"
+      aria-label={isDemo 
+        ? "Abstract security pattern representing threat monitoring" 
+        : "Abstract architectural pattern representing software quality"
+      }
     >
-      <picture>
-        <source media="(min-width: 768px)" srcSet={artwork.desktopSrc} />
-        <img src={artwork.mobileSrc} alt={artwork.alt} className="block h-auto w-full" />
-      </picture>
-      <div
-        className={`flex flex-col gap-3 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${
-          isDemo ? "border-amber-700/40 bg-black/50" : "border-slate-200 bg-white/95"
-        }`}
-      >
-        <div>
-          <p
-            className={`text-[0.65rem] font-mono uppercase ${isDemo ? "text-[#c8a850]" : "text-blue-600"}`}
-            style={artworkKickerStyle}
-          >
-            {artwork.kicker}
-          </p>
-          <p className={`mt-1 text-sm font-semibold ${isDemo ? "text-[#f0e0b0]" : "text-slate-900"}`}>{artwork.title}</p>
-        </div>
-        <p className={`max-w-xl text-sm ${isDemo ? "text-[#c8b880]" : "text-slate-600"}`}>{artwork.detail}</p>
-      </div>
+      {/* CSS handles responsive background swap via media query in index.css */}
+      <style>{`
+        @media (min-width: 768px) {
+          .header-artwork[style*="${isDemo ? 'header-demo' : 'header-standard'}"] {
+            background-image: url(${artwork.desktopSrc}) !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
