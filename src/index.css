@@ -49,6 +49,7 @@
 
 .landing-shell.world-shift {
   animation: world-shift 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
 }
 
 .world-shift-flash {

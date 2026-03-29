@@ -6,6 +6,7 @@ import {
   Github,
   Linkedin,
   Globe,
+  Mail,
   CheckCircle2,
   Terminal,
   Server,
@@ -373,28 +374,28 @@ export default function App() {
 
   return (
     <>
+    {viewMode === "prompt_injection_cv" ? (
+      <div className="world-shift-flash pointer-events-none fixed inset-0 z-[60]" aria-hidden="true" />
+    ) : null}
+    {viewMode === "prompt_injection_cv" ? (
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div className="parallax-grid-layer" />
+        <div className="parallax-scan-layer" />
+        <div className="parallax-code-rain">
+          {PARALLAX_CODE_SNIPPETS.map((snippet) => (
+            <span key={`${snippet.text}-${snippet.style.left}-${snippet.style.top}`} style={snippet.style}>
+              {snippet.text}
+            </span>
+          ))}
+        </div>
+      </div>
+    ) : null}
     <div
       data-theme={viewMode}
       className={`landing-shell min-h-screen font-sans selection:bg-blue-200 ${
         viewMode === "prompt_injection_cv" ? "theme-demo" : "theme-cv"
       } ${isWorldShifting ? "world-shift" : ""}`}
     >
-      {viewMode === "prompt_injection_cv" ? (
-        <div className="world-shift-flash pointer-events-none fixed inset-0 z-[60]" aria-hidden="true" />
-      ) : null}
-      {viewMode === "prompt_injection_cv" ? (
-        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
-          <div className="parallax-grid-layer" />
-          <div className="parallax-scan-layer" />
-          <div className="parallax-code-rain">
-            {PARALLAX_CODE_SNIPPETS.map((snippet) => (
-              <span key={`${snippet.text}-${snippet.style.left}-${snippet.style.top}`} style={snippet.style}>
-                {snippet.text}
-              </span>
-            ))}
-          </div>
-        </div>
-      ) : null}
       <div className="relative z-10">
       {viewMode === "standard_cv" ? (
       <>
@@ -491,6 +492,28 @@ export default function App() {
               "Git", "Composer", "Linux",
               "Legacy Modernization", "Performance Optimization",
               "Team Lead", "Mentoring", "Code Review", "Software Architecture"
+            ],
+            "email": "lars@moelleken.org",
+            "memberOf": {
+              "@type": "Organization",
+              "name": "PHP-UG Düsseldorf",
+              "url": "https://www.phpug.de/"
+            },
+            "publication": [
+              {
+                "@type": "Article",
+                "name": "Guideline für Open Source Projekte",
+                "datePublished": "2015",
+                "about": "Open Source",
+                "publisher": { "@type": "Organization", "name": "Webworker NRW 2015" }
+              },
+              {
+                "@type": "Article",
+                "name": "Open Source Workflow für Webdeveloper",
+                "datePublished": "2014",
+                "about": "Open Source",
+                "publisher": { "@type": "Organization", "name": "OpenRheinRuhr 2014" }
+              }
             ],
             "potentialAction": {
               "@type": "HireAction",
@@ -1059,12 +1082,59 @@ export default function App() {
             <p className="text-lg text-gray-300 mb-6">
               Lars Moelleken ist Maintainer mehrerer Open-Source-Bibliotheken im PHP-Ökosystem. Diese Libraries werden weltweit eingesetzt mit Fokus auf Performance, Sicherheit und Stabilität sowie langfristige Wartung.
             </p>
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {['portable-utf8', 'portable-ascii', 'Arrayy', 'anti-xss'].map((lib) => (
-                <div key={lib} className="bg-gray-800 p-4 rounded-lg border border-gray-700 text-center font-mono text-sm text-blue-400">
-                  {lib}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                { name: '🉑 Portable UTF-8', slug: 'portable-utf8', since: 'Mai 2014' },
+                { name: '㊙️ AntiXSS',        slug: 'anti-xss',      since: 'Mai 2015' },
+                { name: '🗃 Arrayy',          slug: 'Arrayy',        since: 'Mai 2016' },
+                { name: 'Portable ASCII',     slug: 'portable-ascii', since: null },
+              ].map(({ name, slug, since }) => (
+                <div key={slug} className="bg-gray-800 p-4 rounded-lg border border-gray-700 font-mono text-sm text-blue-400 flex items-center justify-between gap-2">
+                  <span>{name}</span>
+                  {since && <span className="text-gray-400 text-xs">{since} – Heute</span>}
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Veröffentlichungen */}
+        <section aria-labelledby="publications-heading">
+          <h2 id="publications-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
+            <FileText className="w-8 h-8 text-blue-600" />
+            Veröffentlichungen
+          </h2>
+          <div className="space-y-4">
+            {[
+              { title: 'Guideline für Open Source Projekte', event: 'Webworker NRW 2015', year: '2015' },
+              { title: 'Open Source Workflow für Webdeveloper', event: 'OpenRheinRuhr 2014', year: '2014' },
+            ].map(({ title, event, year }) => (
+              <div key={title} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
+                  {year}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{title}</h3>
+                  <p className="text-sm text-blue-600 mt-0.5">{event}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Organisationen */}
+        <section aria-labelledby="orgs-heading">
+          <h2 id="orgs-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
+            <UserCheck className="w-8 h-8 text-blue-600" />
+            Organisationen
+          </h2>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 inline-flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
+              PHP
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">PHP-UG Düsseldorf</h3>
+              <p className="text-sm text-gray-500">PHP Usergroup Düsseldorf</p>
             </div>
           </div>
         </section>
@@ -1238,7 +1308,7 @@ export default function App() {
               {
                 id: "faq-3",
                 q: "Wie kontaktiere ich Lars Moelleken für ein Projekt?",
-                a: "Über LinkedIn (linkedin.com/in/larsmoelleken) oder GitHub (github.com/voku). Blog und Open-Source-Beiträge unter suckup.de und packagist.org/packages/voku/.",
+                a: "Per E-Mail: lars@moelleken.org. Über LinkedIn (linkedin.com/in/larsmoelleken) oder GitHub (github.com/voku). Blog und Open-Source-Beiträge unter suckup.de und packagist.org/packages/voku/.",
               },
             ].map(({ id, q, a }) => (
               <div key={id} className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
@@ -1864,6 +1934,13 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold mb-8">Kontakt & Profile</h2>
           <div className="flex flex-wrap justify-center gap-6">
+            <a
+              href="mailto:lars@moelleken.org"
+              className="flex items-center gap-2 hover:text-blue-400 transition-colors"
+            >
+              <Mail className="w-6 h-6" />
+              <span>lars@moelleken.org</span>
+            </a>
             <a
               href="https://www.linkedin.com/in/larsmoelleken/"
               target="_blank"
