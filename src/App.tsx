@@ -16,6 +16,7 @@ import {
   Bot
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { parseAnalyzeApiResponse } from "./analyzeApi";
 import TrustBoundaryReport from "./components/TrustBoundaryReport";
 import type { AnalyzeApiResponse, AnalyzeScenario, SanitizationResult } from "./types";
 
@@ -44,20 +45,6 @@ export default function App() {
   const timeoutRef = useRef<number | null>(null);
   const observerRef = useRef<MutationObserver | null>(null);
 
-  function isAnalyzeApiResponse(input: unknown): input is AnalyzeApiResponse {
-    if (!input || typeof input !== "object") return false;
-    const body = input as Record<string, unknown>;
-    if (body.result !== undefined && typeof body.result !== "string") return false;
-    if (body.error !== undefined && typeof body.error !== "string") return false;
-    if (body.scenario !== undefined && body.scenario !== "hardened" && body.scenario !== "naive") return false;
-    if (body.trustReport !== undefined) {
-      if (!body.trustReport || typeof body.trustReport !== "object") return false;
-      const trustReport = body.trustReport as Record<string, unknown>;
-      if (!Array.isArray(trustReport.findings) || !Array.isArray(trustReport.extractedFacts)) return false;
-    }
-    return true;
-  }
-
   const runAgentTest = async (scenario: AnalyzeScenario) => {
     setIsTesting(true);
     setActiveScenario(scenario);
@@ -71,11 +58,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ html: pageContent, scenario }),
       });
-      const raw: unknown = await res.json();
-      if (!isAnalyzeApiResponse(raw)) {
-        throw new Error("Invalid API response shape.");
-      }
-      const data = raw;
+      const data: AnalyzeApiResponse = await parseAnalyzeApiResponse(res);
       if (data.error) throw new Error(data.error);
       setAgentResponse(data.result ?? null);
       setTrustReport(data.trustReport ?? null);

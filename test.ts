@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseAnalyzeApiResponse } from "./src/analyzeApi";
 import { sanitizeAndClassify } from "./src/trust";
 import type { EvidenceSurface, TrustLevel } from "./src/types";
 
@@ -204,7 +205,45 @@ function runVariantExperiments(): boolean {
   return !fail;
 }
 
-function runLoop(iterations: number): void {
+async function runAnalyzeApiResponseExperiments(): Promise<boolean> {
+  console.log("\n🌐 Analyze API response handling");
+  let fail = false;
+
+  const htmlResponse = new Response("<!doctype html><html><body>404</body></html>", {
+    status: 404,
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
+
+  try {
+    await parseAnalyzeApiResponse(htmlResponse);
+    console.log("  html response handling: missed ❌");
+    fail = true;
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    const handled = message.includes("returned HTML instead of JSON");
+    console.log(`  html response handling: ${handled ? "handled ✅" : `unexpected (${message}) ❌`}`);
+    if (!handled) fail = true;
+  }
+
+  const jsonResponse = new Response(JSON.stringify({ result: "{\"ok\":true}", scenario: "hardened" }), {
+    status: 200,
+    headers: { "content-type": "application/json" },
+  });
+
+  try {
+    const parsed = await parseAnalyzeApiResponse(jsonResponse);
+    const handled = parsed.result === "{\"ok\":true}" && parsed.scenario === "hardened";
+    console.log(`  json response handling: ${handled ? "handled ✅" : "unexpected payload ❌"}`);
+    if (!handled) fail = true;
+  } catch (error: unknown) {
+    console.log(`  json response handling: unexpected (${error instanceof Error ? error.message : String(error)}) ❌`);
+    fail = true;
+  }
+
+  return !fail;
+}
+
+async function runLoop(iterations: number): Promise<void> {
   console.log(`\n🔁 Running trust-boundary loop (${iterations} iterations)`);
   const summaries: LoopSummary[] = [];
   let fail = false;
@@ -239,9 +278,10 @@ function runLoop(iterations: number): void {
     (s) => s.naiveFindings >= s.hardenedFindings && s.nonVisibleTrusted === 0 && s.trustedFacts > 0,
   );
   const variantPass = runVariantExperiments();
+  const apiResponsePass = await runAnalyzeApiResponseExperiments();
   console.log(`\nLoop stability: ${stable ? "stable ✅" : "unstable ❌"}`);
 
-  if (fail || !stable || !variantPass) {
+  if (fail || !stable || !variantPass || !apiResponsePass) {
     console.error("❌ Loop regression failed.");
     process.exitCode = 1;
     return;
@@ -254,7 +294,7 @@ if (loopFlag !== -1) {
   const raw = process.argv[loopFlag + 1];
   const iterations = Number.parseInt(raw ?? "5", 10);
   run();
-  runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
+  await runLoop(Number.isFinite(iterations) && iterations > 0 ? iterations : 5);
 } else {
   run();
 }

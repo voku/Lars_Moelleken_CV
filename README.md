@@ -4,6 +4,8 @@ Interactive CV for Lars Moelleken (Senior PHP Developer) with a built-in educati
 
 **Live:** https://voku.github.io/Lars_Moelleken_CV/
 
+> Note: the GitHub Pages site is a static demo. The **Run Hardened AI** / **Run Naive AI** buttons require the local `/api/analyze` server from `npm run server`.
+
 ---
 
 ## Features
