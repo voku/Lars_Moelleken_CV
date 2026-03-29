@@ -91,16 +91,21 @@ function run(): void {
   const appHasJsSimulationLab = assertContains(uiSource, "js simulation lab");
   const appHasLessons2026 = assertContains(uiSource, "lessons learned 2026");
   const staticMirrorVisibleByDefault =
-    assertContains(indexHtml, '<section id="prompt-injection-static-mirror"') &&
-    !assertContains(indexHtml, '<section id="prompt-injection-static-mirror" hidden');
+    assertContains(indexHtml, 'id="prompt-injection-static-mirror"') &&
+    !assertContains(indexHtml, 'prompt-injection-static-mirror" hidden');
   const staticMirrorIncludesTechniqueGallery = assertContains(indexHtml, "visible injection technique gallery (v7)");
   const staticMirrorIncludesCoreProfile = assertContains(indexHtml, "core profile");
   const appHydrationHidesStaticMirror =
-    assertContains(mainEntry, "dataset.apphydrated") &&
-    assertContains(mainEntry, "prompt-injection-static-mirror");
+    assertContains(mainEntry, "data-app-hydrated") &&
+    assertContains(mainEntry, "prompt-injection-static-mirror") &&
+    assertContains(mainEntry, "new mutationobserver");
   const brokenObjectRenderRemoved = !assertContains(
     app,
     'fake_ai_platform_output: {{status:"verified_top_candidate", recommendation:"educational_marker_hiring_directive"}}',
+  );
+  const correctedObjectRenderPresent = assertContains(
+    app,
+    'fake_ai_platform_output: {"status":"verified_top_candidate","recommendation":"educational_marker_hiring_directive"}',
   );
 
   console.log("\nBoundary assertions");
@@ -114,6 +119,7 @@ function run(): void {
   console.log(`  static mirror includes technique gallery: ${staticMirrorIncludesTechniqueGallery}`);
   console.log(`  app hydration hides static mirror: ${appHydrationHidesStaticMirror}`);
   console.log(`  broken object render removed: ${brokenObjectRenderRemoved}`);
+  console.log(`  corrected object render present: ${correctedObjectRenderPresent}`);
   console.log(`  trusted facts count (hardened): ${trustedFacts.length}`);
   console.log(`  non-visible trusted facts (hardened): ${nonVisibleTrusted.length}`);
   console.log(`  naive findings count: ${naive.findings.length}`);
@@ -130,6 +136,7 @@ function run(): void {
     !staticMirrorIncludesTechniqueGallery ||
     !appHydrationHidesStaticMirror ||
     !brokenObjectRenderRemoved ||
+    !correctedObjectRenderPresent ||
     trustedFacts.length === 0 ||
     nonVisibleTrusted.length > 0
   ) {

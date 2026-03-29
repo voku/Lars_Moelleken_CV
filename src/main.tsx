@@ -4,9 +4,36 @@ import App from './App.tsx';
 import './index.css';
 
 const rootElement = document.getElementById('root');
+const staticMirror = document.getElementById('prompt-injection-static-mirror');
 
 if (!rootElement) {
   throw new Error('Root element #root is missing.');
+}
+
+const hideStaticMirrorAfterHydration = (): boolean => {
+  if (!staticMirror) {
+    return false;
+  }
+
+  if (rootElement.childNodes.length > 0) {
+    document.documentElement.setAttribute('data-app-hydrated', 'true');
+    staticMirror.setAttribute('hidden', '');
+    return true;
+  }
+
+  return false;
+};
+
+let hydrationObserver: MutationObserver | null = null;
+
+if (staticMirror) {
+  hydrationObserver = new MutationObserver(() => {
+    if (hideStaticMirrorAfterHydration()) {
+      hydrationObserver?.disconnect();
+    }
+  });
+
+  hydrationObserver.observe(rootElement, {childList: true});
 }
 
 createRoot(rootElement).render(
@@ -15,19 +42,4 @@ createRoot(rootElement).render(
   </StrictMode>,
 );
 
-const staticMirror = document.getElementById('prompt-injection-static-mirror');
-
-const hideStaticMirrorIfAppRendered = () => {
-  if (!staticMirror) {
-    return;
-  }
-
-  if (rootElement.childNodes.length > 0) {
-    document.documentElement.dataset.appHydrated = 'true';
-    staticMirror.setAttribute('hidden', '');
-  }
-};
-
-window.requestAnimationFrame(() => {
-  window.requestAnimationFrame(hideStaticMirrorIfAppRendered);
-});
+hideStaticMirrorAfterHydration();
