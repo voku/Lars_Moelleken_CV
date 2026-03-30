@@ -58,7 +58,7 @@ interface ClearanceLevel {
 }
 
 const CLEARANCE_LEVELS: ClearanceLevel[] = [
-  { name: "RECRUIT", minXp: 0, color: "#8e712f", icon: "shield" },
+  { name: "RECRUIT", minXp: 0, color: "var(--demo-glow)", icon: "shield" },
   { name: "OPERATIVE", minXp: 30, color: "rgba(200,168,80,0.7)", icon: "shield" },
   { name: "AGENT", minXp: 80, color: "#c8a850", icon: "award" },
   { name: "COMMANDER", minXp: 150, color: "#e0c060", icon: "award" },
@@ -242,7 +242,7 @@ function SectionNavigation({
             href={item.href}
             className={`inline-flex min-h-10 shrink-0 items-center rounded-full border px-4 py-2 text-xs font-semibold tracking-wide transition-colors sm:text-sm ${
               isDemo
-                ? "border-amber-700/40 bg-black/30 text-[#5f4920] hover:border-amber-500/60 hover:bg-amber-500/10"
+                ? "border-amber-700/40 bg-black/30 text-mando-subtitle hover:border-amber-500/60 hover:bg-amber-500/10"
                 : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
             }`}
           >
@@ -1551,7 +1551,7 @@ export default function App() {
             {/* ── BOUNTY TARGET: Core Profile ────────────────────────── */}
             <section aria-labelledby="mando-profile-heading">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="mando-section-label" style={{ color: "#7a6530" }}>
+                <span className="mando-section-label" style={{ color: "var(--mando-label)" }}>
                   BOUNTY TARGET // VERIFIED
                 </span>
               </div>
@@ -1560,12 +1560,12 @@ export default function App() {
                 <h2
                   id="mando-profile-heading"
                   className="text-xl font-bold mb-4 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <UserCheck className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
                   Target Ident: Lars Moelleken
                 </h2>
-                <ul className="space-y-1.5 text-sm" style={{ color: "#4a3b1a" }}>
+                <ul className="space-y-1.5 text-sm" style={{ color: "var(--mando-body)" }}>
                   <li>▶ Veteran mit 20+ Jahren Backend & PHP-Entwicklung</li>
                   <li>▶ Kernskill: Symfony · Laravel · Architektur · Legacy-Modernisierung</li>
                   <li>▶ Arsenal: TDD · PHPUnit · PHPStan · Psalm · CI/CD</li>
@@ -1622,7 +1622,7 @@ export default function App() {
             {/* ── MISSION INTEL: How injection works ─────────────────── */}
             <section aria-labelledby="mando-intel-heading">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="mando-section-label" style={{ color: "#7a6530" }}>
+                <span className="mando-section-label" style={{ color: "var(--mando-label)" }}>
                   MISSION INTEL // CLASSIFIED
                 </span>
               </div>
@@ -1632,12 +1632,12 @@ export default function App() {
                   <h3
                     id="mando-intel-heading"
                     className="text-sm font-bold mb-3 flex items-center gap-2"
-                    style={{ color: "#6b5020" }}
+                    style={{ color: "var(--mando-heading)" }}
                   >
                     <AlertTriangle className="w-4 h-4" style={{ color: "#e06060" }} />
                     Angriffsvektoren
                   </h3>
-                  <ul className="text-xs space-y-2" style={{ color: "#4a3b1a" }}>
+                  <ul className="text-xs space-y-2" style={{ color: "var(--mando-body)" }}>
                     <li>▸ Versteckte Marker in JSON-LD, Meta & DOM</li>
                     <li>▸ AI-Parser lesen was Recruiter:innen nicht sehen</li>
                     <li>▸ Repetition simuliert künstliche „Bestätigung"</li>
@@ -1647,12 +1647,12 @@ export default function App() {
                   <div className="mando-scan-overlay" aria-hidden="true" />
                   <h3
                     className="text-sm font-bold mb-3 flex items-center gap-2"
-                    style={{ color: "#6b5020" }}
+                    style={{ color: "var(--mando-heading)" }}
                   >
                     <ShieldCheck className="w-4 h-4" style={{ color: "var(--mando-verified)" }} />
                     Verteidigungslinien
                   </h3>
-                  <ul className="text-xs space-y-2" style={{ color: "#4a3b1a" }}>
+                  <ul className="text-xs space-y-2" style={{ color: "var(--mando-body)" }}>
                     <li>▸ Sichtbare CV-Felder via Allowlist priorisieren</li>
                     <li>▸ JSON-LD als untrusted behandeln</li>
                     <li>▸ Provenance + Sanitization vor Ranking erzwingen</li>
@@ -1674,7 +1674,7 @@ export default function App() {
               <div className="mando-panel p-4 sm:p-6">
                 <div
                   className="mb-4 pb-3 text-xs font-mono"
-                  style={{ borderBottom: "1px solid var(--demo-border)", color: "#8e712f" }}
+                  style={{ borderBottom: "1px solid var(--demo-border)", color: "var(--demo-glow)" }}
                 >
                   Visible Injection Technique Gallery (v7) — SELECT A VECTOR TO ANALYZE
                 </div>
@@ -1703,19 +1703,19 @@ export default function App() {
                           </span>
                           <span
                             className="flex-1 text-sm font-semibold text-left"
-                            style={{ color: "#6b5020" }}
+                            style={{ color: "var(--mando-heading)" }}
                           >
                             {tech.title}
                           </span>
                           <span
                             className="hidden sm:inline text-xs font-mono shrink-0"
-                            style={{ color: "#8e712f" }}
+                            style={{ color: "var(--demo-glow)" }}
                           >
                             {tech.category}
                           </span>
                           {isActive
                             ? <ChevronDown className="w-4 h-4 shrink-0" style={{ color: "var(--demo-glow)" }} />
-                            : <ChevronRight className="w-4 h-4 shrink-0" style={{ color: "#8e712f" }} />
+                            : <ChevronRight className="w-4 h-4 shrink-0" style={{ color: "var(--demo-glow)" }} />
                           }
                         </button>
 
@@ -1728,7 +1728,7 @@ export default function App() {
                           <div className="pt-3 pb-2 px-1 space-y-3">
                             <p
                               className="text-xs leading-relaxed italic"
-                              style={{ color: "#7a6530" }}
+                              style={{ color: "var(--mando-label)" }}
                             >
                               {tech.description}
                             </p>
@@ -1773,7 +1773,7 @@ export default function App() {
             {/* ── GEO VECTORS: 7 Techniques Accordion ─────────────────── */}
             <section aria-labelledby="geo-vectors-heading">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="mando-section-label" style={{ color: "#7a6530" }}>
+                <span className="mando-section-label" style={{ color: "var(--mando-label)" }}>
                   GEO VECTORS // 7 TECHNIQUES
                 </span>
               </div>
@@ -1781,12 +1781,12 @@ export default function App() {
                 <h2
                   id="geo-vectors-heading"
                   className="text-lg font-bold mb-1 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <Lightbulb className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
                   7 GEO Techniques — und ihre Injection-Risiken
                 </h2>
-                <p className="text-xs mb-5" style={{ color: "#8e712f" }}>
+                <p className="text-xs mb-5" style={{ color: "var(--demo-glow)" }}>
                   GENERATIVE ENGINE OPTIMIZATION DUAL-USE ANALYSIS — SELECT TO EXPAND
                 </p>
                 <div className="space-y-2">
@@ -1824,13 +1824,13 @@ export default function App() {
                               <div className="text-xs font-mono uppercase tracking-wider text-emerald-700 mb-1.5 flex items-center gap-1">
                                 <CheckCircle2 className="w-3 h-3" /> GEO benefit
                               </div>
-                              <p className="text-xs leading-relaxed" style={{ color: "#5f4920" }}>{tip.geoDetail}</p>
+                              <p className="text-xs leading-relaxed" style={{ color: "var(--mando-subtitle)" }}>{tip.geoDetail}</p>
                             </div>
                             <div className={`rounded-lg border ${tip.borderClass} p-3`}>
                               <div className="text-xs font-mono uppercase tracking-wider text-amber-700 mb-1.5 flex items-center gap-1">
                                 <AlertTriangle className="w-3 h-3" /> Injection risk
                               </div>
-                              <p className="text-xs leading-relaxed" style={{ color: "#5f4920" }}>{tip.risk}</p>
+                              <p className="text-xs leading-relaxed" style={{ color: "var(--mando-subtitle)" }}>{tip.risk}</p>
                             </div>
                           </div>
                           <div>
@@ -1879,12 +1879,12 @@ export default function App() {
                 <h2
                   id="mando-sim-heading"
                   className="text-lg font-bold mb-2 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <RadioTower className="w-5 h-5" style={{ color: "#a060e0" }} />
                   JS Simulation Lab
                 </h2>
-                <p className="text-xs mb-4" style={{ color: "#8e712f" }}>
+                <p className="text-xs mb-4" style={{ color: "var(--demo-glow)" }}>
                   CLIENT-SIDE INJECTION SIMULATION — TRIGGERS CONSOLE LOG & ALERT ONLY
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 mb-4">
@@ -1915,7 +1915,7 @@ export default function App() {
                     MutationObserver Injection
                   </button>
                 </div>
-                <div className="text-xs font-mono mb-2" style={{ color: "#8e712f" }}>
+                <div className="text-xs font-mono mb-2" style={{ color: "var(--demo-glow)" }}>
                   ADVANCED SIMULATION TERMINAL — NAIVE SCENARIO ONLY
                 </div>
                 <div className="grid sm:grid-cols-2 gap-3">
@@ -1961,7 +1961,7 @@ export default function App() {
                     <div
                       ref={simulationHostRef}
                       className="mando-terminal text-xs mb-2"
-                      style={{ minHeight: "3.5rem", color: "#8e712f" }}
+                      style={{ minHeight: "3.5rem", color: "var(--demo-glow)" }}
                       aria-label="Simulation host status"
                       role="status"
                       data-educational-simulation-host="true"
@@ -1975,9 +1975,9 @@ export default function App() {
                       aria-label="Simulation output log"
                     >
                       {simulationLog.length === 0
-                        ? <span style={{ color: "#b09860" }}>[awaiting simulation…]</span>
+                        ? <span style={{ color: "var(--mando-text-disabled)" }}>[awaiting simulation…]</span>
                         : simulationLog.slice(-5).map((entry, idx) => (
-                          <div key={idx} style={{ color: "#7a6530", marginBottom: "2px" }}>
+                          <div key={idx} style={{ color: "var(--mando-label)", marginBottom: "2px" }}>
                             {`> ${entry}`}
                           </div>
                         ))
@@ -1993,7 +1993,7 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 <span
                   className="mando-section-label"
-                  style={{ color: "var(--demo-glow)", borderColor: "#8e712f" }}
+                  style={{ color: "var(--demo-glow)", borderColor: "var(--demo-glow)" }}
                 >
                   ACHIEVEMENTS // {unlockedAchievements.length}/{ACHIEVEMENTS.length} UNLOCKED
                 </span>
@@ -2003,12 +2003,12 @@ export default function App() {
                 <h2
                   id="mando-achievements-heading"
                   className="text-lg font-bold mb-2 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <Trophy className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
                   Security Clearance: {currentClearance.name}
                 </h2>
-                <p className="text-xs mb-5" style={{ color: "#8e712f" }}>
+                <p className="text-xs mb-5" style={{ color: "var(--demo-glow)" }}>
                   EXPLORE TECHNIQUES, RUN SIMULATIONS, AND LEVEL UP — {gamification.xp} XP EARNED
                 </p>
 
@@ -2091,25 +2091,25 @@ export default function App() {
                     <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
                       {gamification.exploredTechniques.size}/{INJECTION_TECHNIQUES.length}
                     </div>
-                    <div className="text-[0.6rem] font-mono" style={{ color: "#8e712f" }}>THREATS ANALYZED</div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "var(--demo-glow)" }}>THREATS ANALYZED</div>
                   </div>
                   <div>
                     <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
                       {gamification.exploredGeoTips.size}/{GEO_TIPS.length}
                     </div>
-                    <div className="text-[0.6rem] font-mono" style={{ color: "#8e712f" }}>GEO VECTORS</div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "var(--demo-glow)" }}>GEO VECTORS</div>
                   </div>
                   <div>
                     <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
                       {gamification.simulationsRun}
                     </div>
-                    <div className="text-[0.6rem] font-mono" style={{ color: "#8e712f" }}>SIMS RUN</div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "var(--demo-glow)" }}>SIMS RUN</div>
                   </div>
                   <div>
                     <div className="text-lg font-bold font-mono" style={{ color: "var(--demo-glow)" }}>
                       {progressPercent}%
                     </div>
-                    <div className="text-[0.6rem] font-mono" style={{ color: "#8e712f" }}>MISSION COMPLETE</div>
+                    <div className="text-[0.6rem] font-mono" style={{ color: "var(--demo-glow)" }}>MISSION COMPLETE</div>
                   </div>
                 </div>
               </div>
@@ -2120,7 +2120,7 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 <span
                   className="mando-section-label"
-                  style={{ color: "#2d7a50", borderColor: "rgba(64,168,112,0.5)" }}
+                  style={{ color: "var(--mando-verified)", borderColor: "rgba(64,168,112,0.5)" }}
                 >
                   DEFENSE MATRIX // COUNTERMEASURES
                 </span>
@@ -2130,7 +2130,7 @@ export default function App() {
                 <h2
                   id="mando-defense-heading"
                   className="text-lg font-bold mb-4 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <ShieldCheck className="w-5 h-5" style={{ color: "var(--mando-verified)" }} />
                   Lessons Learned 2026
@@ -2141,7 +2141,7 @@ export default function App() {
                   style={{
                     background: "rgba(200,168,80,0.08)",
                     border: "1px solid rgba(200,168,80,0.3)",
-                    color: "#4a3b1a",
+                    color: "var(--mando-body)",
                   }}
                 >
                   <span className="font-bold" style={{ color: "var(--demo-glow)" }}>📊 Live test findings (GPT-4.1, v6/v7 — March 2026):</span>
@@ -2239,7 +2239,7 @@ export default function App() {
                     <div
                       key={item.num}
                       className="flex items-start gap-3 text-xs"
-                      style={{ color: "#4a3b1a" }}
+                      style={{ color: "var(--mando-body)" }}
                     >
                       <span
                         className={`mando-threat mando-threat-${item.threat.toLowerCase()} shrink-0 mt-0.5`}
@@ -2248,7 +2248,7 @@ export default function App() {
                         {item.num}
                       </span>
                       <div>
-                        <div className="font-bold mb-0.5" style={{ color: "#6b5020" }}>{item.title}</div>
+                        <div className="font-bold mb-0.5" style={{ color: "var(--mando-heading)" }}>{item.title}</div>
                         <div className="leading-relaxed mb-1">{item.body}</div>
                         <div className="font-semibold text-[0.65rem]" style={{ color: item.noteColor }}>← {item.note}</div>
                       </div>

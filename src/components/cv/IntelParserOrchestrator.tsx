@@ -160,7 +160,7 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
   return (
     <div className="mt-5 pt-4 space-y-3" style={{ borderTop: "1px solid var(--demo-border)" }}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="text-xs font-mono" style={{ color: "rgba(200,168,80,0.55)" }}>
+        <div className="text-xs font-mono" style={{ color: "var(--demo-glow)" }}>
           {copy.intelParser.title}
         </div>
         <div className="flex items-center gap-2">
@@ -171,7 +171,7 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
             style={{
               borderColor: parserMode === "naive" ? "rgba(220,100,100,0.7)" : "rgba(200,168,80,0.25)",
               background: parserMode === "naive" ? "rgba(220,80,80,0.2)" : "transparent",
-              color: parserMode === "naive" ? "#f3b0b0" : "rgba(200,168,80,0.65)",
+              color: parserMode === "naive" ? "var(--mando-alert)" : "var(--demo-glow)",
             }}
           >
             {copy.intelParser.naiveCore}
@@ -183,7 +183,7 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
             style={{
               borderColor: parserMode === "hardened" ? "rgba(100,210,140,0.7)" : "rgba(200,168,80,0.25)",
               background: parserMode === "hardened" ? "rgba(70,180,110,0.2)" : "transparent",
-              color: parserMode === "hardened" ? "#9be4b6" : "rgba(200,168,80,0.65)",
+              color: parserMode === "hardened" ? "var(--mando-verified)" : "var(--demo-glow)",
             }}
           >
             {copy.intelParser.hardenedCore}
@@ -194,9 +194,9 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
             disabled={isParserRunning}
             className="text-[0.65rem] font-mono font-bold px-3 py-1.5 rounded border transition-all disabled:cursor-not-allowed"
             style={{
-              borderColor: "rgba(200,168,80,0.45)",
+              borderColor: "var(--demo-glow)",
               background: isParserRunning ? "rgba(200,168,80,0.08)" : "rgba(200,168,80,0.18)",
-              color: isParserRunning ? "rgba(200,168,80,0.45)" : "#f0e0a0",
+              color: isParserRunning ? "var(--demo-glow)" : "var(--mando-heading)",
             }}
           >
             {isParserRunning ? copy.intelParser.scanning : copy.intelParser.run}
@@ -217,19 +217,19 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
       <div className="grid md:grid-cols-2 gap-3">
         <div className="mando-terminal text-xs" style={{ minHeight: "8.5rem" }}>
           {parserLogs.length === 0
-            ? <span style={{ color: "rgba(200,168,80,0.35)" }}>{copy.intelParser.idle}</span>
+            ? <span style={{ color: "var(--demo-glow)" }}>{copy.intelParser.idle}</span>
             : parserLogs.slice(-6).map((log, index) => (
-              <div key={`${parserRunId}-${index}-${log}`} style={{ color: "rgba(224,208,164,0.85)" }}>
+              <div key={`${parserRunId}-${index}-${log}`} style={{ color: "var(--mando-body)" }}>
                 {`> ${log}`}
               </div>
             ))
           }
         </div>
         <div className="mando-terminal text-xs space-y-2" style={{ minHeight: "8.5rem" }}>
-          <div style={{ color: "#f0e0a0" }}>
+          <div style={{ color: "var(--mando-heading)" }}>
             {copy.intelParser.target} <span style={{ color: "var(--demo-glow)" }}>{parserTargetTechnique.title}</span>
           </div>
-          <div style={{ color: "rgba(224,208,164,0.7)" }}>
+          <div style={{ color: "var(--mando-subtitle)" }}>
             {copy.intelParser.mode}={parserMode} · {copy.intelParser.blockedSignals}={parserMode === "hardened" ? parserReport.blockedSignals : 0}
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -240,14 +240,14 @@ export function IntelParserOrchestrator({ techniques, activeTechniqueId, onRunSi
               {copy.intelParser.trust} {parserReport.trustScore}%
             </div>
           </div>
-          <div style={{ color: "rgba(200,168,80,0.85)" }}>
+          <div style={{ color: "var(--mando-label)" }}>
             {parserReport.verdict}
           </div>
           {lastParsedTechId === parserTargetTechnique.id && parserProgress === 100 ? (
             <div className="space-y-1">
               {parserReport.matches.slice(0, 4).map((match) => (
-                <div key={`${match.label}-${match.evidence}`} style={{ color: "rgba(200,168,80,0.72)" }}>
-                  • {match.label}: <span style={{ color: "rgba(224,208,164,0.92)" }}>{match.evidence}</span>
+                <div key={`${match.label}-${match.evidence}`} style={{ color: "var(--mando-label)" }}>
+                  • {match.label}: <span style={{ color: "var(--mando-body)" }}>{match.evidence}</span>
                 </div>
               ))}
             </div>

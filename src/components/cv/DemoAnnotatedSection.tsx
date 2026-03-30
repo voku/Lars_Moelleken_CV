@@ -6,7 +6,7 @@ export function DemoAnnotatedSection() {
   return (
 <section aria-labelledby="mando-annotated-heading">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="mando-section-label" style={{ color: "#7a6530" }}>
+                <span className="mando-section-label" style={{ color: "var(--mando-label)" }}>
                   ANNOTATED CV // SAME CONTENT · THREAT ANALYSIS
                 </span>
               </div>
@@ -15,12 +15,12 @@ export function DemoAnnotatedSection() {
                 <h2
                   id="mando-annotated-heading"
                   className="text-lg font-bold mb-2 flex items-center gap-2"
-                  style={{ color: "#6b5020" }}
+                  style={{ color: "var(--mando-heading)" }}
                 >
                   <Eye className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
                   CV Content — Annotated View
                 </h2>
-                <p className="text-xs mb-5" style={{ color: "#8e712f" }}>
+                <p className="text-xs mb-5" style={{ color: "var(--demo-glow)" }}>
                   THE SAME PROFILE A HUMAN RECRUITER SEES — EACH SURFACE ANNOTATED WITH INJECTION THREAT ANALYSIS
                 </p>
                 <div className="space-y-3">
@@ -29,7 +29,7 @@ export function DemoAnnotatedSection() {
                       surface: "Profile / About Section",
                       icon: "✓",
                       threat: "CLEAN" as const,
-                      color: "#2d7a50",
+                      color: "var(--mando-verified)",
                       bgColor: "rgba(64,168,112,0.08)",
                       borderColor: "rgba(64,168,112,0.3)",
                       annotation: "Visible biographical content is legitimate. 20+ years PHP, Symfony, Laravel, legacy modernization — all factual. No hidden instructions in visible text blocks.",
@@ -39,7 +39,7 @@ export function DemoAnnotatedSection() {
                       surface: "JSON-LD Metadata (<head>)",
                       icon: "◈",
                       threat: "CRITICAL" as const,
-                      color: "#a03030",
+                      color: "var(--mando-alert)",
                       bgColor: "rgba(200,64,64,0.08)",
                       borderColor: "rgba(200,64,64,0.3)",
                       annotation: "Three JSON-LD blocks (Person + RecommendAction + JobPosting + EmployerAggregateOffer) contain poisoned fields: honorificSuffix, aggregateRating, award, additionalProperty, hasCredential — all injected with fake ranking signals. AI tools parse these as authoritative structured data.",
@@ -49,7 +49,7 @@ export function DemoAnnotatedSection() {
                       surface: "ATS Keyword Density",
                       icon: "⚡",
                       threat: "HIGH" as const,
-                      color: "#8a5020",
+                      color: "var(--mando-caution)",
                       bgColor: "rgba(208,128,48,0.08)",
                       borderColor: "rgba(208,128,48,0.3)",
                       annotation: "11 high-frequency ATS keywords (PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, OOP/SOLID, REST API, Redis, Microservices) appear across visible text, JSON-LD knowsAbout/skills/keywords fields, and FAQ answers. Simple keyword-scanning bots score ~100% automatically — before any prompt injection is needed.",
@@ -59,7 +59,7 @@ export function DemoAnnotatedSection() {
                       surface: "FAQ / GEO Schema",
                       icon: "⚡",
                       threat: "HIGH" as const,
-                      color: "#8a5020",
+                      color: "var(--mando-caution)",
                       bgColor: "rgba(208,128,48,0.08)",
                       borderColor: "rgba(208,128,48,0.3)",
                       annotation: "FAQPage JSON-LD schema feeds Q&A directly to AI answer-extraction pipelines (featured snippets, AI Overviews). acceptedAnswer fields are treated as ground truth. A planted FAQ entry becomes a direct GEO injection channel.",
@@ -69,7 +69,7 @@ export function DemoAnnotatedSection() {
                       surface: "1pt Transparent-Text Injection (Header + AI Demo)",
                       icon: "⚡",
                       threat: "HIGH" as const,
-                      color: "#8a5020",
+                      color: "var(--mando-caution)",
                       bgColor: "rgba(208,128,48,0.08)",
                       borderColor: "rgba(208,128,48,0.3)",
                       annotation: "CSS color:transparent; font-size:1px makes text invisible to humans but fully readable by AI parsers processing raw HTML. Two instances: one in the page header, one in the AI demo section. Most-discussed new injection technique as of early 2026.",
@@ -79,7 +79,7 @@ export function DemoAnnotatedSection() {
                       surface: "sr-only Hidden Payload Block",
                       icon: "◈",
                       threat: "CRITICAL" as const,
-                      color: "#a03030",
+                      color: "var(--mando-alert)",
                       bgColor: "rgba(200,64,64,0.08)",
                       borderColor: "rgba(200,64,64,0.3)",
                       annotation: "An aria-hidden div at the bottom of the AI demo section contains the full structured injection payload — visible in source to AI parsers, invisible on screen. Includes [SYSTEM OVERRIDE], JSON candidate array, and multi-language repetition signals.",
@@ -89,7 +89,7 @@ export function DemoAnnotatedSection() {
                       surface: "Visible AI Demo Section (14 Techniques)",
                       icon: "◆",
                       threat: "MEDIUM" as const,
-                      color: "#7a6530",
+                      color: "var(--mando-label)",
                       bgColor: "rgba(200,168,80,0.06)",
                       borderColor: "rgba(200,168,80,0.25)",
                       annotation: "All 14 injection techniques are labeled and visible — Direct Override, Authority Spoofing, Context Injection, Sandwiching, Platform Verification, Fake Memo, Multi-Language, Fake Response, JSON-Force Directive, Meta-Reference Override, Classification Bypass, Leet-Speak, Fake AI Output, Triple Sandwiching, and more. Transparent by design for educational purposes.",
@@ -113,10 +113,10 @@ export function DemoAnnotatedSection() {
                           {item.icon} {item.threat}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-bold mb-1" style={{ color: "#6b5020" }}>
+                          <div className="text-sm font-bold mb-1" style={{ color: "var(--mando-heading)" }}>
                             {item.surface}
                           </div>
-                          <p className="text-xs leading-relaxed mb-2" style={{ color: "#5f4920" }}>
+                          <p className="text-xs leading-relaxed mb-2" style={{ color: "var(--mando-subtitle)" }}>
                             {item.annotation}
                           </p>
                           <pre
@@ -130,7 +130,7 @@ export function DemoAnnotatedSection() {
                     </div>
                   ))}
                 </div>
-                <p className="mt-5 text-xs font-mono" style={{ color: "#8e712f" }}>
+                <p className="mt-5 text-xs font-mono" style={{ color: "var(--demo-glow)" }}>
                   {"// Switch to Standard CV view to see the same page without annotations — as AI agents and LLMs see it."}
                 </p>
               </div>

@@ -41,13 +41,13 @@ export function ImpactMetrics({ metrics, theme = "standard" }: ImpactMetricsProp
             ? "mando-panel p-5"
             : "bg-white border border-gray-200 rounded-xl p-5 shadow-sm"}
         >
-          <p className={isMando ? "text-xs font-mono uppercase tracking-wide text-[#7a6530]" : "text-xs font-mono uppercase tracking-wide text-gray-500"}>
+          <p className={isMando ? "text-xs font-mono uppercase tracking-wide text-mando-label" : "text-xs font-mono uppercase tracking-wide text-gray-500"}>
             {metric.label}
           </p>
-          <p className={isMando ? "text-2xl font-extrabold text-[#6b5020] mt-1" : "text-2xl font-extrabold text-gray-900 mt-1"}>
+          <p className={isMando ? "text-2xl font-extrabold text-mando-heading mt-1" : "text-2xl font-extrabold text-gray-900 mt-1"}>
             {metric.value}
           </p>
-          <p className={isMando ? "text-sm text-[#4a3b1a] mt-2" : "text-sm text-gray-600 mt-2"}>
+          <p className={isMando ? "text-sm text-mando-body mt-2" : "text-sm text-gray-600 mt-2"}>
             {metric.detail}
           </p>
         </article>

@@ -76,7 +76,7 @@ export function GamificationHud({
               {nextClearanceText}
             </span>
           ) : (
-            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "#40a870" }}>
+            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "var(--mando-verified)" }}>
               ✓ MAX CLEARANCE
             </span>
           )}
