@@ -6,7 +6,7 @@ describe("InjectionPerspectivePanel", () => {
   it("renders attacker perspective headline", () => {
     const html = renderToStaticMarkup(<InjectionPerspectivePanel perspective="attacker" />);
     expect(html).toContain("Angreifer-Perspektive");
-    expect(html).toContain("Strukturzwang / JSON-Force");
+    expect(html).toContain("JSON-LD Data Poisoning");
     expect(html).not.toContain("Defense: Output schema strict validieren");
   });
 
