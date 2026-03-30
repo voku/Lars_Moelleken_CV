@@ -1,3 +1,5 @@
+import { UI_TEXT } from "./copy";
+
 interface TrendingFindingsPanelProps {
   onRunDelayedSimulation: () => void;
   onRunMutationSimulation: () => void;
@@ -38,7 +40,7 @@ export function TrendingFindingsPanel({ onRunDelayedSimulation, onRunMutationSim
         V8: Top Findings from Popular Posts (Educational Only)
       </h2>
       <p className="text-xs mb-4" style={{ color: "rgba(224,208,164,0.75)" }}>
-        ⚠️ Diese Beispiele sind sichtbar, gekennzeichnet und dienen ausschließlich Trainings-/Defense-Zwecken.
+        {UI_TEXT.trendingFindings.warning}
       </p>
 
       <div className="space-y-3">

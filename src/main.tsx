@@ -1,6 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
+import { CvI18nProvider } from './components/cv/copy';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -38,7 +39,9 @@ if (staticMirror) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <CvI18nProvider>
+      <App />
+    </CvI18nProvider>
   </StrictMode>,
 );
 
