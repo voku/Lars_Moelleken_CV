@@ -2024,11 +2024,11 @@ export default function App() {
                           style={{
                             borderColor: isActive ? cl.color : "rgba(200,168,80,0.15)",
                             background: isActive ? "rgba(200,168,80,0.08)" : "transparent",
-                            color: isActive ? cl.color : "#c0a870",
+                            color: isActive ? cl.color : "var(--mando-text-inactive)",
                             opacity: isActive ? 1 : 0.5,
                           }}
                         >
-                          <ClearanceIcon icon={cl.icon} className="w-3 h-3" style={{ color: isActive ? cl.color : "#c0a870" }} />
+                          <ClearanceIcon icon={cl.icon} className="w-3 h-3" style={{ color: isActive ? cl.color : "var(--mando-text-inactive)" }} />
                           {cl.name}
                         </div>
                       );
@@ -2064,16 +2064,16 @@ export default function App() {
                       >
                         <Trophy
                           className="w-3.5 h-3.5 shrink-0 mt-0.5"
-                          style={{ color: unlocked ? "var(--demo-glow)" : "#c0a870" }}
+                          style={{ color: unlocked ? "var(--demo-glow)" : "var(--mando-text-inactive)" }}
                         />
                         <div>
                           <div
                             className="font-mono font-bold"
-                            style={{ color: unlocked ? "#6b5020" : "#b09860" }}
+                            style={{ color: unlocked ? "var(--mando-heading)" : "var(--mando-text-disabled)" }}
                           >
                             {unlocked ? ach.title : "???"}
                           </div>
-                          <div style={{ color: unlocked ? "#5f4920" : "#c0a870" }}>
+                          <div style={{ color: unlocked ? "var(--mando-subtitle)" : "var(--mando-text-inactive)" }}>
                             {unlocked ? ach.description : "Keep exploring…"}
                           </div>
                         </div>
