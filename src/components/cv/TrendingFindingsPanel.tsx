@@ -1,4 +1,4 @@
-import { UI_TEXT } from "./copy";
+import { useCvCopy } from "./copy";
 
 interface TrendingFindingsPanelProps {
   onRunDelayedSimulation: () => void;
@@ -34,13 +34,15 @@ const FINDINGS = [
 ];
 
 export function TrendingFindingsPanel({ onRunDelayedSimulation, onRunMutationSimulation }: TrendingFindingsPanelProps) {
+  const copy = useCvCopy();
+
   return (
     <section aria-labelledby="mando-trending-findings" className="mando-panel p-5 sm:p-6">
       <h2 id="mando-trending-findings" className="text-lg font-bold mb-2" style={{ color: "#6b5020" }}>
         V8: Top Findings from Popular Posts (Educational Only)
       </h2>
       <p className="text-xs mb-4" style={{ color: "#5f4920" }}>
-        {UI_TEXT.trendingFindings.warning}
+        {copy.trendingFindings.warning}
       </p>
 
       <div className="space-y-3">

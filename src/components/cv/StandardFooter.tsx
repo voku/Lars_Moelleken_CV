@@ -1,11 +1,13 @@
 import { Code2, Globe, Mail } from "lucide-react";
-import { UI_TEXT } from "./copy";
+import { useCvCopy } from "./copy";
 
 export function StandardFooter() {
+  const copy = useCvCopy();
+
   return (
     <footer className="bg-gray-900 text-white py-16 mt-24">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <h2 className="text-2xl font-bold mb-4">{UI_TEXT.standardFooter.contactTitle}</h2>
+        <h2 className="text-2xl font-bold mb-4">{copy.standardFooter.contactTitle}</h2>
         <div className="inline-flex flex-col sm:flex-row items-center gap-6 text-gray-300">
           <a href="mailto:lars@moelleken.org" className="flex items-center gap-2 hover:text-blue-400 transition-colors">
             <Mail className="w-6 h-6" />

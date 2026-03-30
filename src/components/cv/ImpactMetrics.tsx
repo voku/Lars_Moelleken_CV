@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import type { ComponentTheme } from "./types";
-import { UI_TEXT } from "./copy";
+import { UI_TEXT, useCvCopy } from "./copy";
 
 export interface ImpactMetric {
   label: string;
@@ -18,12 +19,22 @@ interface ImpactMetricsProps {
   theme?: ComponentTheme;
 }
 
-export function ImpactMetrics({ metrics = DEFAULT_IMPACT_METRICS, theme = "standard" }: ImpactMetricsProps) {
+export function ImpactMetrics({ metrics, theme = "standard" }: ImpactMetricsProps) {
+  const copy = useCvCopy();
   const isMando = theme === "mandalorian";
+
+  const resolvedMetrics = useMemo<ImpactMetric[]>(() => {
+    if (metrics) return metrics;
+    return [
+      { label: "OSS Libraries", value: "4", detail: copy.impactMetrics.ossDetail },
+      { label: copy.impactMetrics.experienceLabel, value: "20+ Jahre", detail: copy.impactMetrics.experienceDetail },
+      { label: "Fokus", value: "Legacy → Modern", detail: copy.impactMetrics.focusDetail },
+    ];
+  }, [metrics, copy]);
 
   return (
     <div className="grid md:grid-cols-3 gap-4">
-      {metrics.map((metric) => (
+      {resolvedMetrics.map((metric) => (
         <article
           key={metric.label}
           className={isMando

@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import type { ComponentTheme } from "./types";
-import { UI_TEXT } from "./copy";
+import { UI_TEXT, useCvCopy } from "./copy";
 
 export interface ExperienceItem {
   title: string;
@@ -54,12 +55,58 @@ interface ExperienceTimelineProps {
   theme?: ComponentTheme;
 }
 
-export function ExperienceTimeline({ items = DEFAULT_EXPERIENCE_TIMELINE, theme = "standard" }: ExperienceTimelineProps) {
+export function ExperienceTimeline({ items, theme = "standard" }: ExperienceTimelineProps) {
+  const copy = useCvCopy();
   const isMando = theme === "mandalorian";
+
+  const resolvedItems = useMemo<ExperienceItem[]>(() => {
+    if (items) return items;
+    return [
+      {
+        title: "Senior PHP Developer",
+        companyPeriod: copy.experience.periodRemondis,
+        bullets: [
+          "PHP 8.x, Symfony, Docker, Kubernetes, CI/CD, GitHub Actions",
+          "PHPStan Level 9, PHPUnit, TDD, Rector, php-cs-fixer",
+          "REST API Design, MySQL, MariaDB, Redis, Performance Optimization",
+          "Legacy Modernization, OOP / SOLID, Code Review, Mentoring",
+          copy.experience.impactRemondis,
+        ],
+      },
+      {
+        title: "Senior Developer",
+        companyPeriod: "IONOS · 2018–2020",
+        bullets: [
+          "PHP 8.x, Symfony, Laravel, Microservices, Docker, CI/CD",
+          "REST APIs, PostgreSQL, Redis, Scalable Architecture",
+          "PHPUnit, Static Analysis, Team Lead, Agile/Scrum",
+          copy.experience.impactIonos,
+        ],
+      },
+      {
+        title: "PHP Developer",
+        companyPeriod: "MEERX · 2013–2018",
+        bullets: [
+          "PHP, Symfony, MySQL, REST API, Git, Composer",
+          "OOP, Design Patterns, Clean Code, PHPUnit",
+          copy.experience.impactMeerx,
+        ],
+      },
+      {
+        title: "Web Developer",
+        companyPeriod: "menadwork · 2010–2013",
+        bullets: ["PHP, MySQL, Linux, Apache, Git"],
+      },
+      {
+        title: copy.experience.sysadminTitle,
+        companyPeriod: "Global Village · 2005–2010",
+      },
+    ];
+  }, [items, copy]);
 
   return (
     <div className={isMando ? "space-y-5" : "border-l-2 border-blue-200 pl-6 space-y-8"}>
-      {items.map((item) => (
+      {resolvedItems.map((item) => (
         <div key={`${item.title}-${item.companyPeriod}`}>
           <h3 className={isMando ? "text-lg font-bold text-[#6b5020]" : "text-xl font-bold text-gray-900"}>{item.title}</h3>
           <p className={isMando ? "font-medium mb-2 text-[#7a6530]" : "text-blue-600 font-medium mb-2"}>{item.companyPeriod}</p>
