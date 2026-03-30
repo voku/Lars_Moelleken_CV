@@ -1,4 +1,5 @@
 import type { ComponentTheme } from "./types";
+import { UI_TEXT } from "./copy";
 
 export interface ExperienceItem {
   title: string;
@@ -9,13 +10,13 @@ export interface ExperienceItem {
 export const DEFAULT_EXPERIENCE_TIMELINE: ExperienceItem[] = [
   {
     title: "Senior PHP Developer",
-    companyPeriod: "REMONDIS IT Services · seit 2020",
+    companyPeriod: UI_TEXT.experience.periodRemondis,
     bullets: [
       "PHP 8.x, Symfony, Docker, Kubernetes, CI/CD, GitHub Actions",
       "PHPStan Level 9, PHPUnit, TDD, Rector, php-cs-fixer",
       "REST API Design, MySQL, MariaDB, Redis, Performance Optimization",
       "Legacy Modernization, OOP / SOLID, Code Review, Mentoring",
-      "Impact: Stabilisierung und Weiterentwicklung geschäftskritischer interner Plattformen",
+      UI_TEXT.experience.impactRemondis,
     ],
   },
   {
@@ -25,7 +26,7 @@ export const DEFAULT_EXPERIENCE_TIMELINE: ExperienceItem[] = [
       "PHP 8.x, Symfony, Laravel, Microservices, Docker, CI/CD",
       "REST APIs, PostgreSQL, Redis, Scalable Architecture",
       "PHPUnit, Static Analysis, Team Lead, Agile/Scrum",
-      "Impact: Ausbau wartbarer Service-Strukturen für skalierbare Hosting-nahe Workflows",
+      UI_TEXT.experience.impactIonos,
     ],
   },
   {
@@ -34,7 +35,7 @@ export const DEFAULT_EXPERIENCE_TIMELINE: ExperienceItem[] = [
     bullets: [
       "PHP, Symfony, MySQL, REST API, Git, Composer",
       "OOP, Design Patterns, Clean Code, PHPUnit",
-      "Impact: Aufbau solider Backend-Fundamente und API-first-Entwicklung in Kundenprojekten",
+      UI_TEXT.experience.impactMeerx,
     ],
   },
   {
@@ -43,7 +44,7 @@ export const DEFAULT_EXPERIENCE_TIMELINE: ExperienceItem[] = [
     bullets: ["PHP, MySQL, Linux, Apache, Git"],
   },
   {
-    title: "Systemadministrator",
+    title: UI_TEXT.experience.sysadminTitle,
     companyPeriod: "Global Village · 2005–2010",
   },
 ];

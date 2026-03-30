@@ -8,21 +8,21 @@
   --cv-text: #1a1a1a;
 
   /* ── Mandalorian / Beskar palette (used in demo theme) ─── */
-  --demo-bg: #070a0e;
-  --demo-panel: #0d1420;
-  --demo-panel-soft: rgba(13, 20, 32, 0.92);
-  --demo-border: rgba(192, 160, 80, 0.38);
-  --demo-glow: #c8a850;
-  --demo-accent: #c84040;
-  --demo-text: #e0d0a4;
+  --demo-bg: #f8f3e8;
+  --demo-panel: #fffaf0;
+  --demo-panel-soft: rgba(255, 251, 242, 0.96);
+  --demo-border: rgba(142, 113, 47, 0.35);
+  --demo-glow: #8e712f;
+  --demo-accent: #a4493c;
+  --demo-text: #2f2410;
 
   /* extra tokens */
   --mando-beskar: #c8a850;
   --mando-caution: #d08030;
   --mando-verified: #40a870;
   --mando-alert: #c84040;
-  --mando-text-dim: rgba(224, 208, 164, 0.5);
-  --mando-glow-strong: rgba(200, 168, 80, 0.6);
+  --mando-text-dim: rgba(47, 36, 16, 0.6);
+  --mando-glow-strong: rgba(142, 113, 47, 0.45);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -62,8 +62,8 @@
    ──────────────────────────────────────────────────────────────── */
 .landing-shell.theme-demo {
   background:
-    radial-gradient(circle at 10% 20%, rgba(192, 160, 80, 0.07), transparent 35%),
-    radial-gradient(circle at 88% 10%, rgba(200, 64,  64,  0.06), transparent 40%),
+    radial-gradient(circle at 10% 20%, rgba(142, 113, 47, 0.08), transparent 35%),
+    radial-gradient(circle at 88% 10%, rgba(164, 73, 60, 0.07), transparent 40%),
     var(--demo-bg);
   color: var(--demo-text);
 }
@@ -127,28 +127,38 @@
 }
 
 /* ────────────────────────────────────────────────────────────────
-   Theme switcher
+   View controls
    ──────────────────────────────────────────────────────────────── */
-.theme-switcher {
+.view-controls {
   position: fixed;
   z-index: 50;
-  top: max(0.5rem, env(safe-area-inset-top));
-  right: max(0.5rem, env(safe-area-inset-right));
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
-.theme-switcher-inner {
-  display: inline-flex;
+.view-controls-inner {
+  display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  max-width: calc(100vw - 2rem);
-  border-radius: 9999px;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 0.875rem;
   border: 1px solid rgba(148, 163, 184, 0.45);
-  background: rgba(248, 250, 252, 0.95);
+  background: rgba(248, 250, 252, 0.96);
   padding: 4px;
   backdrop-filter: blur(6px);
 }
 
-.theme-switch-btn {
+.view-controls-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  border-radius: 9999px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.view-switch-btn {
   border: 0;
   border-radius: 9999px;
   padding: 0.45rem 0.8rem;
@@ -160,33 +170,37 @@
   background: transparent;
 }
 
-.theme-switch-btn.active {
+.view-switch-btn.active {
   background: #0f172a;
   color: #e2e8f0;
 }
 
-/* focus-visible ring — keyboard navigation (both themes) */
-.theme-switch-btn:focus-visible {
+.view-switch-btn:focus-visible {
   outline: 2px solid #1d4ed8;
   outline-offset: 2px;
 }
 
-.theme-demo .theme-switcher-inner {
+.view-controls[data-view-mode="prompt_injection_cv"] .view-controls-inner {
   border-color: var(--demo-border);
-  background: rgba(5, 8, 14, 0.88);
+  background: rgba(255, 251, 242, 0.96);
 }
 
-.theme-demo .theme-switch-btn {
+.view-controls[data-view-mode="prompt_injection_cv"] .view-controls-group {
+  border-color: rgba(142, 113, 47, 0.35);
+  background: rgba(255, 250, 241, 0.84);
+}
+
+.view-controls[data-view-mode="prompt_injection_cv"] .view-switch-btn {
   color: var(--demo-text);
 }
 
-.theme-demo .theme-switch-btn.active {
-  background: rgba(192, 160, 80, 0.22);
-  color: #fff;
-  box-shadow: 0 0 18px rgba(192, 160, 80, 0.28);
+.view-controls[data-view-mode="prompt_injection_cv"] .view-switch-btn.active {
+  background: rgba(142, 113, 47, 0.9);
+  color: #fffdf8;
+  box-shadow: none;
 }
 
-.theme-demo .theme-switch-btn:focus-visible {
+.view-controls[data-view-mode="prompt_injection_cv"] .view-switch-btn:focus-visible {
   outline-color: var(--mando-beskar);
 }
 
@@ -195,22 +209,23 @@
     scroll-margin-top: 5rem;
   }
 
-  .theme-switcher {
-    left: auto;
-    right: max(0.5rem, env(safe-area-inset-right));
-    top: max(0.5rem, env(safe-area-inset-top));
-  }
-
-  .theme-switch-btn {
+  .view-switch-btn {
     padding-inline: 0.5rem;
     font-size: 0.62rem;
   }
 }
 
 @media (min-width: 640px) {
-  .theme-switcher {
+  .view-controls {
+    left: auto;
     top: max(1rem, env(safe-area-inset-top));
     right: max(1rem, env(safe-area-inset-right));
+    bottom: auto;
+  }
+
+  .view-controls-inner {
+    width: auto;
+    justify-content: flex-end;
   }
 }
 
@@ -283,9 +298,9 @@
 }
 
 .theme-demo header {
-  background: linear-gradient(180deg, rgba(6, 9, 15, 0.9), rgba(6, 9, 15, 0.98)) !important;
+  background: linear-gradient(180deg, rgba(255, 251, 242, 0.94), rgba(248, 243, 232, 0.98)) !important;
   border-bottom-color: var(--demo-border) !important;
-  box-shadow: inset 0 -1px 0 rgba(200, 168, 80, 0.18);
+  box-shadow: inset 0 -1px 0 rgba(142, 113, 47, 0.18);
 }
 
 .theme-demo h1,
@@ -293,8 +308,8 @@
 .theme-demo h3,
 .theme-demo h4,
 .theme-demo strong {
-  color: #f0e0b0 !important;
-  text-shadow: 0 0 18px rgba(200, 168, 80, 0.22);
+  color: #3f2f13 !important;
+  text-shadow: none;
 }
 
 .theme-demo .text-blue-600,
@@ -322,7 +337,7 @@
 .theme-demo .text-emerald-600,
 .theme-demo .text-green-700,
 .theme-demo .text-green-600 {
-  color: #c8b880 !important;
+  color: #5f4920 !important;
 }
 
 .theme-demo .border-gray-100,
@@ -350,9 +365,7 @@
   background: var(--demo-panel-soft);
   border: 1px solid var(--demo-border);
   border-radius: 0.75rem;
-  box-shadow:
-    0 8px 32px rgba(2, 5, 10, 0.55),
-    inset 0 0 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 5px 20px rgba(89, 67, 25, 0.12);
   overflow: hidden;
 }
 
@@ -442,21 +455,21 @@
   border: 1px solid var(--demo-border);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
-  background: rgba(13, 20, 32, 0.55);
+  background: rgba(255, 251, 244, 0.92);
   transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
   text-align: left;
 }
 
 .mando-tech-item:hover {
   border-color: rgba(200, 168, 80, 0.55);
-  background: rgba(13, 20, 32, 0.85);
-  box-shadow: 0 0 16px rgba(200, 168, 80, 0.1);
+  background: rgba(255, 247, 231, 0.98);
+  box-shadow: 0 2px 10px rgba(142, 113, 47, 0.1);
 }
 
 .mando-tech-item.active {
   border-color: var(--mando-beskar);
-  background: rgba(200, 168, 80, 0.07);
-  box-shadow: 0 0 24px rgba(200, 168, 80, 0.16), inset 0 0 20px rgba(0, 0, 0, 0.3);
+  background: rgba(200, 168, 80, 0.12);
+  box-shadow: 0 2px 12px rgba(142, 113, 47, 0.15);
 }
 
 .mando-tech-item:focus-visible {
@@ -466,18 +479,18 @@
 
 /* ── Terminal block ─── */
 .mando-terminal {
-  background: rgba(0, 0, 0, 0.72);
-  border: 1px solid rgba(200, 168, 80, 0.22);
+  background: #fffdf8;
+  border: 1px solid rgba(142, 113, 47, 0.24);
   border-radius: 0.5rem;
   font-family: ui-monospace, "Courier New", monospace;
   font-size: 0.72rem;
-  color: #c8a850;
+  color: #3f2f13;
   padding: 0.875rem 1rem;
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-all;
   line-height: 1.6;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .mando-terminal-alert { color: #e06060; }
@@ -496,12 +509,12 @@
     transparent 100%
   );
   background-size: 100% 40px;
-  animation: mando-scan-sweep 7s linear infinite;
+  animation: none;
 }
 
 /* ── Pulse-border attention effect ─── */
 .mando-pulse-border {
-  animation: mando-hud-pulse 3.5s ease-in-out infinite;
+  animation: none;
 }
 
 .geo-accordion-btn:focus-visible {

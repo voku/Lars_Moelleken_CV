@@ -44,6 +44,8 @@ import { GeoFaqSection } from "./components/cv/GeoFaqSection";
 import { StandardAiShowcaseSection } from "./components/cv/StandardAiShowcaseSection";
 import { SelfDiscoveryBanner } from "./components/cv/SelfDiscoveryBanner";
 import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
+import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator";
+import { useCvCopy } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
 
 
@@ -93,6 +95,7 @@ const ACHIEVEMENTS: Achievement[] = [
   { id: "geo-scout", title: "GEO Scout", description: "Explore 3 GEO vectors", condition: (s) => s.exploredGeoTips.size >= 3 },
   { id: "geo-master", title: "GEO Master", description: "Explore all 7 GEO vectors", condition: (s) => s.exploredGeoTips.size >= 7 },
   { id: "sim-runner", title: "Sim Runner", description: "Run your first simulation", condition: (s) => s.simulationsRun >= 1 },
+  { id: "answer-42", title: "Answer to Everything", description: "Reach 42 XP", condition: (s) => s.xp >= 42 },
   { id: "lab-rat", title: "Lab Rat", description: "Run 3 simulations", condition: (s) => s.simulationsRun >= 3 },
   { id: "schema-hacker", title: "Schema Hacker", description: "Run the GEO FAQ schema injection", condition: (s) => s.geoFaqRun },
   { id: "completionist", title: "Completionist", description: "Reach MANDALORIAN clearance", condition: (s) => s.xp >= 250 },
@@ -131,7 +134,7 @@ function ClearanceIcon({ icon, className, style }: { icon: ClearanceLevel["icon"
 }
 
 const assetBaseUrl = import.meta.env.BASE_URL;
-const desktopAmbientEffectsQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+const desktopAmbientEffectsQuery = "(max-width: 0px)";
 
 interface PageHeaderProps {
   mode: ViewMode;
@@ -195,24 +198,6 @@ interface SectionNavItem {
   shortLabel?: string;
 }
 
-const STANDARD_NAV_ITEMS: SectionNavItem[] = [
-  { href: "#about-heading", label: "Profil & Fokus", shortLabel: "Profil" },
-  { href: "#skills-heading", label: "Skills & Stack", shortLabel: "Skills" },
-  { href: "#experience-heading", label: "Erfahrung", shortLabel: "Erfahrung" },
-  { href: "#faq-heading", label: "FAQ & Kontakt", shortLabel: "FAQ" },
-  { href: "#ai-injection-heading", label: "AI-Demo", shortLabel: "Demo" },
-];
-
-const DEMO_NAV_ITEMS: SectionNavItem[] = [
-  { href: "#mando-profile-heading", label: "Target Profile", shortLabel: "Profile" },
-  { href: "#mando-annotated-heading", label: "Annotated CV", shortLabel: "Annotated" },
-  { href: "#mando-threats-heading", label: "Threat Database", shortLabel: "Threats" },
-  { href: "#geo-vectors-heading", label: "GEO Vectors", shortLabel: "GEO" },
-  { href: "#mando-sim-heading", label: "Simulation Lab", shortLabel: "Sim Lab" },
-  { href: "#mando-achievements-heading", label: "Achievements", shortLabel: "Achieve" },
-  { href: "#mando-defense-heading", label: "Defense Kit", shortLabel: "Defense" },
-];
-
 const HEADER_ARTWORK: Record<
   ViewMode,
   {
@@ -235,15 +220,22 @@ function SectionNavigation({
   mode,
   label,
 }: {
-  items: SectionNavItem[];
+  items: ReadonlyArray<SectionNavItem>;
   mode: ViewMode;
   label: string;
 }) {
   const isDemo = mode === "prompt_injection_cv";
 
   return (
-    <nav aria-label={label} className="mb-8">
-      <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:thin]">
+    <nav
+      aria-label={label}
+      className={`mb-8 ${isDemo ? "sticky top-16 z-30 rounded-xl border px-2 py-2 backdrop-blur" : ""}`}
+      style={isDemo ? {
+        borderColor: "var(--demo-border)",
+        background: "rgba(255, 251, 242, 0.92)",
+      } : undefined}
+    >
+      <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin]">
         {items.map((item) => (
           <a
             key={item.href}
@@ -442,6 +434,7 @@ const INJECTION_TECHNIQUES: InjectionTech[] = [
   },
 ];
 
+
 interface AttackAnnotationProps {
   category: string;
   example: string;
@@ -470,6 +463,9 @@ function AttackAnnotation({ category, example, whyItWorks, visible }: AttackAnno
 }
 
 export default function App() {
+  const copy = useCvCopy();
+  const standardNavItems: ReadonlyArray<SectionNavItem> = copy.navigation.standard;
+  const demoNavItems: ReadonlyArray<SectionNavItem> = copy.navigation.demo;
   const [viewMode, setViewMode] = useState<ViewMode>("standard_cv");
   const [isWorldShifting, setIsWorldShifting] = useState(false);
   const [shouldRenderAmbientEffects, setShouldRenderAmbientEffects] = useState(false);
@@ -1145,7 +1141,7 @@ export default function App() {
           </span>
         }
       >
-          <SectionNavigation items={STANDARD_NAV_ITEMS} mode="standard_cv" label="Standard CV section navigation" />
+          <SectionNavigation items={standardNavItems} mode="standard_cv" label="Standard CV section navigation" />
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-8">
             <a
               href="/Lars_Moelleken_CV/prompt-injection-demo.json"
@@ -1522,7 +1518,7 @@ export default function App() {
             mobileSrc={HEADER_ARTWORK.prompt_injection_cv.mobileSrc}
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
             subtitle="Intel Terminal: Hier findest du die Erklärungen zu jedem Angriffsvektor, Gegenmaßnahmen und das Gamification-System. Wähle einen Threat-Eintrag, um Payload und Defense im Detail zu analysieren — und schalte auf CV-Ansicht, um die Angriffe direkt im Profil zu sehen."
-            navigation={<SectionNavigation items={DEMO_NAV_ITEMS} mode="prompt_injection_cv" label="Demo section navigation" />}
+            navigation={<SectionNavigation items={demoNavItems} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
           {/* ── GAMIFICATION HUD ──────────────────────────────────── */}
@@ -1766,6 +1762,11 @@ export default function App() {
                     );
                   })}
                 </div>
+                <IntelParserOrchestrator
+                  techniques={INJECTION_TECHNIQUES}
+                  activeTechniqueId={activeTechId}
+                  onRunSimulationReward={() => addXp(XP_VALUES.runSimulation, (prev) => ({ simulationsRun: prev.simulationsRun + 1 }))}
+                />
               </div>
             </section>
 

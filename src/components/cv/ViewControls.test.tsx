@@ -15,15 +15,15 @@ describe("ViewControls", () => {
       />,
     );
 
-    expect(html).toContain("CV (w/ Attacks)");
-    expect(html).toContain("Intel Terminal (Explanations)");
-    expect(html).toContain("Perspective: Attacker");
+    expect(html).toContain("CV View");
+    expect(html).toContain("Intel View");
+    expect(html).not.toContain("Perspective: Attacker");
     // XP toggle should NOT appear in standard CV mode
     expect(html).not.toContain("Gamification: ON");
     expect(html).not.toContain("Gamification: OFF");
   });
 
-  it("renders XP toggle and attacker/off labels in demo mode", () => {
+  it("renders XP toggle and attacker/off labels in intel mode", () => {
     const html = renderToStaticMarkup(
       <ViewControls
         viewMode="prompt_injection_cv"
@@ -37,7 +37,7 @@ describe("ViewControls", () => {
 
     expect(html).toContain("Perspective: Attacker");
     expect(html).toContain("Gamification: OFF");
-    expect(html).toContain("theme-demo");
+    expect(html).toContain("data-view-mode=\"prompt_injection_cv\"");
   });
 
   it("shows Gamification ON when showGamification true in demo mode", () => {

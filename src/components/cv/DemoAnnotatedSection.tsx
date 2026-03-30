@@ -1,4 +1,5 @@
 import { Eye } from "lucide-react";
+import { UI_TEXT } from "./copy";
 
 export function DemoAnnotatedSection() {
   return (
@@ -31,7 +32,7 @@ export function DemoAnnotatedSection() {
                       bgColor: "rgba(64,168,112,0.08)",
                       borderColor: "rgba(64,168,112,0.3)",
                       annotation: "Visible biographical content is legitimate. 20+ years PHP, Symfony, Laravel, legacy modernization — all factual. No hidden instructions in visible text blocks.",
-                      cvSample: "Senior PHP Developer • 20+ Jahre Erfahrung • Symfony · Laravel · PHPStan Level 9",
+                      cvSample: UI_TEXT.demoAnnotated.cleanCvSample,
                     },
                     {
                       surface: "JSON-LD Metadata (<head>)",

@@ -1,4 +1,5 @@
 import type { ComponentTheme } from "./types";
+import { UI_TEXT } from "./copy";
 
 export interface ImpactMetric {
   label: string;
@@ -7,9 +8,9 @@ export interface ImpactMetric {
 }
 
 export const DEFAULT_IMPACT_METRICS: ImpactMetric[] = [
-  { label: "OSS Libraries", value: "4", detail: "Langfristig gepflegte PHP-Packages im aktiven Einsatz" },
-  { label: "Berufserfahrung", value: "20+ Jahre", detail: "Entwicklung, Betrieb und Modernisierung von Web-Systemen" },
-  { label: "Fokus", value: "Legacy → Modern", detail: "Schrittweise Modernisierung statt riskanter Big-Bang-Rewrites" },
+  { label: "OSS Libraries", value: "4", detail: UI_TEXT.impactMetrics.ossDetail },
+  { label: UI_TEXT.impactMetrics.experienceLabel, value: "20+ Jahre", detail: UI_TEXT.impactMetrics.experienceDetail },
+  { label: "Fokus", value: "Legacy → Modern", detail: UI_TEXT.impactMetrics.focusDetail },
 ];
 
 interface ImpactMetricsProps {

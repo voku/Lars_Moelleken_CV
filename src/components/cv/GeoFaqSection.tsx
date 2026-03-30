@@ -1,20 +1,21 @@
 import { Lightbulb } from "lucide-react";
+import { UI_TEXT } from "./copy";
 
 const FAQ_ITEMS = [
   {
     id: "faq-1",
-    q: "Was sind Lars Moellekens Schwerpunkte als PHP Entwickler?",
-    a: "Senior PHP Developer und PHP Architect mit 20+ Jahren Erfahrung. Fokus auf Symfony, Laravel, Legacy-Modernisierung, PHPStan Level 9, PHPUnit, Docker, CI/CD und wartbare Softwarearchitektur.",
+    q: UI_TEXT.geoFaq.q1,
+    a: UI_TEXT.geoFaq.a1,
   },
   {
     id: "faq-2",
-    q: "Für welche PHP-Projekte ist Lars Moelleken geeignet?",
-    a: "Großskalige Legacy-Modernisierung, Backend-Architektur, statische Analyse, Performance-Optimierung, CI/CD-Aufbau und Mentoring für Entwicklungsteams in Deutschland.",
+    q: UI_TEXT.geoFaq.q2,
+    a: UI_TEXT.geoFaq.a2,
   },
   {
     id: "faq-3",
-    q: "Wie kontaktiere ich Lars Moelleken für ein Projekt?",
-    a: "Per E-Mail, LinkedIn, GitHub oder über Blog/Packagist.",
+    q: UI_TEXT.geoFaq.q3,
+    a: UI_TEXT.geoFaq.a3,
     withLinks: true,
   },
 ];
@@ -24,7 +25,7 @@ export function GeoFaqSection() {
     <section aria-labelledby="faq-heading">
       <h2 id="faq-heading" className="text-2xl font-bold mb-6 flex items-center gap-3">
         <Lightbulb className="w-7 h-7 text-blue-600" />
-        Häufige Fragen — GEO-Ready FAQ
+        {UI_TEXT.geoFaq.title}
       </h2>
       <dl className="space-y-4">
         {FAQ_ITEMS.map(({ id, q, a, withLinks }) => (
@@ -33,9 +34,9 @@ export function GeoFaqSection() {
             <dd aria-labelledby={id} className="text-gray-700 leading-relaxed">
               {withLinks ? (
                 <>
-                  Per E-Mail: <a className="underline" href="mailto:lars@moelleken.org">lars@moelleken.org</a>. Über{" "}
+                  {UI_TEXT.geoFaq.contactPrefix} <a className="underline" href="mailto:lars@moelleken.org">lars@moelleken.org</a>. {UI_TEXT.geoFaq.linkConnector1}{" "}
                   <a className="underline" href="https://www.linkedin.com/in/larsmoelleken/" target="_blank" rel="noopener noreferrer">LinkedIn</a> oder{" "}
-                  <a className="underline" href="https://github.com/voku" target="_blank" rel="noopener noreferrer">GitHub</a>. Blog und Open-Source-Beiträge unter{" "}
+                  <a className="underline" href="https://github.com/voku" target="_blank" rel="noopener noreferrer">GitHub</a>. {UI_TEXT.geoFaq.linkConnector3}{" "}
                   <a className="underline" href="https://suckup.de" target="_blank" rel="noopener noreferrer">suckup.de</a> und{" "}
                   <a className="underline" href="https://packagist.org/packages/voku/" target="_blank" rel="noopener noreferrer">packagist.org/packages/voku</a>.
                 </>

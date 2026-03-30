@@ -1,6 +1,7 @@
 import { ExperienceTimeline } from "./ExperienceTimeline";
 import { ImpactMetrics } from "./ImpactMetrics";
 import { RolePositioningCards } from "./RolePositioningCards";
+import { UI_TEXT } from "./copy";
 import type { ComponentTheme } from "./types";
 
 interface SharedProfileMissionProps {
@@ -11,7 +12,7 @@ interface SharedProfileMissionProps {
 
 export function SharedProfileMission({
   theme = "standard",
-  introText = "Entwicklung geschäftskritischer Systeme mit PHP 8.x, Symfony, Laravel, Docker, CI/CD, PHPUnit und PHPStan. Verantwortung für Architektur, Wartbarkeit und Teamführung.",
+  introText = UI_TEXT.sharedProfileMission.defaultIntro,
   compact = false,
 }: SharedProfileMissionProps) {
   const isMando = theme === "mandalorian";
