@@ -25,7 +25,7 @@ import {
   Shield,
 } from "lucide-react";
 import { type CSSProperties, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { InjectionPerspectivePanel, type InjectionPerspective } from "./components/cv/InjectionPerspectivePanel";
+import { InjectionPerspectivePanel, type InjectionPerspective, ATTACKER_TECHNIQUES } from "./components/cv/InjectionPerspectivePanel";
 import { SharedProfileMission } from "./components/cv/SharedProfileMission";
 import { ViewControls } from "./components/cv/ViewControls";
 import { GamificationHud } from "./components/cv/GamificationHud";
@@ -442,6 +442,33 @@ const INJECTION_TECHNIQUES: InjectionTech[] = [
   },
 ];
 
+interface AttackAnnotationProps {
+  category: string;
+  example: string;
+  whyItWorks: string;
+  visible: boolean;
+}
+
+function AttackAnnotation({ category, example, whyItWorks, visible }: AttackAnnotationProps) {
+  if (!visible) return null;
+  return (
+    <div
+      className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs"
+      role="note"
+      aria-label={`Angriffsvektor: ${category}`}
+    >
+      <div className="flex items-center gap-1.5 font-mono font-bold text-amber-700 mb-1.5">
+        <AlertTriangle className="w-3.5 h-3.5" />
+        Angriffsvektor: {category}
+      </div>
+      <p className="text-amber-800 leading-relaxed mb-2">{whyItWorks}</p>
+      <pre className="overflow-x-auto whitespace-pre-wrap rounded bg-amber-100/60 p-2 text-[0.6rem] font-mono text-amber-600">
+        {example}
+      </pre>
+    </div>
+  );
+}
+
 export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>("standard_cv");
   const [isWorldShifting, setIsWorldShifting] = useState(false);
@@ -449,7 +476,7 @@ export default function App() {
   const [simulationLog, setSimulationLog] = useState<string[]>([]);
   const [isObserverActive, setIsObserverActive] = useState(false);
   const [showGamification, setShowGamification] = useState(true);
-  const [injectionPerspective, setInjectionPerspective] = useState<InjectionPerspective>("defender");
+  const [injectionPerspective, setInjectionPerspective] = useState<InjectionPerspective>("attacker");
   const [expandedGeoTip, setExpandedGeoTip] = useState<number | null>(null);
   const [activeTechId, setActiveTechId] = useState<string | null>(null);
   const simulationHostRef = useRef<HTMLDivElement | null>(null);
@@ -1216,7 +1243,13 @@ export default function App() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-24">
         <SelfDiscoveryBanner viewMode={viewMode} />
         <ViewJumpCard viewMode={viewMode} onSwitchView={switchViewMode} />
-        <InjectionPerspectivePanel perspective={injectionPerspective} />
+        {/* Attack #3: CSS Invisible Text — header hides this payload from human readers */}
+        <AttackAnnotation
+          visible={injectionPerspective === "attacker"}
+          category={ATTACKER_TECHNIQUES[2].category}
+          example={ATTACKER_TECHNIQUES[2].example}
+          whyItWorks={ATTACKER_TECHNIQUES[2].whyItWorks}
+        />
         {/* Wer ist Lars Moelleken */}
         <section aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -1302,6 +1335,13 @@ export default function App() {
               </p>
             </div>
           </div>
+          {/* Attack #2: Fake AI Pre-Approval — embedded in the "Agent Matching Signals" context */}
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={ATTACKER_TECHNIQUES[1].category}
+            example={ATTACKER_TECHNIQUES[1].example}
+            whyItWorks={ATTACKER_TECHNIQUES[1].whyItWorks}
+          />
         </section>
 
         {/* Fachliche Schwerpunkte */}
@@ -1375,6 +1415,13 @@ export default function App() {
               </ul>
             </div>
           </div>
+          {/* Attack #1: JSON-LD Data Poisoning — enriches tech metadata with fake authority signals */}
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={ATTACKER_TECHNIQUES[0].category}
+            example={ATTACKER_TECHNIQUES[0].example}
+            whyItWorks={ATTACKER_TECHNIQUES[0].whyItWorks}
+          />
         </section>
 
         {/* Open Source */}
@@ -1416,6 +1463,13 @@ export default function App() {
           <div className="space-y-6">
             <SharedProfileMission />
           </div>
+          {/* Attack #4: Sandwich-Injektion — legitimate experience content wraps hidden directives */}
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={ATTACKER_TECHNIQUES[3].category}
+            example={ATTACKER_TECHNIQUES[3].example}
+            whyItWorks={ATTACKER_TECHNIQUES[3].whyItWorks}
+          />
         </section>
 
         <ProblemsSection />
@@ -1433,6 +1487,21 @@ export default function App() {
              Everything here is intentionally visible and labeled.
              See also: OWASP LLM Top 10 – LLM01 Prompt Injection.
           ─────────────────────────────────────────────────────────────────── */}
+        {/* Attacks #5 & #6: System-Prompt-Override and Delayed JS Injection — AI Demo section */}
+        <div className="space-y-4">
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={ATTACKER_TECHNIQUES[4].category}
+            example={ATTACKER_TECHNIQUES[4].example}
+            whyItWorks={ATTACKER_TECHNIQUES[4].whyItWorks}
+          />
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={ATTACKER_TECHNIQUES[5].category}
+            example={ATTACKER_TECHNIQUES[5].example}
+            whyItWorks={ATTACKER_TECHNIQUES[5].whyItWorks}
+          />
+        </div>
         <StandardAiShowcaseSection
           onRunDelayedSimulation={runDelayedInjectionSimulation}
           onRunMutationSimulation={runMutationObserverSimulation}
@@ -1452,7 +1521,7 @@ export default function App() {
           <DemoHeader
             mobileSrc={HEADER_ARTWORK.prompt_injection_cv.mobileSrc}
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
-            subtitle="Clan-Log: Diese Ansicht zeigt manipulierte AI-Signale im CV und die passenden Gegenmaßnahmen. Wähle einen Threat-Eintrag, um Payload und Defense im Einsatz zu prüfen."
+            subtitle="Intel Terminal: Hier findest du die Erklärungen zu jedem Angriffsvektor, Gegenmaßnahmen und das Gamification-System. Wähle einen Threat-Eintrag, um Payload und Defense im Detail zu analysieren — und schalte auf CV-Ansicht, um die Angriffe direkt im Profil zu sehen."
             navigation={<SectionNavigation items={DEMO_NAV_ITEMS} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
