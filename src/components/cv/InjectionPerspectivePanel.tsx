@@ -24,12 +24,12 @@ export function InjectionPerspectivePanel({ perspective, theme = "standard" }: I
 
   return (
     <section className={isMando ? "mando-panel p-5 sm:p-6" : "bg-white border border-gray-200 rounded-2xl p-6 shadow-sm"}>
-      <h3 className={isMando ? "text-lg font-bold text-[#f0e0a0]" : "text-xl font-bold text-gray-900"}>
+      <h3 className={isMando ? "text-lg font-bold text-mando-heading" : "text-xl font-bold text-gray-900"}>
         ✅ {perspective === "attacker"
           ? copy.injectionPerspective.attackerSummary
           : copy.injectionPerspective.defenderSummary}
       </h3>
-      <p className={isMando ? "mt-2 text-sm text-[#d2c39a]" : "mt-2 text-sm text-gray-700"}>
+      <p className={isMando ? "mt-2 text-sm text-mando-body" : "mt-2 text-sm text-gray-700"}>
         {perspective === "attacker"
           ? copy.injectionPerspective.attackerDescription
           : copy.injectionPerspective.defenderDescription}
@@ -37,9 +37,9 @@ export function InjectionPerspectivePanel({ perspective, theme = "standard" }: I
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {techniques.map((item) => (
           <article key={item.category} className={isMando ? "rounded-lg border p-4 border-[var(--demo-border)] bg-black/20" : "rounded-lg border border-gray-200 bg-gray-50 p-4"}>
-            <h4 className={isMando ? "font-semibold text-[#f0e0a0]" : "font-semibold text-gray-900"}>{item.category}</h4>
-            <p className={isMando ? "text-xs mt-2 text-[#d3bd80] font-mono" : "text-xs mt-2 text-blue-700 font-mono"}>{item.example}</p>
-            <p className={isMando ? "text-xs mt-2 text-[#d2c39a]" : "text-xs mt-2 text-gray-600"}>{item.whyItWorks}</p>
+            <h4 className={isMando ? "font-semibold text-mando-heading" : "font-semibold text-gray-900"}>{item.category}</h4>
+            <p className={isMando ? "text-xs mt-2 text-mando-label font-mono" : "text-xs mt-2 text-blue-700 font-mono"}>{item.example}</p>
+            <p className={isMando ? "text-xs mt-2 text-mando-body" : "text-xs mt-2 text-gray-600"}>{item.whyItWorks}</p>
           </article>
         ))}
       </div>

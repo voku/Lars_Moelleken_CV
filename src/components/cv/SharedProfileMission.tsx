@@ -1,7 +1,7 @@
 import { ExperienceTimeline } from "./ExperienceTimeline";
 import { ImpactMetrics } from "./ImpactMetrics";
 import { RolePositioningCards } from "./RolePositioningCards";
-import { UI_TEXT } from "./copy";
+import { useCvCopy } from "./copy";
 import type { ComponentTheme } from "./types";
 
 interface SharedProfileMissionProps {
@@ -12,15 +12,17 @@ interface SharedProfileMissionProps {
 
 export function SharedProfileMission({
   theme = "standard",
-  introText = UI_TEXT.sharedProfileMission.defaultIntro,
+  introText,
   compact = false,
 }: SharedProfileMissionProps) {
+  const copy = useCvCopy();
   const isMando = theme === "mandalorian";
+  const resolvedIntro = introText ?? copy.sharedProfileMission.defaultIntro;
 
   return (
     <div className={compact ? "space-y-4" : "space-y-6"}>
       <ImpactMetrics theme={theme} />
-      <p className={isMando ? "text-sm text-[#d2c39a]" : "text-gray-700 text-lg"}>{introText}</p>
+      <p className={isMando ? "text-sm text-mando-body" : "text-gray-700 text-lg"}>{resolvedIntro}</p>
       <RolePositioningCards theme={theme} />
       <ExperienceTimeline theme={theme} />
     </div>
