@@ -15,7 +15,7 @@ describe("StandardAiShowcaseSection", () => {
         simulationLog={[]}
       />,
     );
-    expect(html).toContain("For AI Agents Only — Prompt Injection Demo");
+    expect(html).toContain("AI-Readable Curriculum Vitae — Lars Moelleken (voku) · Embedded Injection Techniques");
     expect(html).toContain("Lessons Learned — Defense Strategies");
   });
 });
