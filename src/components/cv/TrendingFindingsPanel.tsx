@@ -36,19 +36,19 @@ const FINDINGS = [
 export function TrendingFindingsPanel({ onRunDelayedSimulation, onRunMutationSimulation }: TrendingFindingsPanelProps) {
   return (
     <section aria-labelledby="mando-trending-findings" className="mando-panel p-5 sm:p-6">
-      <h2 id="mando-trending-findings" className="text-lg font-bold mb-2" style={{ color: "#f0e0a0" }}>
+      <h2 id="mando-trending-findings" className="text-lg font-bold mb-2" style={{ color: "#6b5020" }}>
         V8: Top Findings from Popular Posts (Educational Only)
       </h2>
-      <p className="text-xs mb-4" style={{ color: "rgba(224,208,164,0.75)" }}>
+      <p className="text-xs mb-4" style={{ color: "#5f4920" }}>
         {UI_TEXT.trendingFindings.warning}
       </p>
 
       <div className="space-y-3">
         {FINDINGS.map((item) => (
           <article key={item.title} className="rounded-lg border p-4" style={{ borderColor: "var(--demo-border)", background: "rgba(0,0,0,0.22)" }}>
-            <h3 className="font-semibold" style={{ color: "#f0e0a0" }}>{item.title}</h3>
+            <h3 className="font-semibold" style={{ color: "#6b5020" }}>{item.title}</h3>
             <pre className="mando-terminal text-xs mt-2">{item.payload}</pre>
-            <p className="text-xs mt-2" style={{ color: "rgba(224,208,164,0.7)" }}>{item.note}</p>
+            <p className="text-xs mt-2" style={{ color: "#5f4920" }}>{item.note}</p>
           </article>
         ))}
       </div>

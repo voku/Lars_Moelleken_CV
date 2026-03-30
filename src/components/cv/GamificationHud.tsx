@@ -65,25 +65,25 @@ export function GamificationHud({
               />
             </div>
             <div className="text-right">
-              <span className="text-[0.55rem] font-mono" style={{ color: "rgba(200,168,80,0.45)" }}>
+              <span className="text-[0.55rem] font-mono" style={{ color: "rgba(200,168,80,0.8)" }}>
                 {progressPercent}%
               </span>
             </div>
           </div>
 
           {nextClearanceText ? (
-            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.4)" }}>
+            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "rgba(200,168,80,0.75)" }}>
               {nextClearanceText}
             </span>
           ) : (
-            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "var(--mando-verified)" }}>
+            <span className="hidden sm:inline text-[0.6rem] font-mono" style={{ color: "#40a870" }}>
               ✓ MAX CLEARANCE
             </span>
           )}
 
           <div className="flex items-center gap-1 shrink-0 ml-auto">
-            <Trophy className="w-3 h-3" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }} />
-            <span className="text-[0.6rem] font-mono font-bold" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.3)" }}>
+            <Trophy className="w-3 h-3" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.55)" }} />
+            <span className="text-[0.6rem] font-mono font-bold" style={{ color: hasAchievements ? "var(--demo-glow)" : "rgba(200,168,80,0.55)" }}>
               {unlockedAchievements}/{totalAchievements}
             </span>
           </div>

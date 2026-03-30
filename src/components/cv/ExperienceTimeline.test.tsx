@@ -11,6 +11,6 @@ describe("ExperienceTimeline", () => {
 
   it("supports mandalorian theme classes", () => {
     const html = renderToStaticMarkup(<ExperienceTimeline theme="mandalorian" />);
-    expect(html).toContain("text-[#f0e0a0]");
+    expect(html).toContain("text-[#6b5020]");
   });
 });

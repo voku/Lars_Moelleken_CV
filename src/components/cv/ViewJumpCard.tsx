@@ -12,7 +12,7 @@ export function ViewJumpCard({ viewMode, onSwitchView }: ViewJumpCardProps) {
 
   return (
     <section className={isStandard ? "bg-blue-50 border border-blue-200 rounded-xl p-4" : "mando-panel p-4"}>
-      <p className={isStandard ? "text-sm text-blue-900" : "text-sm text-[#d2c39a]"}>
+      <p className={isStandard ? "text-sm text-blue-900" : "text-sm text-[#4a3b1a]"}>
         {isStandard
           ? UI_TEXT.viewJumpCard.standardDescription
           : UI_TEXT.viewJumpCard.demoDescription}

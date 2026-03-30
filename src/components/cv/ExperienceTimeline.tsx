@@ -61,10 +61,10 @@ export function ExperienceTimeline({ items = DEFAULT_EXPERIENCE_TIMELINE, theme 
     <div className={isMando ? "space-y-5" : "border-l-2 border-blue-200 pl-6 space-y-8"}>
       {items.map((item) => (
         <div key={`${item.title}-${item.companyPeriod}`}>
-          <h3 className={isMando ? "text-lg font-bold text-[#f0e0a0]" : "text-xl font-bold text-gray-900"}>{item.title}</h3>
-          <p className={isMando ? "font-medium mb-2 text-[#d3bd80]" : "text-blue-600 font-medium mb-2"}>{item.companyPeriod}</p>
+          <h3 className={isMando ? "text-lg font-bold text-[#6b5020]" : "text-xl font-bold text-gray-900"}>{item.title}</h3>
+          <p className={isMando ? "font-medium mb-2 text-[#7a6530]" : "text-blue-600 font-medium mb-2"}>{item.companyPeriod}</p>
           {item.bullets?.length ? (
-            <ul className={isMando ? "space-y-1 text-sm text-[#d2c39a]" : "space-y-1 text-gray-600 text-sm"}>
+            <ul className={isMando ? "space-y-1 text-sm text-[#4a3b1a]" : "space-y-1 text-gray-600 text-sm"}>
               {item.bullets.map((bullet) => (
                 <li key={`${item.title}-${bullet}`}>{bullet}</li>
               ))}
