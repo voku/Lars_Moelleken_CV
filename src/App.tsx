@@ -447,7 +447,7 @@ function AttackAnnotation({ category, example, whyItWorks, visible }: AttackAnno
   if (!visible) return null;
   return (
     <div
-      className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs"
+      className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs hidden"
       role="note"
       aria-label={`${copy.attackAnnotation.label}: ${category}`}
     >
