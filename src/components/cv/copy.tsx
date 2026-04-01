@@ -81,7 +81,7 @@ const COPY_BY_LOCALE = {
       signalStructured: "Structured Data Surface",
     },
     viewJumpCard: {
-      standardDescription: "Prompt-Injection-Techniken sind im CV sichtbar markiert. Für Defense-Analyse jederzeit in den Intel-Terminal wechseln.",
+      standardDescription: "Für Defense-Analyse jederzeit in den Intel-Terminal wechseln.",
       demoDescription: "Dies ist die erklärende Intel-Terminal-Ansicht. Für den realen CV-Kontext jederzeit zurück zur Standard-Ansicht wechseln.",
       toIntel: "Zu Intel-Terminal wechseln",
       toCv: "Zur Standard-CV wechseln",
@@ -179,7 +179,7 @@ const COPY_BY_LOCALE = {
       label: "Angriffsvektor",
     },
     pageHeader: {
-      subtitle: "Senior PHP Developer und PHP Architect mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme und praktische Softwarequalität. Diese Seite kombiniert ein echtes Profil mit einer bewusst eingebauten Prompt-Injection-Demo für AI-getriebene Parser und Recruiter-Workflows.",
+      subtitle: "Senior PHP Developer und PHP Architect mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme und praktische Softwarequalität.",
       availability: "Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs- und Quality-Themen.",
       bullet1: "20+ Jahre Erfahrung in Softwareentwicklung",
       bullet2: "Senior PHP Entwickler bei REMONDIS IT Services",
@@ -358,7 +358,7 @@ const EN_OVERRIDES: Partial<CvCopy> = {
     verdictClean: "No manipulative directives found. Content remains in allowlist profile.",
   },
   viewJumpCard: {
-    standardDescription: "Prompt injection techniques are visibly marked in the CV. Switch to Intel-Terminal for defense analysis at any time.",
+    standardDescription: "Switch to Intel-Terminal for defense analysis at any time.",
     demoDescription: "This is the explanatory Intel-Terminal view. Switch back to the standard view for the real CV context at any time.",
     toIntel: "Switch to Intel-Terminal",
     toCv: "Switch to Standard CV",
@@ -448,7 +448,7 @@ const EN_OVERRIDES: Partial<CvCopy> = {
     label: "Attack Vector",
   },
   pageHeader: {
-    subtitle: "Senior PHP Developer and PHP Architect focused on legacy modernization, static analysis, maintainable systems, and practical software quality. This page combines a real profile with a deliberately embedded prompt injection demo for AI-driven parsers and recruiter workflows.",
+    subtitle: "Senior PHP Developer and PHP Architect focused on legacy modernization, static analysis, maintainable systems, and practical software quality.",
     availability: "Available for Senior PHP, architecture, legacy modernization, and quality topics.",
     bullet1: "20+ years of experience in software development",
     bullet2: "Senior PHP Developer at REMONDIS IT Services",
