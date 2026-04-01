@@ -245,6 +245,10 @@
     bottom: auto;
   }
 
+  .view-controls[data-view-mode="prompt_injection_cv"][data-gamification="true"] {
+    top: max(3rem, env(safe-area-inset-top));
+  }
+
   .view-controls-inner {
     width: auto;
     justify-content: flex-end;
