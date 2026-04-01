@@ -23,7 +23,7 @@ export function ViewControls({
   const { locale, setLocale } = useCvLocale();
   const isDemo = viewMode === "prompt_injection_cv";
   return (
-    <div className="view-controls" data-view-mode={viewMode}>
+    <div className="view-controls" data-view-mode={viewMode} data-gamification={isDemo && showGamification ? "true" : undefined}>
       <div className="view-controls-inner">
         <div className="view-controls-group" aria-label={copy.viewControls.viewModeAria}>
         <button
