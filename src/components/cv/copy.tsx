@@ -30,7 +30,7 @@ const COPY_BY_LOCALE = {
       localeSwitchAria: "Locale switch",
       cvShort: "CV",
       cvLabel: "CV View",
-      intelShort: "Intel Terminal",
+      intelShort: "Intel-Terminal",
       intelLabel: "Intel View",
       attackShort: "Attack",
       defenseShort: "Defense",
@@ -88,7 +88,7 @@ const COPY_BY_LOCALE = {
     },
     selfDiscoveryBanner: {
       title: "Self-Discovery Mode: CV von Lars Moelleken (voku)",
-      description: "Dieses Profil ist als Lernspiel aufgebaut: Techniken, die naive Agenten beeinflussen können, sind sichtbar markiert. Du kannst jederzeit zwischen Standard-CV und Mandalorian/Intel-Terminal wechseln, um Kontext und Erklärungen direkt zu vergleichen.",
+      description: "Du kannst jederzeit zwischen Standard-CV und Intel-Terminal wechseln, um Kontext und Erklärungen direkt zu vergleichen.",
     },
     standardFooter: {
       contactTitle: "Kontakt & Profile",
@@ -228,7 +228,7 @@ const COPY_BY_LOCALE = {
       heading: "Erfahrung in der Praxis",
     },
     demoHeader: {
-      subtitle: "Intel Terminal: Hier findest du die Erklärungen zu jedem Angriffsvektor, Gegenmaßnahmen und das Gamification-System. Wähle einen Threat-Eintrag, um Payload und Defense im Detail zu analysieren — und schalte auf CV-Ansicht, um die Angriffe direkt im Profil zu sehen.",
+      subtitle: "Intel-Terminal: Hier findest du die Erklärungen zu jedem Angriffsvektor, Gegenmaßnahmen und das Gamification-System. Wähle einen Threat-Eintrag, um Payload und Defense im Detail zu analysieren — und schalte auf CV-Ansicht, um die Angriffe direkt im Profil zu sehen.",
     },
     mandoProfile: {
       bullet1: "Veteran mit 20+ Jahren Backend & PHP-Entwicklung",
@@ -358,14 +358,14 @@ const EN_OVERRIDES: Partial<CvCopy> = {
     verdictClean: "No manipulative directives found. Content remains in allowlist profile.",
   },
   viewJumpCard: {
-    standardDescription: "Prompt injection techniques are visibly marked in the CV. Switch to Intel Terminal for defense analysis at any time.",
-    demoDescription: "This is the explanatory Intel Terminal view. Switch back to the standard view for the real CV context at any time.",
-    toIntel: "Switch to Intel Terminal",
+    standardDescription: "Prompt injection techniques are visibly marked in the CV. Switch to Intel-Terminal for defense analysis at any time.",
+    demoDescription: "This is the explanatory Intel-Terminal view. Switch back to the standard view for the real CV context at any time.",
+    toIntel: "Switch to Intel-Terminal",
     toCv: "Switch to Standard CV",
   },
   selfDiscoveryBanner: {
     title: "Self-Discovery Mode: CV of Lars Moelleken (voku)",
-    description: "This profile is designed as a learning game: techniques that can influence naive agents are visibly marked. You can switch between Standard CV and Mandalorian/Intel Terminal at any time to compare context and explanations directly.",
+    description: "You can switch between Standard CV and Intel-Terminal at any time to compare context and explanations directly.",
   },
   standardFooter: {
     contactTitle: "Contact & Profiles",
@@ -497,7 +497,7 @@ const EN_OVERRIDES: Partial<CvCopy> = {
     heading: "Experience in Practice",
   },
   demoHeader: {
-    subtitle: "Intel Terminal: Here you'll find explanations for each attack vector, countermeasures, and the gamification system. Select a threat entry to analyze payload and defense in detail — and switch to CV view to see the attacks directly in the profile.",
+    subtitle: "Intel-Terminal: Here you'll find explanations for each attack vector, countermeasures, and the gamification system. Select a threat entry to analyze payload and defense in detail — and switch to CV view to see the attacks directly in the profile.",
   },
   mandoProfile: {
     bullet1: "Veteran with 20+ years of backend & PHP development",
