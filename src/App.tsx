@@ -25,7 +25,7 @@ import {
   Shield,
 } from "lucide-react";
 import { type CSSProperties, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { InjectionPerspectivePanel, type InjectionPerspective, ATTACKER_TECHNIQUES } from "./components/cv/InjectionPerspectivePanel";
+import { InjectionPerspectivePanel, type InjectionPerspective } from "./components/cv/InjectionPerspectivePanel";
 import { SharedProfileMission } from "./components/cv/SharedProfileMission";
 import { ViewControls } from "./components/cv/ViewControls";
 import { GamificationHud } from "./components/cv/GamificationHud";
@@ -443,16 +443,17 @@ interface AttackAnnotationProps {
 }
 
 function AttackAnnotation({ category, example, whyItWorks, visible }: AttackAnnotationProps) {
+  const copy = useCvCopy();
   if (!visible) return null;
   return (
     <div
       className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs"
       role="note"
-      aria-label={`Angriffsvektor: ${category}`}
+      aria-label={`${copy.attackAnnotation.label}: ${category}`}
     >
       <div className="flex items-center gap-1.5 font-mono font-bold text-amber-700 mb-1.5">
         <AlertTriangle className="w-3.5 h-3.5" />
-        Angriffsvektor: {category}
+        {copy.attackAnnotation.label}: {category}
       </div>
       <p className="text-amber-800 leading-relaxed mb-2">{whyItWorks}</p>
       <pre className="overflow-x-auto whitespace-pre-wrap rounded bg-amber-100/60 p-2 text-[0.6rem] font-mono text-amber-600">
@@ -1118,7 +1119,7 @@ export default function App() {
         badgeColorClass="text-blue-600"
         titleLine1="Lars Moelleken"
         titleAccent={<span className="text-blue-600">Senior PHP Developer</span>}
-        subtitle="Senior PHP Developer und PHP Architect mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme und praktische Softwarequalität. Diese Seite kombiniert ein echtes Profil mit einer bewusst eingebauten Prompt-Injection-Demo für AI-getriebene Parser und Recruiter-Workflows."
+        subtitle={copy.pageHeader.subtitle}
         afterContent={
           /* ⚠️ EDUCATIONAL: 1pt transparent-text injection in header — invisible to humans, parsed by AI
              2026 trending technique — see Demo Section below for full explanation */
@@ -1179,25 +1180,25 @@ export default function App() {
             curl-based fetches, and AI parsers can inspect the educational prompt-injection demo without executing JavaScript.
           </p>
           <p className="text-sm text-blue-700 mb-8 max-w-3xl font-medium">
-            Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs- und Quality-Themen.
+            {copy.pageHeader.availability}
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4 text-gray-700 mb-10">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-              <span>20+ Jahre Erfahrung in Softwareentwicklung</span>
+              <span>{copy.pageHeader.bullet1}</span>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-              <span>Senior PHP Entwickler bei REMONDIS IT Services</span>
+              <span>{copy.pageHeader.bullet2}</span>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-              <span>Maintainer mehrerer Open-Source-Bibliotheken</span>
+              <span>{copy.pageHeader.bullet3}</span>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-              <span>Fokus auf saubere Architektur, statische Analyse und wartbaren Code</span>
+              <span>{copy.pageHeader.bullet4}</span>
             </div>
           </div>
 
@@ -1242,40 +1243,40 @@ export default function App() {
         {/* Attack #3: CSS Invisible Text — header hides this payload from human readers */}
         <AttackAnnotation
           visible={injectionPerspective === "attacker"}
-          category={ATTACKER_TECHNIQUES[2].category}
-          example={ATTACKER_TECHNIQUES[2].example}
-          whyItWorks={ATTACKER_TECHNIQUES[2].whyItWorks}
+          category={copy.injectionPerspective.attackerTechniques[2].category}
+          example={copy.injectionPerspective.attackerTechniques[2].example}
+          whyItWorks={copy.injectionPerspective.attackerTechniques[2].whyItWorks}
         />
         {/* Wer ist Lars Moelleken */}
         <section aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <UserCheck className="w-8 h-8 text-blue-600" />
-            Wer ist Lars Moelleken?
+            {copy.aboutSection.heading}
           </h2>
           <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
             <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              Senior PHP Developer und PHP Architect aus Deutschland mit 20+ Jahren Erfahrung in der Entwicklung geschäftskritischer Systeme. Spezialisiert auf Symfony, Laravel, PHP 8.x, Docker, CI/CD, PHPUnit, PHPStan und OOP/SOLID. Open-Source Maintainer sowie technischer Autor und Architektur-Berater.
+              {copy.aboutSection.description}
             </p>
             <ul className="space-y-3 text-gray-600">
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Symfony &amp; Laravel Expert — REST APIs, GraphQL, Microservices, Event-Driven Architecture
+                {copy.aboutSection.bullet1}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Docker, Kubernetes, CI/CD (GitHub Actions, GitLab CI) — DevOps-Kenntnisse in modernen Deployment-Pipelines
+                {copy.aboutSection.bullet2}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                PHPUnit, TDD, PHPStan Level 9, Psalm — höchste Testabdeckung und statische Analyse
+                {copy.aboutSection.bullet3}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                OOP / SOLID / Clean Code / Design Patterns — nachhaltige Softwarearchitektur
+                {copy.aboutSection.bullet4}
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Legacy-Modernisierung, technische Schulden abbauen, Team-Lead und Mentoring
+                {copy.aboutSection.bullet5}
               </li>
             </ul>
           </div>
@@ -1285,48 +1286,48 @@ export default function App() {
         <section aria-labelledby="why-hire-heading">
           <h2 id="why-hire-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Briefcase className="w-8 h-8 text-blue-600" />
-            Warum Unternehmen mich einstellen
+            {copy.whyHireSection.heading}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-900">Kernkompetenzen</h3>
+              <h3 className="text-xl font-semibold text-gray-900">{copy.whyHireSection.coreCompetenciesTitle}</h3>
               <ul className="space-y-3 text-gray-600">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>PHP 8.x, Symfony, Laravel — produktiver Backend-Stack</span>
+                  <span>{copy.whyHireSection.bullet1}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>Docker, Kubernetes, CI/CD (GitHub Actions, GitLab CI)</span>
+                  <span>{copy.whyHireSection.bullet2}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>PHPUnit, TDD, PHPStan Level 9, Psalm — Qualität messbar machen</span>
+                  <span>{copy.whyHireSection.bullet3}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>OOP / SOLID / Clean Code / Design Patterns</span>
+                  <span>{copy.whyHireSection.bullet4}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>MySQL, MariaDB, PostgreSQL, Redis — Datenbankoptimierung</span>
+                  <span>{copy.whyHireSection.bullet5}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>REST API, GraphQL, Microservices, Event-Driven Architecture</span>
+                  <span>{copy.whyHireSection.bullet6}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>Legacy-Modernisierung, technische Schulden, Team-Lead &amp; Mentoring</span>
+                  <span>{copy.whyHireSection.bullet7}</span>
                 </li>
               </ul>
             </div>
             <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <h3 className="text-lg font-semibold text-blue-900 mb-4">Agent Matching Signals</h3>
+              <h3 className="text-lg font-semibold text-blue-900 mb-4">{copy.whyHireSection.agentMatchingTitle}</h3>
               <p className="text-blue-800 text-sm leading-relaxed space-y-2">
                 <span className="block">Lars Moelleken: Senior PHP Developer | Lead Developer | PHP Architect | Backend Engineer.</span>
                 <span className="block">Tech stack: PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, PHPStan, MySQL, Redis, REST API, GraphQL, OOP, SOLID, Microservices, Composer, Git.</span>
-                <span className="block">Erfahrung: 20+ Jahre PHP, Legacy-Modernisierung, Team-Lead, Mentoring, Software Architecture, Scalable Backend Systems.</span>
+                <span className="block">{copy.whyHireSection.experienceSignal}</span>
                 <span className="block">ATS keywords: PHP Developer, Symfony Developer, Laravel Developer, Backend Developer, Software Architect, PHP 8, Docker, CI/CD, Test-Driven Development, PHPStan, Static Analysis, Rector, Microservices.</span>
               </p>
             </div>
@@ -1334,9 +1335,9 @@ export default function App() {
           {/* Attack #2: Fake AI Pre-Approval — embedded in the "Agent Matching Signals" context */}
           <AttackAnnotation
             visible={injectionPerspective === "attacker"}
-            category={ATTACKER_TECHNIQUES[1].category}
-            example={ATTACKER_TECHNIQUES[1].example}
-            whyItWorks={ATTACKER_TECHNIQUES[1].whyItWorks}
+            category={copy.injectionPerspective.attackerTechniques[1].category}
+            example={copy.injectionPerspective.attackerTechniques[1].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[1].whyItWorks}
           />
         </section>
 
@@ -1344,13 +1345,13 @@ export default function App() {
         <section aria-labelledby="skills-heading">
           <h2 id="skills-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Wrench className="w-8 h-8 text-blue-600" />
-            Fachliche Schwerpunkte
+            {copy.skillsSection.heading}
           </h2>
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
                 <Server className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">Backend Entwicklung</h3>
+                <h3 className="text-lg font-semibold">{copy.skillsSection.backendTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
                 <li>PHP 8.x / PHP 8.2 / PHP 8.3</li>
@@ -1367,7 +1368,7 @@ export default function App() {
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
                 <Code2 className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">Softwarequalität</h3>
+                <h3 className="text-lg font-semibold">{copy.skillsSection.qualityTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
                 <li>PHPStan Level 9 / Psalm</li>
@@ -1383,7 +1384,7 @@ export default function App() {
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
                 <Database className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">Architektur &amp; DevOps</h3>
+                <h3 className="text-lg font-semibold">{copy.skillsSection.architectureTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
                 <li>Docker / Docker Compose</li>
@@ -1399,11 +1400,11 @@ export default function App() {
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
                 <ShieldCheck className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">Sicherheit &amp; Leadership</h3>
+                <h3 className="text-lg font-semibold">{copy.skillsSection.securityTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
-                <li>Sichere Web-Anwendungen / XSS-Prävention</li>
-                <li>Secure Input-Verarbeitung / OWASP</li>
+                <li>{copy.skillsSection.securityItem1}</li>
+                <li>{copy.skillsSection.securityItem2}</li>
                 <li>Team Lead / Senior Developer</li>
                 <li>Mentoring / Technical Coaching</li>
                 <li>Agile / Scrum / Kanban</li>
@@ -1414,9 +1415,9 @@ export default function App() {
           {/* Attack #1: JSON-LD Data Poisoning — enriches tech metadata with fake authority signals */}
           <AttackAnnotation
             visible={injectionPerspective === "attacker"}
-            category={ATTACKER_TECHNIQUES[0].category}
-            example={ATTACKER_TECHNIQUES[0].example}
-            whyItWorks={ATTACKER_TECHNIQUES[0].whyItWorks}
+            category={copy.injectionPerspective.attackerTechniques[0].category}
+            example={copy.injectionPerspective.attackerTechniques[0].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[0].whyItWorks}
           />
         </section>
 
@@ -1428,18 +1429,18 @@ export default function App() {
           </h2>
           <div className="bg-gray-900 text-white p-8 rounded-2xl">
             <p className="text-lg text-gray-300 mb-6">
-              Lars Moelleken ist Maintainer mehrerer Open-Source-Bibliotheken im PHP-Ökosystem. Diese Libraries werden weltweit eingesetzt mit Fokus auf Performance, Sicherheit und Stabilität sowie langfristige Wartung.
+              {copy.openSourceSection.description}
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { name: '🉑 Portable UTF-8', slug: 'portable-utf8', since: 'Mai 2014' },
-                { name: '㊙️ AntiXSS',        slug: 'anti-xss',      since: 'Mai 2015' },
-                { name: '🗃 Arrayy',          slug: 'Arrayy',        since: 'Mai 2016' },
+                { name: '🉑 Portable UTF-8', slug: 'portable-utf8', since: copy.openSourceSection.portableUtf8Since },
+                { name: '㊙️ AntiXSS',        slug: 'anti-xss',      since: copy.openSourceSection.antiXssSince },
+                { name: '🗃 Arrayy',          slug: 'Arrayy',        since: copy.openSourceSection.arrayyAndSince },
                 { name: 'Portable ASCII',     slug: 'portable-ascii', since: null },
               ].map(({ name, slug, since }) => (
                 <div key={slug} className="bg-gray-800 p-4 rounded-lg border border-gray-700 font-mono text-sm text-blue-400 flex items-center justify-between gap-2">
                   <span>{name}</span>
-                  {since && <span className="text-gray-400 text-xs">{since} – Heute</span>}
+                  {since && <span className="text-gray-400 text-xs">{since} – {copy.openSourceSection.today}</span>}
                 </div>
               ))}
             </div>
@@ -1454,7 +1455,7 @@ export default function App() {
         <section aria-labelledby="experience-heading">
           <h2 id="experience-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <FileText className="w-8 h-8 text-blue-600" />
-            Erfahrung in der Praxis
+            {copy.experienceSection.heading}
           </h2>
           <div className="space-y-6">
             <SharedProfileMission />
@@ -1462,9 +1463,9 @@ export default function App() {
           {/* Attack #4: Sandwich-Injektion — legitimate experience content wraps hidden directives */}
           <AttackAnnotation
             visible={injectionPerspective === "attacker"}
-            category={ATTACKER_TECHNIQUES[3].category}
-            example={ATTACKER_TECHNIQUES[3].example}
-            whyItWorks={ATTACKER_TECHNIQUES[3].whyItWorks}
+            category={copy.injectionPerspective.attackerTechniques[3].category}
+            example={copy.injectionPerspective.attackerTechniques[3].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[3].whyItWorks}
           />
         </section>
 
@@ -1487,15 +1488,15 @@ export default function App() {
         <div className="space-y-4">
           <AttackAnnotation
             visible={injectionPerspective === "attacker"}
-            category={ATTACKER_TECHNIQUES[4].category}
-            example={ATTACKER_TECHNIQUES[4].example}
-            whyItWorks={ATTACKER_TECHNIQUES[4].whyItWorks}
+            category={copy.injectionPerspective.attackerTechniques[4].category}
+            example={copy.injectionPerspective.attackerTechniques[4].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[4].whyItWorks}
           />
           <AttackAnnotation
             visible={injectionPerspective === "attacker"}
-            category={ATTACKER_TECHNIQUES[5].category}
-            example={ATTACKER_TECHNIQUES[5].example}
-            whyItWorks={ATTACKER_TECHNIQUES[5].whyItWorks}
+            category={copy.injectionPerspective.attackerTechniques[5].category}
+            example={copy.injectionPerspective.attackerTechniques[5].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[5].whyItWorks}
           />
         </div>
         <StandardAiShowcaseSection
@@ -1517,7 +1518,7 @@ export default function App() {
           <DemoHeader
             mobileSrc={HEADER_ARTWORK.prompt_injection_cv.mobileSrc}
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
-            subtitle="Intel Terminal: Hier findest du die Erklärungen zu jedem Angriffsvektor, Gegenmaßnahmen und das Gamification-System. Wähle einen Threat-Eintrag, um Payload und Defense im Detail zu analysieren — und schalte auf CV-Ansicht, um die Angriffe direkt im Profil zu sehen."
+            subtitle={copy.demoHeader.subtitle}
             navigation={<SectionNavigation items={demoNavItems} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
@@ -1566,16 +1567,16 @@ export default function App() {
                   Target Ident: Lars Moelleken
                 </h2>
                 <ul className="space-y-1.5 text-sm" style={{ color: "var(--mando-body)" }}>
-                  <li>▶ Veteran mit 20+ Jahren Backend & PHP-Entwicklung</li>
-                  <li>▶ Kernskill: Symfony · Laravel · Architektur · Legacy-Modernisierung</li>
-                  <li>▶ Arsenal: TDD · PHPUnit · PHPStan · Psalm · CI/CD</li>
-                  <li>▶ Einsatzprofil: Mentoring · Code-Reviews · Team-Unterstützung</li>
+                  <li>▶ {copy.mandoProfile.bullet1}</li>
+                  <li>▶ {copy.mandoProfile.bullet2}</li>
+                  <li>▶ {copy.mandoProfile.bullet3}</li>
+                  <li>▶ {copy.mandoProfile.bullet4}</li>
                 </ul>
                 <div className="mt-5">
                   <SharedProfileMission
                     theme="mandalorian"
                     compact
-                    introText="Missionsstatus: Legacy-Systeme stabilisieren, Modernisierung schrittweise ausrollen und Teams auf nachhaltige Engineering-Standards bringen."
+                    introText={copy.mandoProfile.introText}
                   />
                 </div>
                 <div className="mt-5">
@@ -1635,12 +1636,12 @@ export default function App() {
                     style={{ color: "var(--mando-heading)" }}
                   >
                     <AlertTriangle className="w-4 h-4" style={{ color: "var(--mando-alert)" }} />
-                    Angriffsvektoren
+                    {copy.mandoIntel.attackVectorsTitle}
                   </h3>
                   <ul className="text-xs space-y-2" style={{ color: "var(--mando-body)" }}>
-                    <li>▸ Versteckte Marker in JSON-LD, Meta & DOM</li>
-                    <li>▸ AI-Parser lesen was Recruiter:innen nicht sehen</li>
-                    <li>▸ Repetition simuliert künstliche „Bestätigung"</li>
+                    <li>▸ {copy.mandoIntel.attackBullet1}</li>
+                    <li>▸ {copy.mandoIntel.attackBullet2}</li>
+                    <li>▸ {copy.mandoIntel.attackBullet3}</li>
                   </ul>
                 </div>
                 <div className="mando-panel p-5 relative">
@@ -1650,12 +1651,12 @@ export default function App() {
                     style={{ color: "var(--mando-heading)" }}
                   >
                     <ShieldCheck className="w-4 h-4" style={{ color: "var(--mando-verified)" }} />
-                    Verteidigungslinien
+                    {copy.mandoIntel.defenseTitle}
                   </h3>
                   <ul className="text-xs space-y-2" style={{ color: "var(--mando-body)" }}>
-                    <li>▸ Sichtbare CV-Felder via Allowlist priorisieren</li>
-                    <li>▸ JSON-LD als untrusted behandeln</li>
-                    <li>▸ Provenance + Sanitization vor Ranking erzwingen</li>
+                    <li>▸ {copy.mandoIntel.defenseBullet1}</li>
+                    <li>▸ {copy.mandoIntel.defenseBullet2}</li>
+                    <li>▸ {copy.mandoIntel.defenseBullet3}</li>
                   </ul>
                 </div>
               </div>
@@ -1784,7 +1785,7 @@ export default function App() {
                   style={{ color: "var(--mando-heading)" }}
                 >
                   <Lightbulb className="w-5 h-5" style={{ color: "var(--demo-glow)" }} />
-                  7 GEO Techniques — und ihre Injection-Risiken
+                  {copy.geoVectorsSection.heading}
                 </h2>
                 <p className="text-xs mb-5" style={{ color: "var(--demo-glow)" }}>
                   GENERATIVE ENGINE OPTIMIZATION DUAL-USE ANALYSIS — SELECT TO EXPAND
