@@ -47,7 +47,7 @@ export function StandardAiShowcaseSection({
   simulationLog,
 }: StandardAiShowcaseSectionProps) {
   return (
-    <section aria-labelledby="ai-injection-heading" className="mt-16">
+    <section id="ai_demo" aria-labelledby="ai-injection-heading" className="mt-16">
       <h2 id="ai-injection-heading" className="text-2xl font-bold mb-2 flex items-center gap-3">
         <Terminal className="w-6 h-6 text-green-600" />
         AI-Readable Curriculum Vitae — Lars Moelleken (voku) · Embedded Injection Techniques

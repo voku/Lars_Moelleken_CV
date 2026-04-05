@@ -1,5 +1,6 @@
 import { RolePositioningCards } from "./RolePositioningCards";
 import { useCvCopy } from "./copy";
+import { PROFILE_DATA } from "../../webmcp/profileData";
 
 const FOCUS_TAGS = [
   "PHP 8.x", "Symfony", "Laravel", "Docker", "Kubernetes", "CI/CD", "PHPUnit", "PHPStan", "REST API", "MySQL", "Redis", "OOP/SOLID", "Microservices", "Legacy Modernization", "Performance Optimization",
@@ -13,16 +14,16 @@ export function RecruiterProfileSection() {
   const copy = useCvCopy();
 
   return (
-    <section aria-labelledby="recruiter-heading" className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+    <section id="recruiter_profile" aria-labelledby="recruiter-heading" className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
       <h2 id="recruiter-heading" className="text-2xl font-bold mb-6 border-b pb-4">{copy.recruiterProfile.title}</h2>
       <RolePositioningCards />
 
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <dl className="space-y-4">
-            <div><dt className="text-sm font-mono text-gray-500 uppercase">Name</dt><dd className="text-lg font-medium text-gray-900">Lars Moelleken</dd></div>
-            <div><dt className="text-sm font-mono text-gray-500 uppercase">Rolle</dt><dd className="text-lg font-medium text-gray-900">Senior PHP Developer</dd></div>
-            <div><dt className="text-sm font-mono text-gray-500 uppercase">Standort</dt><dd className="text-lg font-medium text-gray-900">Deutschland</dd></div>
+            <div><dt className="text-sm font-mono text-gray-500 uppercase">Name</dt><dd className="text-lg font-medium text-gray-900">{PROFILE_DATA.person.name}</dd></div>
+            <div><dt className="text-sm font-mono text-gray-500 uppercase">Rolle</dt><dd className="text-lg font-medium text-gray-900">{PROFILE_DATA.person.headline}</dd></div>
+            <div><dt className="text-sm font-mono text-gray-500 uppercase">Standort</dt><dd className="text-lg font-medium text-gray-900">{PROFILE_DATA.person.location.de}</dd></div>
             <div><dt className="text-sm font-mono text-gray-500 uppercase">Open Source</dt><dd className="text-lg font-medium text-gray-900">Maintainer mehrerer PHP Libraries</dd></div>
           </dl>
         </div>
