@@ -38,19 +38,19 @@ const DOMAIN_PRIORITY: SkillDomain[] = [
 const LEVEL_ORDER: SkillLevel[] = ["expert", "very_strong", "strong"];
 
 const SKILL_ALIASES: Record<string, string[]> = {
-  "php": ["php 8.x", "php 8", "php"],
-  "symfony": ["symfony"],
-  "laravel": ["laravel"],
-  "legacy modernization": ["legacy modernization", "legacy modernisierung", "legacy", "technical debt", "tech debt"],
-  "phpstan": ["phpstan", "static analysis", "statische analyse"],
-  "phpunit": ["phpunit", "testing", "unit testing", "tdd"],
-  "ci/cd": ["ci/cd", "continuous integration", "continuous deployment", "github actions", "gitlab ci"],
-  "docker": ["docker", "container", "containers"],
-  "architecture": ["architecture", "software architecture", "clean architecture", "design patterns"],
-  "mentoring": ["mentoring", "coaching", "team lead", "leadership", "technical coaching"],
-  "security": ["security", "owasp", "xss", "secure web"],
-  "backend": ["backend", "rest api", "graphql", "api"],
-  "databases": ["mysql", "mariadb", "postgresql", "redis", "database"],
+  "PHP 8.x": ["php 8.x", "php 8", "php"],
+  "Symfony": ["symfony"],
+  "Laravel": ["laravel"],
+  "Legacy Modernization": ["legacy modernization", "legacy modernisierung", "legacy", "technical debt", "tech debt"],
+  "PHPStan": ["phpstan", "static analysis", "statische analyse"],
+  "PHPUnit": ["phpunit", "testing", "unit testing", "tdd"],
+  "CI/CD": ["ci/cd", "continuous integration", "continuous deployment", "github actions", "gitlab ci"],
+  "Docker": ["docker", "container", "containers"],
+  "Architecture": ["architecture", "software architecture", "clean architecture", "design patterns"],
+  "Mentoring": ["mentoring", "coaching", "team lead", "leadership", "technical coaching"],
+  "Security": ["security", "owasp", "xss", "secure web"],
+  "Backend": ["backend", "rest api", "graphql", "api"],
+  "Databases": ["mysql", "mariadb", "postgresql", "redis", "database"],
 };
 
 function clamp(value: number, minimum: number, maximum: number) {
