@@ -239,7 +239,7 @@ function recommendedTopics(matchedStrengths: readonly string[], language: Profil
   const topics = new Set<string>();
 
   if (matchedStrengths.some((strength) => /PHP|Symfony|Laravel|REST API|GraphQL/.test(strength))) {
-    topics.add(language === "de" ? "Backend-Stack und Delivery in PHP" : "Backend stack and PHP delivery" );
+    topics.add(language === "de" ? "Backend-Stack und Delivery in PHP" : "Backend stack and PHP delivery");
   }
   if (matchedStrengths.some((strength) => /Legacy|Rector|PHPStan|PHPUnit|TDD|Psalm/.test(strength))) {
     topics.add(language === "de" ? "Legacy-Modernisierung und Qualitätshebel" : "Legacy modernization and quality levers");
