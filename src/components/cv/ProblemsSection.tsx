@@ -5,7 +5,7 @@ export function ProblemsSection() {
   const copy = useCvCopy();
 
   return (
-    <section aria-labelledby="problems-heading">
+    <section id="problems" aria-labelledby="problems-heading">
       <h2 id="problems-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
         <AlertTriangle className="w-8 h-8 text-blue-600" />
         {copy.problems.title}

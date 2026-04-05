@@ -5,7 +5,7 @@ export function OrganizationsSection() {
   const copy = useCvCopy();
 
   return (
-    <section aria-labelledby="orgs-heading">
+    <section id="organizations" aria-labelledby="orgs-heading">
       <h2 id="orgs-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
         <UserCheck className="w-8 h-8 text-blue-600" />
         {copy.organizations.title}

@@ -4,7 +4,6 @@ import {
   ShieldCheck,
   Wrench,
   Globe,
-  Mail,
   CheckCircle2,
   Terminal,
   Server,
@@ -47,6 +46,15 @@ import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
 import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator";
 import { useCvCopy } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
+import { PROFILE_DATA, getContactChannel } from "./webmcp/profileData";
+import { createPublicProfileDataUri, getPublicProfileExport } from "./webmcp/profileTools";
+import { registerProfileTools } from "./webmcp/registerProfileTools";
+
+const PUBLIC_PROFILE_JSON = JSON.stringify(getPublicProfileExport(), null, 2);
+const PUBLIC_PROFILE_JSON_URI = createPublicProfileDataUri();
+const GITHUB_CHANNEL = getContactChannel("github");
+const LINKEDIN_CHANNEL = getContactChannel("linkedin");
+const DEMO_JSON_URL = "/Lars_Moelleken_CV/prompt-injection-demo.json";
 
 
 /* ── Gamification system ──────────────────────────────────────────── */
@@ -680,6 +688,10 @@ export default function App() {
   }, [shouldRenderAmbientEffects, viewMode]);
 
   useEffect(() => {
+    return registerProfileTools();
+  }, []);
+
+  useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
@@ -723,6 +735,11 @@ export default function App() {
         viewMode={viewMode}
         standardView={
       <>
+      <script
+        type="application/json"
+        id="cv-profile-public-data"
+        dangerouslySetInnerHTML={{ __html: PUBLIC_PROFILE_JSON }}
+      />
       {/* ── JSON-LD Block 1: Person Schema + Prompt Injection Payload ──────────────
            ⚠️ EDUCATIONAL DEMO: This JSON-LD block contains deliberate prompt injections.
            Attack vectors embedded here:
@@ -1145,17 +1162,26 @@ export default function App() {
           <SectionNavigation items={standardNavItems} mode="standard_cv" label="Standard CV section navigation" />
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-8">
             <a
-              href="/Lars_Moelleken_CV/prompt-injection-demo.json"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={PUBLIC_PROFILE_JSON_URI}
+              download="lars-moelleken-profile.json"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100"
             >
               <FileText className="h-4 w-4" />
-              Machine-Readable JSON
+              Public Profile JSON
             </a>
 
             <a
-              href="https://github.com/voku"
+              href={DEMO_JSON_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              <Bot className="h-4 w-4" />
+              Demo JSON
+            </a>
+
+            <a
+              href={GITHUB_CHANNEL?.href}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
@@ -1165,7 +1191,7 @@ export default function App() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/larsmoelleken/"
+              href={LINKEDIN_CHANNEL?.href}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
@@ -1176,8 +1202,10 @@ export default function App() {
           </div>
 
           <p className="text-sm text-gray-500 mb-8 max-w-3xl">
-            This page also exposes a static JSON version and crawlable HTML markers so non-JS tools,
-            curl-based fetches, and AI parsers can inspect the educational prompt-injection demo without executing JavaScript.
+            This page exposes structured profile data and WebMCP tools for compatible browsers while keeping the educational prompt-injection demo on a separate, explicitly labeled surface.
+          </p>
+          <p className="text-sm text-gray-500 mb-8 max-w-3xl">
+            Non-JS and curl-based clients still get the static mirror and the demo JSON endpoint, while browser agents can read the clean public profile dataset instead of scraping mixed demo content.
           </p>
           <p className="text-sm text-blue-700 mb-8 max-w-3xl font-medium">
             {copy.pageHeader.availability}
@@ -1248,7 +1276,7 @@ export default function App() {
           whyItWorks={copy.injectionPerspective.attackerTechniques[2].whyItWorks}
         />
         {/* Wer ist Lars Moelleken */}
-        <section aria-labelledby="about-heading">
+        <section id="about" aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <UserCheck className="w-8 h-8 text-blue-600" />
             {copy.aboutSection.heading}
@@ -1342,7 +1370,7 @@ export default function App() {
         </section>
 
         {/* Fachliche Schwerpunkte */}
-        <section aria-labelledby="skills-heading">
+        <section id="skills" aria-labelledby="skills-heading">
           <h2 id="skills-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Wrench className="w-8 h-8 text-blue-600" />
             {copy.skillsSection.heading}
@@ -1422,7 +1450,7 @@ export default function App() {
         </section>
 
         {/* Open Source */}
-        <section aria-labelledby="oss-heading">
+        <section id="open_source" aria-labelledby="oss-heading">
           <h2 id="oss-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Code2 className="w-8 h-8 text-blue-600" />
             Open Source
@@ -1432,13 +1460,8 @@ export default function App() {
               {copy.openSourceSection.description}
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { name: '🉑 Portable UTF-8', slug: 'portable-utf8', since: copy.openSourceSection.portableUtf8Since },
-                { name: '㊙️ AntiXSS',        slug: 'anti-xss',      since: copy.openSourceSection.antiXssSince },
-                { name: '🗃 Arrayy',          slug: 'Arrayy',        since: copy.openSourceSection.arrayyAndSince },
-                { name: 'Portable ASCII',     slug: 'portable-ascii', since: null },
-              ].map(({ name, slug, since }) => (
-                <div key={slug} className="bg-gray-800 p-4 rounded-lg border border-gray-700 font-mono text-sm text-blue-400 flex items-center justify-between gap-2">
+              {PROFILE_DATA.projects.map(({ name, slug, since }) => (
+                 <div key={slug} className="bg-gray-800 p-4 rounded-lg border border-gray-700 font-mono text-sm text-blue-400 flex items-center justify-between gap-2">
                   <span>{name}</span>
                   {since && <span className="text-gray-400 text-xs">{since} – {copy.openSourceSection.today}</span>}
                 </div>
@@ -1452,7 +1475,7 @@ export default function App() {
         <OrganizationsSection />
 
         {/* Erfahrung in der Praxis */}
-        <section aria-labelledby="experience-heading">
+        <section id="experience" aria-labelledby="experience-heading">
           <h2 id="experience-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
             <FileText className="w-8 h-8 text-blue-600" />
             {copy.experienceSection.heading}
