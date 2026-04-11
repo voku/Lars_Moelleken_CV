@@ -28,7 +28,7 @@ export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation, showGa
     <header
       className={`page-header border-b page-header-demo ${
         showGamification
-          ? "pt-28 pb-12 sm:py-24 lg:py-24"
+          ? "pt-28 pb-12 sm:pt-24 sm:pb-20 lg:py-24"
           : "pt-20 pb-12 sm:py-20 lg:py-24"
       }`}
       style={{
