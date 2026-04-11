@@ -49,28 +49,6 @@ export function ViewControls({
           <button type="button" onClick={() => setLocale("de")} className={`view-switch-btn ${locale === "de" ? "active" : ""}`}>{copy.viewControls.localeDe}</button>
           <button type="button" onClick={() => setLocale("en")} className={`view-switch-btn ${locale === "en" ? "active" : ""}`}>{copy.viewControls.localeEn}</button>
         </div>
-        {isDemo && (
-          <div className="view-controls-group" aria-label={copy.viewControls.intelOptionsAria}>
-        <button
-          type="button"
-          onClick={onTogglePerspective}
-          className={`view-switch-btn ${injectionPerspective === "attacker" ? "active" : ""}`}
-          aria-pressed={injectionPerspective === "attacker"}
-        >
-          <span className="sm:hidden">{injectionPerspective === "attacker" ? copy.viewControls.attackShort : copy.viewControls.defenseShort}</span>
-          <span className="hidden sm:inline">{injectionPerspective === "attacker" ? copy.viewControls.perspectiveAttacker : copy.viewControls.perspectiveDefender}</span>
-        </button>
-          <button
-            type="button"
-            onClick={onToggleGamification}
-            className={`view-switch-btn ${showGamification ? "active" : ""}`}
-            aria-pressed={showGamification}
-          >
-            <span className="sm:hidden">{showGamification ? copy.viewControls.xpOnShort : copy.viewControls.xpOffShort}</span>
-            <span className="hidden sm:inline">{showGamification ? copy.viewControls.xpOn : copy.viewControls.xpOff}</span>
-          </button>
-          </div>
-        )}
       </div>
     </div>
   );
