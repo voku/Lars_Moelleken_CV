@@ -30,7 +30,7 @@ const COPY_BY_LOCALE = {
       localeSwitchAria: "Locale switch",
       cvShort: "CV",
       cvLabel: "CV View",
-      intelShort: "Intel-Terminal",
+      intelShort: "Intel",
       intelLabel: "Intel View",
       attackShort: "Attack",
       defenseShort: "Defense",

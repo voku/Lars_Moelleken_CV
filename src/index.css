@@ -166,6 +166,7 @@
 .view-controls-inner {
   display: flex;
   width: auto;
+  max-width: calc(100vw - 1rem);
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.35rem;
@@ -233,6 +234,14 @@
 @media (max-width: 767px) {
   .landing-shell main > section {
     scroll-margin-top: 5rem;
+  }
+
+  /* Ensure standard CV header content clears the fixed view-controls even on phones with
+     large notches/Dynamic Islands (env(safe-area-inset-top) up to ~59px).
+     On regular phones the 5rem fallback keeps the original 80px spacing.
+     Uses page-header-standard to avoid overriding DemoHeader's dynamic pt classes. */
+  .page-header-standard {
+    padding-top: max(5rem, calc(env(safe-area-inset-top) + 3.5rem));
   }
 
   .view-switch-btn {
