@@ -5,6 +5,7 @@ interface DemoHeaderProps {
   desktopSrc: string;
   subtitle: string;
   navigation: ReactNode;
+  showGamification?: boolean;
 }
 
 const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
@@ -22,10 +23,14 @@ const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
   whiteSpace: "nowrap",
 };
 
-export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation }: DemoHeaderProps) {
+export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation, showGamification }: DemoHeaderProps) {
   return (
     <header
-      className="page-header border-b pt-20 pb-12 sm:py-20 lg:py-24 page-header-demo"
+      className={`page-header border-b page-header-demo ${
+        showGamification
+          ? "pt-28 pb-12 sm:py-24 lg:py-24"
+          : "pt-20 pb-12 sm:py-20 lg:py-24"
+      }`}
       style={{
         "--mobile-bg": `url(${encodeURI(mobileSrc)})`,
         "--desktop-bg": `url(${encodeURI(desktopSrc)})`,

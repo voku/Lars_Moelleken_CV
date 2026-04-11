@@ -1542,6 +1542,7 @@ export default function App() {
             mobileSrc={HEADER_ARTWORK.prompt_injection_cv.mobileSrc}
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
             subtitle={copy.demoHeader.subtitle}
+            showGamification={showGamification}
             navigation={<SectionNavigation items={demoNavItems} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
