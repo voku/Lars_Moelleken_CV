@@ -16,9 +16,9 @@ const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
   letterSpacing: "0.12em",
   padding: "2px 7px",
   borderRadius: "3px",
-  background: "rgba(64,168,112,0.18)",
-  border: "1px solid rgba(64,168,112,0.45)",
-  color: "var(--mando-verified)",
+  background: "rgba(92, 200, 144, 0.18)",
+  border: "1px solid rgba(92, 200, 144, 0.5)",
+  color: "#5cc890",
   whiteSpace: "nowrap",
 };
 
@@ -34,15 +34,15 @@ export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation }: Demo
       <div className="page-header-backdrop" aria-hidden="true" />
       <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-2 mb-5">
-          <span className="mando-section-label" style={{ color: "var(--mando-label)" }}>DATAPAD v7 // ACTIVE</span>
-          <span className="mando-section-label" style={{ color: "var(--mando-alert)" }}>◈ EDUCATIONAL DEMO</span>
-          <span className="mando-section-label" style={{ color: "var(--mando-verified)" }}>✓ DEFENSE LOADED</span>
+          <span className="mando-section-label" style={{ color: "#d4a840" }}>DATAPAD v7 // ACTIVE</span>
+          <span className="mando-section-label" style={{ color: "#f08080" }}>◈ EDUCATIONAL DEMO</span>
+          <span className="mando-section-label" style={{ color: "#5cc890" }}>✓ DEFENSE LOADED</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight" style={{ color: "#3f2f13", textShadow: "0 0 30px rgba(142,113,47,0.15)" }}>
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight" style={{ color: "#fffdf8" }}>
           Prompt Injection<br />
-          <span style={{ color: "var(--demo-glow)" }}>Intel Terminal</span>
+          <span style={{ color: "var(--mando-beskar)" }}>Intel Terminal</span>
         </h1>
-        <p className="text-lg sm:text-xl leading-relaxed mb-8 max-w-3xl" style={{ color: "var(--mando-subtitle)" }}>
+        <p className="text-lg sm:text-xl leading-relaxed mb-8 max-w-3xl" style={{ color: "rgba(248, 243, 232, 0.88)" }}>
           {subtitle}
         </p>
         {navigation}
