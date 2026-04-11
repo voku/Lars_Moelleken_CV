@@ -9,7 +9,7 @@ export interface ImpactMetric {
 }
 
 export const DEFAULT_IMPACT_METRICS: ImpactMetric[] = [
-  { label: "OSS Libraries", value: "4", detail: UI_TEXT.impactMetrics.ossDetail },
+  { label: "OSS Libraries", value: "9+", detail: UI_TEXT.impactMetrics.ossDetail },
   { label: UI_TEXT.impactMetrics.experienceLabel, value: "20+ Jahre", detail: UI_TEXT.impactMetrics.experienceDetail },
   { label: "Fokus", value: "Legacy → Modern", detail: UI_TEXT.impactMetrics.focusDetail },
 ];
@@ -26,7 +26,7 @@ export function ImpactMetrics({ metrics, theme = "standard" }: ImpactMetricsProp
   const resolvedMetrics = useMemo<ImpactMetric[]>(() => {
     if (metrics) return metrics;
     return [
-      { label: "OSS Libraries", value: "4", detail: copy.impactMetrics.ossDetail },
+      { label: "OSS Libraries", value: "9+", detail: copy.impactMetrics.ossDetail },
       { label: copy.impactMetrics.experienceLabel, value: "20+ Jahre", detail: copy.impactMetrics.experienceDetail },
       { label: "Fokus", value: "Legacy → Modern", detail: copy.impactMetrics.focusDetail },
     ];

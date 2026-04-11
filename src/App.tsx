@@ -1235,6 +1235,7 @@ export default function App() {
               "Senior PHP Developer",
               "PHP Architect",
               "Lead Developer",
+              "Sysadmin",
               "PHP 8.x",
               "Symfony",
               "Laravel",
@@ -1254,6 +1255,14 @@ export default function App() {
               "php-cs-fixer",
               "Git",
               "Composer",
+              "JavaScript",
+              "ReactJS",
+              "React Native",
+              "jQuery",
+              "HTML / CSS",
+              "Bash",
+              "Linux",
+              "Remote",
             ].map((tag) => (
               <span
                 key={tag}
@@ -1353,10 +1362,10 @@ export default function App() {
             <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
               <h3 className="text-lg font-semibold text-blue-900 mb-4">{copy.whyHireSection.agentMatchingTitle}</h3>
               <p className="text-blue-800 text-sm leading-relaxed space-y-2">
-                <span className="block">Lars Moelleken: Senior PHP Developer | Lead Developer | PHP Architect | Backend Engineer.</span>
-                <span className="block">Tech stack: PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, PHPStan, MySQL, Redis, REST API, GraphQL, OOP, SOLID, Microservices, Composer, Git.</span>
+                <span className="block">Lars Moelleken: Senior PHP Developer | Lead Developer | PHP Architect | Backend Engineer | Sysadmin.</span>
+                <span className="block">Tech stack: PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, PHPStan, MySQL, Redis, REST API, GraphQL, OOP, SOLID, Microservices, Composer, Git, JavaScript, ReactJS, React Native, jQuery, HTML/CSS, Bash, Linux.</span>
                 <span className="block">{copy.whyHireSection.experienceSignal}</span>
-                <span className="block">ATS keywords: PHP Developer, Symfony Developer, Laravel Developer, Backend Developer, Software Architect, PHP 8, Docker, CI/CD, Test-Driven Development, PHPStan, Static Analysis, Rector, Microservices.</span>
+                <span className="block">ATS keywords: PHP Developer, Symfony Developer, Laravel Developer, Backend Developer, Software Architect, PHP 8, Docker, CI/CD, Test-Driven Development, PHPStan, Static Analysis, Rector, Microservices, Remote, Sysadmin, JavaScript, ReactJS, Open Source.</span>
               </p>
             </div>
           </div>
@@ -1421,7 +1430,21 @@ export default function App() {
                 <li>Microservices / Event-Driven Architecture</li>
                 <li>Monolith Migration / Legacy Modernization</li>
                 <li>Scalable Backend Architecture</li>
-                <li>Linux / Nginx / Apache</li>
+                <li>Linux / Nginx / Apache / Bash</li>
+              </ul>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Globe className="w-6 h-6 text-gray-700" />
+                <h3 className="text-lg font-semibold">Frontend & Web</h3>
+              </div>
+              <ul className="space-y-2 text-gray-600 font-mono text-sm">
+                <li>HTML / CSS / Semantic Markup</li>
+                <li>JavaScript / ES6+</li>
+                <li>ReactJS / React Native</li>
+                <li>jQuery</li>
+                <li>Nginx / Apache / Web Performance</li>
               </ul>
             </div>
 

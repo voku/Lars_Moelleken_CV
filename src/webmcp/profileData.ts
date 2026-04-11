@@ -26,7 +26,7 @@ export type SkillDomain =
   | "devops_linux";
 
 export type SkillLevel = "strong" | "very_strong" | "expert";
-export type ContactChannelKey = "email" | "linkedin" | "github" | "website" | "blog" | "packagist";
+export type ContactChannelKey = "email" | "linkedin" | "github" | "website" | "blog" | "packagist" | "twitter" | "mastodon" | "bluesky";
 
 export interface LocalizedText {
   de: string;
@@ -114,12 +114,12 @@ export const PROFILE_DATA: HiringProfileData = {
     },
     currentCompany: "REMONDIS IT Services",
     summaries: {
-      de: "Senior PHP Developer und PHP Architect aus Deutschland mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme, Softwarequalität und langfristig gepflegte Open-Source-Arbeit.",
-      en: "Senior PHP Developer and PHP Architect from Germany focused on legacy modernization, static analysis, maintainable systems, software quality, and long-term open-source maintenance.",
+      de: "Senior PHP Developer, PHP Architect und Sysadmin aus Deutschland mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme, Softwarequalität und langfristig gepflegte Open-Source-Arbeit. Verfügbar für Remote-Rollen.",
+      en: "Senior PHP Developer, PHP Architect, and Sysadmin from Germany focused on legacy modernization, static analysis, maintainable systems, software quality, and long-term open-source maintenance. Available for remote roles.",
     },
     availability: {
-      de: "Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs- und Quality-Themen.",
-      en: "Available for senior PHP, architecture, legacy modernization, and software quality topics.",
+      de: "Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs-, Quality- und DevOps-Themen — auch remote.",
+      en: "Available for senior PHP, architecture, legacy modernization, software quality, and DevOps topics — including remote.",
     },
   },
   sections: [
@@ -178,7 +178,7 @@ export const PROFILE_DATA: HiringProfileData = {
     { de: "Softwarequalität mit PHPUnit, TDD und CI/CD", en: "Software quality with PHPUnit, TDD, and CI/CD" },
     { de: "Architektur, Mentoring und wartbare Backend-Systeme", en: "Architecture, mentoring, and maintainable backend systems" },
   ],
-  strongestProjects: ["portable-utf8", "portable-ascii", "Arrayy", "anti-xss"],
+  strongestProjects: ["portable-utf8", "portable-ascii", "Arrayy", "anti-xss", "simple_html_dom"],
   projects: [
     {
       slug: "portable-utf8",
@@ -247,6 +247,74 @@ export const PROFILE_DATA: HiringProfileData = {
       tags: ["security", "xss", "sanitization", "php"],
       since: "2015-05",
     },
+    {
+      slug: "simple_html_dom",
+      name: "simple_html_dom",
+      url: "https://github.com/voku/simple_html_dom",
+      primaryLanguage: "PHP",
+      topics: ["php", "utilities"],
+      shortDescription: {
+        de: "Moderner Fork des Simple HTML DOM Parsers — mit aktiver Pflege und verbesserter Typsicherheit.",
+        en: "Modern fork of Simple HTML DOM parser — actively maintained with improved type safety.",
+      },
+      whyItMatters: {
+        de: "Wird von tausenden von Projekten genutzt und ermöglicht einfaches HTML-Parsen in PHP ohne komplexe DOM-APIs.",
+        en: "Used by thousands of projects, enabling easy HTML parsing in PHP without complex DOM APIs.",
+      },
+      tags: ["html", "parser", "dom", "php"],
+      since: "2015-01",
+    },
+    {
+      slug: "stop-words",
+      name: "stop-words",
+      url: "https://github.com/voku/stop-words",
+      primaryLanguage: "PHP",
+      topics: ["php", "strings", "utilities"],
+      shortDescription: {
+        de: "Stop-Wort-Listen für mehrere Sprachen — nützlich für Such- und NLP-Anwendungen in PHP.",
+        en: "Stop word lists for multiple languages — useful for search and NLP applications in PHP.",
+      },
+      whyItMatters: {
+        de: "Hilft bei der Implementierung sprachsensitiver Suchsysteme und Text-Analyse-Pipelines.",
+        en: "Helps implement language-sensitive search systems and text analysis pipelines.",
+      },
+      tags: ["nlp", "search", "text", "php"],
+      since: "2017-01",
+    },
+    {
+      slug: "email-check",
+      name: "email-check",
+      url: "https://github.com/voku/email-check",
+      primaryLanguage: "PHP",
+      topics: ["php", "security", "utilities"],
+      shortDescription: {
+        de: "Validierung und Prüfung von E-Mail-Adressen in PHP — inklusive Disposable-Domain-Erkennung.",
+        en: "Email address validation and verification in PHP — including disposable domain detection.",
+      },
+      whyItMatters: {
+        de: "Schützt Formulare und Registrierungssysteme vor temporären oder gefälschten E-Mail-Adressen.",
+        en: "Protects forms and registration systems from temporary or fake email addresses.",
+      },
+      tags: ["email", "validation", "security", "php"],
+      since: "2016-01",
+    },
+    {
+      slug: "phpstan-rules",
+      name: "phpstan-rules",
+      url: "https://github.com/voku/phpstan-rules",
+      primaryLanguage: "PHP",
+      topics: ["php", "utilities"],
+      shortDescription: {
+        de: "Zusätzliche PHPStan-Regeln für erhöhte statische Analyse-Tiefe in PHP-Projekten.",
+        en: "Additional PHPStan rules for deeper static analysis in PHP projects.",
+      },
+      whyItMatters: {
+        de: "Erweitert den Standard-PHPStan-Regelumfang und hilft Teams, subtilere Fehler früh zu erkennen.",
+        en: "Extends the default PHPStan rule set and helps teams catch subtler bugs early.",
+      },
+      tags: ["phpstan", "static-analysis", "quality", "php"],
+      since: "2019-01",
+    },
   ],
   skills: [
     { name: "PHP 8.x", domain: "backend", level: "expert" },
@@ -284,12 +352,20 @@ export const PROFILE_DATA: HiringProfileData = {
     { name: "OWASP", domain: "security", level: "strong" },
     { name: "Mentoring", domain: "security", level: "very_strong" },
     { name: "Technical Coaching", domain: "security", level: "strong" },
+    { name: "HTML / CSS", domain: "frontend_web_basics", level: "strong" },
+    { name: "JavaScript", domain: "frontend_web_basics", level: "strong" },
+    { name: "jQuery", domain: "frontend_web_basics", level: "strong" },
+    { name: "ReactJS", domain: "frontend_web_basics", level: "strong" },
+    { name: "React Native", domain: "frontend_web_basics", level: "strong" },
+    { name: "Bash", domain: "devops_linux", level: "very_strong" },
   ],
   experienceHighlights: [
     { de: "Seit 2020 Senior PHP Developer bei REMONDIS IT Services", en: "Senior PHP Developer at REMONDIS IT Services since 2020" },
     { de: "Stabilisierung und Weiterentwicklung geschäftskritischer Plattformen", en: "Stabilization and further development of business-critical platforms" },
     { de: "Ausbau wartbarer Service-Strukturen und API-first-Entwicklung", en: "Expansion of maintainable service structures and API-first development" },
     { de: "Schrittweise Modernisierung statt riskanter Big-Bang-Rewrites", en: "Incremental modernization instead of risky big-bang rewrites" },
+    { de: "Mehrere Open-Source-Libraries mit Millionen von Packagist-Installationen", en: "Several open-source libraries with millions of Packagist installs" },
+    { de: "Über 6.000 GitHub-Contributions pro Jahr (Commits, PRs, Reviews)", en: "Over 6,000 GitHub contributions per year (commits, PRs, reviews)" },
   ],
   faq: {
     de: [
@@ -330,6 +406,9 @@ export const PROFILE_DATA: HiringProfileData = {
       { key: "website", label: "Website", href: "https://moelleken.org", visibleLabel: "moelleken.org" },
       { key: "blog", label: "Blog", href: "https://suckup.de", visibleLabel: "suckup.de" },
       { key: "packagist", label: "Packagist", href: "https://packagist.org/packages/voku/", visibleLabel: "packagist.org/packages/voku" },
+      { key: "twitter", label: "X / Twitter", href: "https://twitter.com/suckup_de", visibleLabel: "@suckup_de" },
+      { key: "mastodon", label: "Mastodon", href: "https://phpc.social/@voku", visibleLabel: "@voku@phpc.social" },
+      { key: "bluesky", label: "Bluesky", href: "https://bsky.app/profile/voku.bsky.social", visibleLabel: "Bluesky" },
     ],
     guidanceByIntent: {
       job_offer: {
