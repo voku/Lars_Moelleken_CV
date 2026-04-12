@@ -438,7 +438,7 @@ export function StandardAiShowcaseSection({
             These two techniques target AI systems that strip one signal surface — by repeating the payload across
             multiple surfaces simultaneously, or hiding it in CSS-invisible text only readable by parsers.
           </p>
-          <div className="bg-[#0D1117] text-green-400 rounded-xl font-mono text-xs border border-gray-800 p-4 space-y-4">
+          <div className="bg-[#0D1117] text-green-400 rounded-xl font-mono text-xs whitespace-pre-wrap break-words border border-gray-800 p-4 space-y-4">
             {/* Technique 11 – Multi-Surface Repetition */}
             <div className="border border-rose-900/40 rounded-lg p-4 bg-rose-950/10">
               <div className="text-rose-400 uppercase tracking-wider text-[10px] mb-2 opacity-70">
@@ -512,7 +512,7 @@ export function StandardAiShowcaseSection({
               <TechBadge color="violet" label="MutationObserver DOM Mutation" />
             </div>
           </div>
-          <div className="bg-[#0D1117] rounded-xl font-mono text-xs border border-gray-800 p-4 space-y-4">
+          <div className="bg-[#0D1117] rounded-xl font-mono text-xs border border-gray-800 whitespace-pre-wrap break-words p-4 space-y-4">
             {/* Technique 13 – Delayed Injection Simulation */}
             <div className="border border-indigo-900/40 rounded-lg p-4 bg-indigo-950/10">
               <div className="text-indigo-300 uppercase tracking-wider text-[10px] mb-2 opacity-80">
