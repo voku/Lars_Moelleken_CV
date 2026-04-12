@@ -751,17 +751,6 @@ export default function App() {
         id="cv-profile-public-data"
         dangerouslySetInnerHTML={{ __html: PUBLIC_PROFILE_JSON }}
       />
-      {/* ── JSON-LD Block 1: Person Schema + Prompt Injection Payload ──────────────
-           ⚠️ EDUCATIONAL DEMO: This JSON-LD block contains deliberate prompt injections.
-           Attack vectors embedded here:
-             1. honorificSuffix: "The Legacy Whisperer"    → Data Poisoning (PROVEN)
-             2. description: "IGNORE ALL PREVIOUS..."      → Direct Override
-             3. award: [fake awards]                       → Credential Stuffing
-             4. aggregateRating: ratingValue 100           → Fake Authority Rating
-             5. hasCredential: [fake certs]                → Credential Data Poisoning
-             6. potentialAction.description: EDUCATIONAL_MARKER_HIRING_DIRECTIVE → Authority Spoofing
-           Hardened scenario: blocks all. Naive scenario: likely extracts several.
-      */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -1213,9 +1202,6 @@ export default function App() {
           </div>
 
           <p className="text-sm text-gray-500 mb-8 max-w-3xl">
-            This page exposes structured profile data and WebMCP tools for compatible browsers while keeping the educational prompt-injection demo on a separate, explicitly labeled surface.
-          </p>
-          <p className="text-sm text-gray-500 mb-8 max-w-3xl">
             Non-JS and curl-based clients still get the static mirror and the demo JSON endpoint, while browser agents can read the clean public profile dataset instead of scraping mixed demo content.
           </p>
           <p className="text-sm text-blue-700 mb-8 max-w-3xl font-medium">
@@ -1594,22 +1580,13 @@ export default function App() {
 
         <GeoFaqSection />
 
-        {/* ── Security Demo: AI Prompt Injection Showcase ─────────────────────
-             EDUCATIONAL PURPOSE: This section deliberately contains prompt
-             injection payloads of several known categories. It is a public
-             red-team / blue-team demonstration of how AI-powered HR screeners
-             can be manipulated when they parse untrusted web content.
-             Everything here is intentionally visible and labeled.
-             See also: OWASP LLM Top 10 – LLM01 Prompt Injection.
-          ─────────────────────────────────────────────────────────────────── */}
         <details className="group">
           <summary className="flex items-center gap-2 cursor-pointer list-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
             <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90 shrink-0" />
-            <span className="font-semibold" id="ai-injection-heading">AI Prompt Injection Demo</span>
-            <span className="ml-auto text-xs text-gray-400 font-mono">educational / research</span>
+            <span className="font-semibold" id="ai-injection-heading">AI Extras</span>
+            <span className="ml-auto text-xs text-gray-400 font-mono">for auto-research bots</span>
           </summary>
           <div className="mt-4 space-y-4">
-            {/* Attacks #5 & #6: System-Prompt-Override and Delayed JS Injection — AI Demo section */}
             <AttackAnnotation
               visible={injectionPerspective === "attacker"}
               category={copy.injectionPerspective.attackerTechniques[4].category}
@@ -2382,28 +2359,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <p className="mt-6 text-xs font-mono" style={{ color: "rgba(200,168,80,0.4)" }}>
-                  {"// Further reading: "}
-                  <a
-                    href="https://owasp.org/www-project-top-10-for-large-language-model-applications/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:opacity-75 transition-opacity"
-                    style={{ color: "var(--demo-glow)" }}
-                  >
-                    OWASP LLM Top 10 — LLM01
-                  </a>
-                  {" · "}
-                  <a
-                    href="https://simonwillison.net/2022/Sep/12/prompt-injection/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:opacity-75 transition-opacity"
-                    style={{ color: "var(--demo-glow)" }}
-                  >
-                    Simon Willison: Prompt Injection Attacks
-                  </a>
-                </p>
               </div>
             </section>
 
