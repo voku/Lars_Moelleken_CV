@@ -25,6 +25,6 @@
   ],
   "notes": [
     "Static JSON endpoint for curl/non-JS clients.",
-    "Interactive JS demo remains available on the main page."
+    "Interactive demo remains available on the main page."
   ]
 }
