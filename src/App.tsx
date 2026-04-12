@@ -47,6 +47,7 @@ import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator
 import { ImpactMetrics } from "./components/cv/ImpactMetrics";
 import { useCvCopy, useCvLocale } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
+import type { LocalizedText } from "./webmcp/profileData";
 import { PROFILE_DATA, getContactChannel } from "./webmcp/profileData";
 import { createPublicProfileDataUri, getPublicProfileExport } from "./webmcp/profileTools";
 import { registerProfileTools } from "./webmcp/registerProfileTools";
@@ -56,6 +57,14 @@ const PUBLIC_PROFILE_JSON_URI = createPublicProfileDataUri();
 const GITHUB_CHANNEL = getContactChannel("github");
 const LINKEDIN_CHANNEL = getContactChannel("linkedin");
 const DEMO_JSON_URL = "/Lars_Moelleken_CV/prompt-injection-demo.json";
+
+function getLocalizedText(text: LocalizedText, locale: "de" | "en"): string {
+  return text[locale] ?? text.en;
+}
+
+function formatProjectDate(since: string): string {
+  return since.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${m}/${y}`);
+}
 
 
 /* ── Gamification system ──────────────────────────────────────────── */
@@ -1477,16 +1486,16 @@ export default function App() {
                 <div key={slug} className="bg-gray-800 p-5 rounded-lg border border-gray-700 space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-mono text-sm text-blue-400 font-semibold">{name}</span>
-                    {since && <span className="text-gray-500 text-xs">{since.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${m}/${y}`)} – {copy.openSourceSection.today}</span>}
+                    {since && <span className="text-gray-500 text-xs">{formatProjectDate(since)} – {copy.openSourceSection.today}</span>}
                   </div>
                   {shortDescription && (
                     <p className="text-gray-300 text-sm leading-relaxed">
-                      {shortDescription[locale] ?? shortDescription.en}
+                      {getLocalizedText(shortDescription, locale)}
                     </p>
                   )}
                   {whyItMatters && (
                     <p className="text-gray-400 text-xs leading-relaxed italic">
-                      {whyItMatters[locale] ?? whyItMatters.en}
+                      {getLocalizedText(whyItMatters, locale)}
                     </p>
                   )}
                 </div>
