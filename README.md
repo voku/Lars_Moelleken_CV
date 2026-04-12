@@ -1,6 +1,6 @@
-# Lars Moelleken – CV & Prompt-Injection Demo
+# Lars Moelleken – CV & AI-Experiments
 
-Interactive CV for Lars Moelleken (Senior PHP Developer) with a built-in educational demo showing how AI recruiters can be manipulated through prompt-injection attacks—and how to defend against them.
+Interactive CV for Lars Moelleken (Senior PHP Developer) with a built-in educational demo showing how AI-Experiments for faster recruiting. 
 
 **Live:** https://voku.github.io/Lars_Moelleken_CV/
 
