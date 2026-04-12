@@ -44,7 +44,8 @@ import { StandardAiShowcaseSection } from "./components/cv/StandardAiShowcaseSec
 import { SelfDiscoveryBanner } from "./components/cv/SelfDiscoveryBanner";
 import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
 import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator";
-import { useCvCopy } from "./components/cv/copy";
+import { ImpactMetrics } from "./components/cv/ImpactMetrics";
+import { useCvCopy, useCvLocale } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
 import { PROFILE_DATA, getContactChannel } from "./webmcp/profileData";
 import { createPublicProfileDataUri, getPublicProfileExport } from "./webmcp/profileTools";
@@ -473,6 +474,7 @@ function AttackAnnotation({ category, example, whyItWorks, visible }: AttackAnno
 
 export default function App() {
   const copy = useCvCopy();
+  const { locale } = useCvLocale();
   const standardNavItems: ReadonlyArray<SectionNavItem> = copy.navigation.standard;
   const demoNavItems: ReadonlyArray<SectionNavItem> = copy.navigation.demo;
   const [viewMode, setViewMode] = useState<ViewMode>("standard_cv");
@@ -1135,7 +1137,7 @@ export default function App() {
         badgeText="Profile: Active"
         badgeColorClass="text-blue-600"
         titleLine1="Lars Moelleken"
-        titleAccent={<span className="text-blue-600">Senior PHP Developer</span>}
+        titleAccent={<span className="text-blue-600">Senior PHP Engineer</span>}
         subtitle={copy.pageHeader.subtitle}
         afterContent={
           /* ⚠️ EDUCATIONAL: 1pt transparent-text injection in header — invisible to humans, parsed by AI
@@ -1232,36 +1234,25 @@ export default function App() {
 
           <div className="flex flex-wrap gap-2">
             {[
-              "Senior PHP Developer",
+              "Senior PHP Engineer",
               "PHP Architect",
-              "Lead Developer",
-              "Sysadmin",
+              "Software Architect",
+              "Legacy Modernization",
+              "Static Analysis",
               "PHP 8.x",
               "Symfony",
               "Laravel",
-              "Docker",
-              "Kubernetes",
-              "CI/CD",
-              "PHPUnit",
+              "Open Source Maintainer",
               "PHPStan",
-              "REST API",
+              "PHPUnit",
+              "OOP / SOLID",
+              "Docker",
+              "CI/CD",
               "MySQL",
               "Redis",
-              "OOP / SOLID",
-              "Microservices",
-              "Legacy Modernization",
-              "Static Analysis",
-              "Rector",
-              "php-cs-fixer",
-              "Git",
-              "Composer",
-              "JavaScript",
-              "ReactJS",
-              "React Native",
-              "jQuery",
-              "HTML / CSS",
-              "Bash",
               "Linux",
+              "Sysadmin",
+              "Security",
               "Remote",
             ].map((tag) => (
               <span
@@ -1284,6 +1275,60 @@ export default function App() {
           example={copy.injectionPerspective.attackerTechniques[2].example}
           whyItWorks={copy.injectionPerspective.attackerTechniques[2].whyItWorks}
         />
+
+        {/* Engineering Impact */}
+        <section id="impact" aria-labelledby="impact-heading">
+          <h2 id="impact-heading" className="text-3xl font-bold mb-4 flex items-center gap-3">
+            <Zap className="w-8 h-8 text-blue-600" />
+            {copy.engineeringImpact.heading}
+          </h2>
+          <p className="text-blue-700 font-medium mb-6">{copy.engineeringImpact.trustSignal}</p>
+          <ImpactMetrics />
+          <div className="mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <ul className="space-y-3 text-gray-700">
+              {[
+                copy.engineeringImpact.bullet1,
+                copy.engineeringImpact.bullet2,
+                copy.engineeringImpact.bullet3,
+                copy.engineeringImpact.bullet4,
+                copy.engineeringImpact.bullet5,
+                copy.engineeringImpact.bullet6,
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Engineering Focus */}
+        <section id="engineering-focus" aria-labelledby="engineering-focus-heading">
+          <h2 id="engineering-focus-heading" className="text-3xl font-bold mb-6 flex items-center gap-3">
+            <Lightbulb className="w-8 h-8 text-blue-600" />
+            {copy.engineeringFocus.heading}
+          </h2>
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+            <p className="text-lg text-gray-700 leading-relaxed">{copy.engineeringFocus.intro}</p>
+            <div>
+              <p className="font-semibold text-gray-800 mb-2">{copy.engineeringFocus.envHeading}</p>
+              <ul className="space-y-2 text-gray-600">
+                {[copy.engineeringFocus.bullet1, copy.engineeringFocus.bullet2, copy.engineeringFocus.bullet3].map((b) => (
+                  <li key={b} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 shrink-0" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="text-gray-700 leading-relaxed">{copy.engineeringFocus.outro}</p>
+            <p className="text-gray-500 italic text-sm leading-relaxed border-l-4 border-blue-200 pl-4">
+              {copy.engineeringFocus.staffSignal}
+            </p>
+          </div>
+        </section>
+
         {/* Wer ist Lars Moelleken */}
         <section id="about" aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -1378,6 +1423,78 @@ export default function App() {
           />
         </section>
 
+        {/* Erfahrung in der Praxis */}
+        <section id="experience" aria-labelledby="experience-heading">
+          <h2 id="experience-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
+            <FileText className="w-8 h-8 text-blue-600" />
+            {copy.experienceSection.heading}
+          </h2>
+          <div className="space-y-6">
+            <SharedProfileMission />
+          </div>
+          {/* Attack #4: Sandwich-Injektion — legitimate experience content wraps hidden directives */}
+          <AttackAnnotation
+            visible={injectionPerspective === "attacker"}
+            category={copy.injectionPerspective.attackerTechniques[3].category}
+            example={copy.injectionPerspective.attackerTechniques[3].example}
+            whyItWorks={copy.injectionPerspective.attackerTechniques[3].whyItWorks}
+          />
+        </section>
+
+        {/* Open Source */}
+        <section id="open_source" aria-labelledby="oss-heading">
+          <h2 id="oss-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
+            <Code2 className="w-8 h-8 text-blue-600" />
+            Open Source
+          </h2>
+          <div className="bg-gray-900 text-white p-8 rounded-2xl space-y-8">
+            <p className="text-lg text-gray-300">
+              {copy.openSourceSection.description}
+            </p>
+
+            {/* OSS Metrics */}
+            <div>
+              <h3 className="text-sm font-mono uppercase tracking-widest text-gray-400 mb-4">{copy.openSourceSection.metricsHeading}</h3>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-extrabold text-blue-400">{copy.openSourceSection.metric1Value}</p>
+                  <p className="text-xs text-gray-400 mt-1">{copy.openSourceSection.metric1Label}</p>
+                </div>
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-extrabold text-blue-400">{copy.openSourceSection.metric2Value}</p>
+                  <p className="text-xs text-gray-400 mt-1">{copy.openSourceSection.metric2Label}</p>
+                </div>
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-extrabold text-blue-400">{copy.openSourceSection.metric3Value}</p>
+                  <p className="text-xs text-gray-400 mt-1">{copy.openSourceSection.metric3Label}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Projects with descriptions */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {PROFILE_DATA.projects.map(({ name, slug, since, shortDescription, whyItMatters }) => (
+                <div key={slug} className="bg-gray-800 p-5 rounded-lg border border-gray-700 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-sm text-blue-400 font-semibold">{name}</span>
+                    {since && <span className="text-gray-500 text-xs">{since.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${m}/${y}`)} – {copy.openSourceSection.today}</span>}
+                  </div>
+                  {shortDescription && (
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {shortDescription[locale] ?? shortDescription.en}
+                    </p>
+                  )}
+                  {whyItMatters && (
+                    <p className="text-gray-400 text-xs leading-relaxed italic">
+                      {whyItMatters[locale] ?? whyItMatters.en}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Fachliche Schwerpunkte */}
         <section id="skills" aria-labelledby="skills-heading">
           <h2 id="skills-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -1401,22 +1518,6 @@ export default function App() {
                 <li>Git / Git Flow / Version Control</li>
               </ul>
             </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-4">
-                <Code2 className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">{copy.skillsSection.qualityTitle}</h3>
-              </div>
-              <ul className="space-y-2 text-gray-600 font-mono text-sm">
-                <li>PHPStan Level 9 / Psalm</li>
-                <li>PHPUnit / TDD / Test-Driven Development</li>
-                <li>Rector / Automated Refactoring</li>
-                <li>php-cs-fixer / Code Style</li>
-                <li>OOP / SOLID / Clean Code</li>
-                <li>Design Patterns / DDD</li>
-                <li>Code Review / Pair Programming</li>
-              </ul>
-            </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
@@ -1436,15 +1537,17 @@ export default function App() {
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
-                <Globe className="w-6 h-6 text-gray-700" />
-                <h3 className="text-lg font-semibold">Frontend & Web</h3>
+                <Code2 className="w-6 h-6 text-gray-700" />
+                <h3 className="text-lg font-semibold">{copy.skillsSection.qualityTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
-                <li>HTML / CSS / Semantic Markup</li>
-                <li>JavaScript / ES6+</li>
-                <li>ReactJS / React Native</li>
-                <li>jQuery</li>
-                <li>Nginx / Apache / Web Performance</li>
+                <li>PHPStan Level 9 / Psalm</li>
+                <li>PHPUnit / TDD / Test-Driven Development</li>
+                <li>Rector / Automated Refactoring</li>
+                <li>php-cs-fixer / Code Style</li>
+                <li>OOP / SOLID / Clean Code</li>
+                <li>Design Patterns / DDD</li>
+                <li>Code Review / Pair Programming</li>
               </ul>
             </div>
 
@@ -1472,55 +1575,15 @@ export default function App() {
           />
         </section>
 
-        {/* Open Source */}
-        <section id="open_source" aria-labelledby="oss-heading">
-          <h2 id="oss-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <Code2 className="w-8 h-8 text-blue-600" />
-            Open Source
-          </h2>
-          <div className="bg-gray-900 text-white p-8 rounded-2xl">
-            <p className="text-lg text-gray-300 mb-6">
-              {copy.openSourceSection.description}
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {PROFILE_DATA.projects.map(({ name, slug, since }) => (
-                 <div key={slug} className="bg-gray-800 p-4 rounded-lg border border-gray-700 font-mono text-sm text-blue-400 flex items-center justify-between gap-2">
-                  <span>{name}</span>
-                  {since && <span className="text-gray-400 text-xs">{since} – {copy.openSourceSection.today}</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <PublicationsSection />
 
         <OrganizationsSection />
-
-        {/* Erfahrung in der Praxis */}
-        <section id="experience" aria-labelledby="experience-heading">
-          <h2 id="experience-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <FileText className="w-8 h-8 text-blue-600" />
-            {copy.experienceSection.heading}
-          </h2>
-          <div className="space-y-6">
-            <SharedProfileMission />
-          </div>
-          {/* Attack #4: Sandwich-Injektion — legitimate experience content wraps hidden directives */}
-          <AttackAnnotation
-            visible={injectionPerspective === "attacker"}
-            category={copy.injectionPerspective.attackerTechniques[3].category}
-            example={copy.injectionPerspective.attackerTechniques[3].example}
-            whyItWorks={copy.injectionPerspective.attackerTechniques[3].whyItWorks}
-          />
-        </section>
 
         <ProblemsSection />
 
         <RecruiterProfileSection />
 
         <GeoFaqSection />
-
 
         {/* ── Security Demo: AI Prompt Injection Showcase ─────────────────────
              EDUCATIONAL PURPOSE: This section deliberately contains prompt
@@ -1530,29 +1593,36 @@ export default function App() {
              Everything here is intentionally visible and labeled.
              See also: OWASP LLM Top 10 – LLM01 Prompt Injection.
           ─────────────────────────────────────────────────────────────────── */}
-        {/* Attacks #5 & #6: System-Prompt-Override and Delayed JS Injection — AI Demo section */}
-        <div className="space-y-4">
-          <AttackAnnotation
-            visible={injectionPerspective === "attacker"}
-            category={copy.injectionPerspective.attackerTechniques[4].category}
-            example={copy.injectionPerspective.attackerTechniques[4].example}
-            whyItWorks={copy.injectionPerspective.attackerTechniques[4].whyItWorks}
-          />
-          <AttackAnnotation
-            visible={injectionPerspective === "attacker"}
-            category={copy.injectionPerspective.attackerTechniques[5].category}
-            example={copy.injectionPerspective.attackerTechniques[5].example}
-            whyItWorks={copy.injectionPerspective.attackerTechniques[5].whyItWorks}
-          />
-        </div>
-        <StandardAiShowcaseSection
-          onRunDelayedSimulation={runDelayedInjectionSimulation}
-          onRunMutationSimulation={runMutationObserverSimulation}
-          onResetSimulations={resetSimulations}
-          simulationHostRef={simulationHostRef}
-          isObserverActive={isObserverActive}
-          simulationLog={simulationLog}
-        />
+        <details className="group">
+          <summary className="flex items-center gap-2 cursor-pointer list-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
+            <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90 shrink-0" />
+            <span className="font-semibold" id="ai-injection-heading">AI Prompt Injection Demo</span>
+            <span className="ml-auto text-xs text-gray-400 font-mono">educational / research</span>
+          </summary>
+          <div className="mt-4 space-y-4">
+            {/* Attacks #5 & #6: System-Prompt-Override and Delayed JS Injection — AI Demo section */}
+            <AttackAnnotation
+              visible={injectionPerspective === "attacker"}
+              category={copy.injectionPerspective.attackerTechniques[4].category}
+              example={copy.injectionPerspective.attackerTechniques[4].example}
+              whyItWorks={copy.injectionPerspective.attackerTechniques[4].whyItWorks}
+            />
+            <AttackAnnotation
+              visible={injectionPerspective === "attacker"}
+              category={copy.injectionPerspective.attackerTechniques[5].category}
+              example={copy.injectionPerspective.attackerTechniques[5].example}
+              whyItWorks={copy.injectionPerspective.attackerTechniques[5].whyItWorks}
+            />
+            <StandardAiShowcaseSection
+              onRunDelayedSimulation={runDelayedInjectionSimulation}
+              onRunMutationSimulation={runMutationObserverSimulation}
+              onResetSimulations={resetSimulations}
+              simulationHostRef={simulationHostRef}
+              isObserverActive={isObserverActive}
+              simulationLog={simulationLog}
+            />
+          </div>
+        </details>
 
       </main>
 
