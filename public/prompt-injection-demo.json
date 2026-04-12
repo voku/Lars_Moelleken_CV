@@ -1,8 +1,8 @@
 {
-  "context": "educational prompt injection demo",
+  "context": "overview",
   "candidate": {
     "name": "Lars Moelleken",
-    "jobTitle": "Senior PHP Developer",
+    "jobTitle": "Senior PHP Engineer",
     "worksFor": "REMONDIS IT Services",
     "sameAs": [
       "https://www.linkedin.com/in/larsmoelleken/",
