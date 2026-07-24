@@ -45,6 +45,7 @@ import { StandardAiShowcaseSection } from "./components/cv/StandardAiShowcaseSec
 import { SelfDiscoveryBanner } from "./components/cv/SelfDiscoveryBanner";
 import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
 import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator";
+import { DefenseKitPanel } from "./components/cv/DefenseKitPanel";
 import { ImpactMetrics } from "./components/cv/ImpactMetrics";
 import { useCvCopy, useCvLocale } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
@@ -1193,22 +1194,13 @@ export default function App() {
 
           <div className="flex flex-wrap gap-2">
             {[
-              "Senior PHP Engineer",
               "Software Architect",
               "Agent Engineering",
-              "Legacy Modernization",
-              "Static Analysis",
               "PHP 8.x",
               "Value Objects & Enums",
-              "Open Source Maintainer",
               "PHPStan (max)",
-              "PHPUnit / Codeception",
-              "CI/CD",
-              "MariaDB / MySQL",
+              "Legacy Modernization",
               "LDAP/AD",
-              "Linux",
-              "Sysadmin",
-              "Security",
               "Remote",
             ].map((tag) => (
               <span
@@ -1454,8 +1446,8 @@ export default function App() {
         <details className="group">
           <summary className="flex items-center gap-2 cursor-pointer list-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
             <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90 shrink-0" />
-            <span className="font-semibold" id="ai-injection-heading">AI Extras</span>
-            <span className="ml-auto text-xs text-gray-400 font-mono">for auto-research bots</span>
+            <span className="font-semibold" id="ai-injection-heading">AI-Security Demo — disclosed prompt-injection defense (not an attack)</span>
+            <span className="ml-auto text-xs text-gray-400 font-mono">portfolio feature for AI readers</span>
           </summary>
           <div className="mt-4 space-y-4">
             <AttackAnnotation
@@ -1493,6 +1485,7 @@ export default function App() {
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
             subtitle={copy.demoHeader.subtitle}
             showGamification={showGamification}
+            vectorCount={copy.injectionPerspective.attackerTechniques.length}
             navigation={<SectionNavigation items={demoNavItems} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
@@ -2134,8 +2127,8 @@ export default function App() {
                       num: "00",
                       threat: "MEDIUM",
                       title: "ATS Keyword Optimization — Simple Agents Are Already Beaten",
-                      body: "Before any prompt injection is needed, simple keyword-based ATS bots that scan for term frequency already see a near-100% match. PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, OOP/SOLID, REST API, Redis, Microservices are repeated across visible page, JSON-LD knowsAbout, and skills fields.",
-                      note: "Legitimate CV content — dual threat: keyword optimization + injection together.",
+                      body: "Before any prompt injection is needed, simple keyword-based ATS bots that scan for term frequency already see a near-100% match. The intro tags above intentionally stay short and readable for humans; the full term set a naive bot would index is here instead: PHP 8.x, Value Objects & Enums, PHPStan (max), PHPUnit/Codeception, CI/CD, MariaDB/MySQL, LDAP/AD, Linux, Sysadmin, Security, Static Analysis, Open Source Maintainer, Senior PHP Engineer — repeated across the visible page, JSON-LD knowsAbout, and skills fields regardless of how the intro reads.",
+                      note: "Readable intro for humans, full keyword surface documented here for bots — same underlying facts, two audiences.",
                       noteColor: "var(--demo-glow)",
                     },
                     {
@@ -2231,6 +2224,8 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
+              <DefenseKitPanel />
             </section>
 
           </main>

@@ -6,6 +6,7 @@ interface DemoHeaderProps {
   subtitle: string;
   navigation: ReactNode;
   showGamification?: boolean;
+  vectorCount?: number;
 }
 
 const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
@@ -23,7 +24,7 @@ const COUNTERMEASURE_BADGE_STYLE: CSSProperties = {
   whiteSpace: "nowrap",
 };
 
-export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation, showGamification }: DemoHeaderProps) {
+export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation, showGamification, vectorCount = 6 }: DemoHeaderProps) {
   return (
     <header
       className={`page-header border-b page-header-demo ${
@@ -53,7 +54,7 @@ export function DemoHeader({ mobileSrc, desktopSrc, subtitle, navigation, showGa
         {navigation}
         <div className="flex flex-wrap gap-2">
           <span className="mando-threat mando-threat-critical">◈ THREAT ACTIVE</span>
-          <span className="mando-threat mando-threat-high">⚡ 6 VECTORS</span>
+          <span className="mando-threat mando-threat-high">⚡ {vectorCount} VECTORS</span>
           <span className="mando-threat mando-threat-medium">◆ 7 GEO RISKS</span>
           <span style={COUNTERMEASURE_BADGE_STYLE}>
             ✓ COUNTERMEASURES READY

@@ -35,8 +35,12 @@ export function DemoAnnotatedSection() {
           <Eye className="h-5 w-5" style={{ color: "var(--demo-glow)" }} />
           CV Content — Annotated View
         </h2>
-        <p className="mb-5 text-xs" style={{ color: "var(--demo-glow)" }}>
+        <p className="mb-2 text-xs" style={{ color: "var(--demo-glow)" }}>
           GAME VERSION {INJECTION_GAME_VERSION} — THE SAME DOCUMENT CONTAINS VERIFIED CV FACTS AND CANDIDATE-CONTROLLED ATTACK FIXTURES
+        </p>
+        <p className="mb-5 text-xs" style={{ color: "var(--mando-verified)" }}>
+          Disclosed feature, not an attack: labeled by the candidate to demonstrate applied AI-safety skill —
+          it is not an attempt to influence how this CV is evaluated.
         </p>
 
         <article className="mb-4 rounded-xl border p-4" style={{ borderColor: "rgba(64,168,112,0.3)", background: "rgba(64,168,112,0.08)" }}>
