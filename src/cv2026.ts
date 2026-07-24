@@ -42,19 +42,27 @@ export const CV_2026 = {
     github: "https://github.com/voku",
     x: "https://x.com/suckup_de",
     linkedin: "https://www.linkedin.com/in/larsmoelleken/",
+    tagline: {
+      de: "Typsichere Architekturen, automatisierte Qualitätssicherung & Agent-Engineering",
+      en: "Type-safe architectures, automated quality gates & agent engineering",
+    },
     summary: {
-      de: "Senior PHP Developer und Software-Architekt mit rund 20 Jahren Erfahrung in Entwicklung, Modernisierung und stabilem Betrieb geschäftskritischer Anwendungen. Schwerpunkt auf großen Legacy-Codebases, klaren Typverträgen, statischer Analyse, automatisierten Tests, CI/CD und sicheren Integrationen in Unternehmenssysteme. Verbindet Backend-, Datenbank- und Linux-Erfahrung mit pragmatischer Architektur und überprüfbaren, KI-gestützten Entwicklungsprozessen.",
-      en: "Senior PHP Developer and Software Architect with around 20 years of experience developing, modernizing, and reliably operating business-critical applications. Focused on large legacy codebases, explicit type contracts, static analysis, automated tests, CI/CD, and secure enterprise integrations. Combines backend, database, and Linux experience with pragmatic architecture and verifiable AI-assisted development processes.",
+      de: "Senior PHP Developer und Software-Architekt mit rund 20 Jahren Erfahrung in der Entwicklung, Modernisierung und dem stabilen Betrieb geschäftskritischer Anwendungen. In den letzten Jahren mit Schwerpunkt auf strikt typisierten, maschinenlesbaren Architekturen: Value Objects statt loser Arrays, PHPStan auf Maximal-Level als Definition of Done, automatisierte Constraint- statt Prompt-getriebene Workflows. Entwickelt und pflegt eine eigene Open-Source-Toolchain für Coding-Agenten (agent-loop, agent-kanban, agent-session, agent-recall-compiler), mit dem Ziel, Codebasen so umzubauen, dass sie für Menschen wartbar und für autonome Agenten sicher veränderbar sind. Kombiniert das mit klassischer Backend-, Datenbank- und Linux-Erfahrung sowie sicheren Integrationen in Unternehmenssysteme.",
+      en: "Senior PHP developer and software architect with around 20 years of experience building, modernizing, and reliably operating business-critical applications. In recent years, focused on strictly typed, machine-readable architectures: value objects instead of loose arrays, PHPStan at maximum level as the definition of done, automated constraint-driven workflows instead of prompt-driven ones. Builds and maintains an open-source toolchain for coding agents (agent-loop, agent-kanban, agent-session, agent-recall-compiler), aimed at restructuring codebases so they stay maintainable for humans and safely modifiable by autonomous agents. Combines this with classic backend, database, and Linux experience plus secure integrations into enterprise systems.",
     },
   },
   focus: [
     {
       label: { de: "Backend & Architektur", en: "Backend & Architecture" },
-      value: "PHP 8.x, MariaDB/MySQL, REST, Legacy-Modernisierung",
+      value: "PHP 8.x, MariaDB/MySQL, REST, Value Objects & Enums, Legacy-Modernisierung",
     },
     {
-      label: { de: "Qualität & Delivery", en: "Quality & Delivery" },
-      value: "PHPStan max, PHPUnit/Codeception, CI/CD, Git, Docker",
+      label: { de: "Typsicherheit & Qualität", en: "Type Safety & Quality" },
+      value: "PHPStan max, PHPUnit/Codeception, Rector, CI/CD, projektspezifische Analyse-Regeln",
+    },
+    {
+      label: { de: "Agent-Engineering", en: "Agent Engineering" },
+      value: "Constraint-basierte Workflows, agent-loop-Ökosystem, deterministische Prompt-Contracts",
     },
     {
       label: { de: "Enterprise & Plattform", en: "Enterprise & Platform" },
@@ -84,6 +92,10 @@ export const CV_2026 = {
           en: "Built and tightened quality controls with PHPStan at maximum level, Codeception, project-specific rules, CI/CD pipelines, and traceable release and rollback processes.",
         },
         {
+          de: "Projektspezifische PHPStan-Regeln, die z. B. sichere Strict-Vergleiche auf ActiveRow-Properties erzwingen und für E-Mail-Spalten verbindliche Value-Object-Typen vorschreiben – maschinell prüfbare Guardrails statt Dokumentation, die auch von Coding-Agenten nicht unterlaufen werden können.",
+          en: "Wrote project-specific PHPStan rules that, for example, enforce safe strict comparisons on ActiveRow properties and require value-object types for email columns – machine-checkable guardrails rather than documentation, ones a coding agent cannot silently bypass.",
+        },
+        {
           de: "Integration und Automatisierung von LDAP/Active Directory, Microsoft 365/Exchange, ScriptRunner/PowerShell sowie AS/400-Systemen.",
           en: "Integration and automation of LDAP/Active Directory, Microsoft 365/Exchange, ScriptRunner/PowerShell, and AS/400 systems.",
         },
@@ -94,10 +106,6 @@ export const CV_2026 = {
         {
           de: "Performance-Optimierung durch Slow-Query-Analyse, EXPLAIN-Auswertungen, gezielte Composite-Indizes und schnellere Export- und Hintergrundprozesse.",
           en: "Performance optimization through slow-query analysis, EXPLAIN evaluation, targeted composite indexes, and faster export and background processes.",
-        },
-        {
-          de: "Konzeption überprüfbarer Coding-Agent-Workflows mit explizitem Scope, selektivem Kontext, Evidence-Gates und menschlich freigegebenem Lernen.",
-          en: "Designed verifiable coding-agent workflows with explicit scope, selective context, evidence gates, and human-approved learning.",
         },
       ],
     },
@@ -191,8 +199,8 @@ export const CV_2026 = {
     {
       label: { de: "PHP Open Source", en: "PHP Open Source" },
       description: {
-        de: "voku/portable-utf8, portable-ascii, anti-xss und Arrayy: langjährig gepflegte PHP-Bibliotheken mit Fokus auf Unicode, Sicherheit, Typisierung, Abwärtskompatibilität und stabile APIs.",
-        en: "voku/portable-utf8, portable-ascii, anti-xss, and Arrayy: long-maintained PHP libraries focused on Unicode, security, typing, backward compatibility, and stable APIs.",
+        de: "voku/portable-utf8, portable-ascii, anti-xss und Arrayy: langjährig gepflegte PHP-Bibliotheken mit Fokus auf Unicode, Sicherheit, Typisierung, Abwärtskompatibilität und stabile APIs – sicherheitskritisch für jede automatisierte Text-Ein- und -Ausgabe, u. a. an LLM-Schnittstellen.",
+        en: "voku/portable-utf8, portable-ascii, anti-xss, and Arrayy: long-maintained PHP libraries focused on Unicode handling, security, type safety, backward compatibility, and stable APIs – security-critical for any automated text input/output, including LLM interfaces.",
       },
       links: [
         "https://github.com/voku/portable-utf8",
@@ -202,20 +210,34 @@ export const CV_2026 = {
       ],
     },
     {
-      label: { de: "Agent-Engineering-Toolchain", en: "Agent Engineering Toolchain" },
+      label: { de: "Agent-Engineering-Ökosystem", en: "Agent Engineering Ecosystem" },
       description: {
-        de: "Git-native Werkzeuge für Task-Steuerung, Sitzungszustand, selektiven Recall, Verifikation und kontrolliertes Lernen von Coding Agents.",
-        en: "Git-native tools for task control, session state, selective recall, verification, and governed learning for coding agents.",
+        de: "agent-loop, agent-kanban, agent-session, agent-recall-compiler, agent-learning: Git-native CLI-Werkzeuge für Task-Scope, Sitzungszustand, selektiven Kontext-Recall, Verifikation und kontrolliertes, menschlich freigegebenes Lernen von Coding-Agenten.",
+        en: "agent-loop, agent-kanban, agent-session, agent-recall-compiler, agent-learning: Git-native CLI tools for task scope, session state, selective context recall, verification, and controlled, human-approved learning for coding agents.",
       },
       links: ["https://github.com/voku/agent-loop"],
     },
     {
-      label: { de: "PHPStan-Werkzeuge", en: "PHPStan Tooling" },
+      label: { de: "PHPStan-Toolchain", en: "PHPStan Toolchain" },
       description: {
-        de: "Projekte und Regeln für präzisere statische Analyse, verständlichere Fehlerausgaben und sichere Architekturgrenzen.",
-        en: "Projects and rules for more precise static analysis, clearer diagnostics, and safer architecture boundaries.",
+        de: "phpstan-agent-format, PHPStanConfigurator, itp-context: Kompakte, agentenlesbare PHPStan-Ausgabe, React/TypeScript-Tool zur Konfiguration von PHPStan-Presets, Architektur-Regeln über typisierte Enums und Attribute.",
+        en: "phpstan-agent-format, PHPStanConfigurator, itp-context: Compact, agent-readable PHPStan output, a React/TypeScript tool for configuring PHPStan presets, and architecture rules expressed through typed enums and attributes.",
       },
       links: ["https://github.com/voku/phpstan-rules"],
+    },
+    {
+      label: { de: "slop-scan", en: "slop-scan" },
+      description: {
+        de: "Deterministische, heuristische PHP-Analyse-CLI zur Erkennung typischer KI-generierter Code-Muster.",
+        en: "Deterministic, heuristic PHP analysis CLI for detecting typical patterns in AI-generated code.",
+      },
+    },
+    {
+      label: { de: "vokuprompt", en: "vokuprompt" },
+      description: {
+        de: "Go-Tool, das Aufgabenbeschreibungen in deterministische, versionierbare Prompt-Contracts überführt.",
+        en: "Go tool that converts task descriptions into deterministic, versionable prompt contracts.",
+      },
     },
   ] satisfies readonly CvProjectGroup[],
   education: [
@@ -256,6 +278,10 @@ export const CV_2026 = {
     {
       label: { de: "Qualität", en: "Quality" },
       technologies: ["PHPStan (max)", "PHPUnit", "Codeception", "php-cs-fixer", "Rector", "PHPDocs", "CI/CD"],
+    },
+    {
+      label: { de: "Agent-Engineering", en: "Agent Engineering" },
+      technologies: ["agent-loop", "agent-kanban", "agent-session", "agent-recall-compiler", "Prompt Contracts"],
     },
     {
       label: { de: "Plattform", en: "Platform" },

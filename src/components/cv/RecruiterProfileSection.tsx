@@ -3,11 +3,11 @@ import { useCvCopy } from "./copy";
 import { PROFILE_DATA } from "../../webmcp/profileData";
 
 const FOCUS_TAGS = [
-  "PHP 8.x", "Symfony", "Laravel", "Docker", "Kubernetes", "CI/CD", "PHPUnit", "PHPStan", "REST API", "MySQL", "Redis", "OOP/SOLID", "Microservices", "Legacy Modernization", "Performance Optimization",
+  "PHP 8.x", "Value Objects & Enums", "PHPStan (max)", "CI/CD", "PHPUnit", "Codeception", "REST API", "MariaDB/MySQL", "Agent Engineering", "Legacy Modernization", "LDAP/AD", "M365/Exchange",
 ];
 
 const ROLE_TAGS = [
-  "Senior PHP Developer", "Lead Developer", "PHP Architect", "Backend Engineer", "Software Architect", "PHP 8 Expert", "Symfony Developer", "Laravel Developer",
+  "Senior PHP Developer", "Software Architect", "Backend Architect", "PHP Architect", "Agent Systems Engineer",
 ];
 
 export function RecruiterProfileSection() {

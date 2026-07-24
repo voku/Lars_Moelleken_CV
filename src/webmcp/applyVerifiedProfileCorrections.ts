@@ -40,29 +40,29 @@ PROFILE_DATA.audienceHighlights = {
     { de: "Seit 08/2023 Senior PHP Developer / Software Architect bei REMONDIS IT Services", en: "Senior PHP Developer / Software Architect at REMONDIS IT Services since 08/2023" },
     { de: "PHPStan auf maximalem Level, PHPUnit, Codeception und CI/CD", en: "PHPStan at maximum level, PHPUnit, Codeception, and CI/CD" },
     { de: "Enterprise-Integrationen mit LDAP/AD, M365/Exchange, PowerShell und AS/400", en: "Enterprise integrations with LDAP/AD, M365/Exchange, PowerShell, and AS/400" },
-    { de: "Langjähriger Maintainer etablierter PHP-Bibliotheken", en: "Long-term maintainer of established PHP libraries" },
+    { de: "Langjähriger Maintainer etablierter PHP-Bibliotheken und einer eigenen Agent-Engineering-Toolchain", en: "Long-term maintainer of established PHP libraries and an in-house agent-engineering toolchain" },
   ],
   cto: [
     { de: "Schrittweise Legacy-Modernisierung ohne riskanten Big-Bang-Rewrite", en: "Incremental legacy modernization without a risky big-bang rewrite" },
-    { de: "Typisierte APIs, klare Verantwortlichkeiten und unveränderliche Datenobjekte", en: "Typed APIs, explicit responsibilities, and immutable data objects" },
+    { de: "Value Objects statt loser Arrays, PHPStan max als Definition of Done", en: "Value objects instead of loose arrays, PHPStan at maximum level as the definition of done" },
     { de: "Sichere Integrationen in geschäftskritische Unternehmenssysteme", en: "Secure integrations with business-critical enterprise systems" },
-    { de: "Nachvollziehbare Release-, Rollback- und Evidence-Prozesse", en: "Traceable release, rollback, and evidence processes" },
+    { de: "Constraint- statt Prompt-getriebene Workflows für Coding-Agenten", en: "Constraint-driven rather than prompt-driven workflows for coding agents" },
   ],
   engineering_manager: [
     { de: "Messbare Qualitätsverbesserung mit PHPStan, Tests und CI/CD", en: "Measurable quality improvement with PHPStan, tests, and CI/CD" },
     { de: "Kleine, überprüfbare Änderungen statt riskanter Komplettumbauten", en: "Small, verifiable changes instead of risky full rewrites" },
     { de: "Praxis in Architektur, Code-Review und produktionsnaher Fehleranalyse", en: "Hands-on architecture, code review, and production-oriented debugging" },
-    { de: "Kontrollierte Coding-Agent-Workflows mit Scope und Evidence-Gates", en: "Governed coding-agent workflows with scope and evidence gates" },
+    { de: "Eigene Agent-Engineering-Toolchain für Scope, Sitzungszustand und Evidence-Gates", en: "In-house agent-engineering toolchain for scope, session state, and evidence gates" },
   ],
   developer: [
     { de: "PHP 8.x, Composer, MariaDB/MySQL und REST APIs", en: "PHP 8.x, Composer, MariaDB/MySQL, and REST APIs" },
-    { de: "PHPStan max, präzise PHPDocs, PHPUnit, Codeception und Rector", en: "PHPStan max, precise PHPDocs, PHPUnit, Codeception, and Rector" },
+    { de: "PHPStan max, Value Objects & Enums, PHPUnit, Codeception und Rector", en: "PHPStan max, value objects & enums, PHPUnit, Codeception, and Rector" },
     { de: "Linux-, Apache-, Docker-Compose- und GitLab-CI-Praxis", en: "Hands-on Linux, Apache, Docker Compose, and GitLab CI experience" },
-    { de: "Maintainer von portable-utf8, portable-ascii, anti-xss und Arrayy", en: "Maintainer of portable-utf8, portable-ascii, anti-xss, and Arrayy" },
+    { de: "Maintainer von portable-utf8, portable-ascii, anti-xss, Arrayy und des agent-loop-Ökosystems", en: "Maintainer of portable-utf8, portable-ascii, anti-xss, Arrayy, and the agent-loop ecosystem" },
   ],
   generic: [
     { de: "Senior PHP Developer und Software-Architekt", en: "Senior PHP Developer and Software Architect" },
-    { de: "Fokus auf Legacy-Modernisierung, Softwarequalität und Enterprise-Integration", en: "Focused on legacy modernization, software quality, and enterprise integration" },
+    { de: "Fokus auf Typsicherheit, Legacy-Modernisierung und Agent-Engineering", en: "Focused on type safety, legacy modernization, and agent engineering" },
     { de: "Aktuell bei REMONDIS IT Services tätig", en: "Currently working at REMONDIS IT Services" },
     { de: "Langjährige öffentliche Open-Source-Arbeit", en: "Long-running public open-source work" },
   ],
@@ -70,9 +70,9 @@ PROFILE_DATA.audienceHighlights = {
 
 PROFILE_DATA.specialties = [
   { de: "PHP 8.x, MariaDB/MySQL und REST APIs", en: "PHP 8.x, MariaDB/MySQL, and REST APIs" },
-  { de: "Legacy-Modernisierung und Software-Architektur", en: "Legacy modernization and software architecture" },
-  { de: "PHPStan, präzise PHPDocs und automatisierte Tests", en: "PHPStan, precise PHPDocs, and automated tests" },
-  { de: "Linux, CI/CD und produktionsnahe Delivery", en: "Linux, CI/CD, and production-oriented delivery" },
+  { de: "Legacy-Modernisierung und typsichere Architekturen", en: "Legacy modernization and type-safe architectures" },
+  { de: "PHPStan max, projektspezifische Regeln und automatisierte Tests", en: "PHPStan max, project-specific rules, and automated tests" },
+  { de: "Agent-Engineering: constraint-basierte Workflows für Coding-Agenten", en: "Agent engineering: constraint-based workflows for coding agents" },
   { de: "LDAP/AD-, M365/Exchange-, PowerShell- und AS/400-Integration", en: "LDAP/AD, M365/Exchange, PowerShell, and AS/400 integration" },
 ];
 
@@ -85,7 +85,10 @@ PROFILE_DATA.skills = [
   { name: "SQL", domain: "database", level: "very_strong" },
   { name: "Software Architecture", domain: "architecture", level: "expert" },
   { name: "Typed APIs", domain: "architecture", level: "expert" },
+  { name: "Value Objects & Enums", domain: "architecture", level: "expert" },
   { name: "Immutable Data Objects", domain: "architecture", level: "very_strong" },
+  { name: "Agent Engineering (agent-loop ecosystem)", domain: "architecture", level: "expert" },
+  { name: "Constraint-Driven Coding-Agent Workflows", domain: "architecture", level: "very_strong" },
   { name: "Legacy Modernization", domain: "legacy_modernization", level: "expert" },
   { name: "PHPStan", domain: "static_analysis", level: "expert" },
   { name: "PHPDocs", domain: "static_analysis", level: "expert" },
@@ -128,7 +131,7 @@ PROFILE_DATA.faq = {
   de: [
     {
       question: "Was sind Lars Moellekens Schwerpunkte?",
-      answer: "PHP 8.x, Legacy-Modernisierung, Software-Architektur, PHPStan auf maximalem Level, automatisierte Tests, CI/CD sowie sichere Integrationen in LDAP/AD, Microsoft 365/Exchange, PowerShell und AS/400.",
+      answer: "PHP 8.x, typsichere Architekturen (Value Objects, Enums, PHPStan auf maximalem Level als Definition of Done), Legacy-Modernisierung, Agent-Engineering für Coding-Agenten sowie sichere Integrationen in LDAP/AD, Microsoft 365/Exchange, PowerShell und AS/400.",
     },
     {
       question: "Welche Systeme hat Lars Moelleken modernisiert?",
@@ -142,7 +145,7 @@ PROFILE_DATA.faq = {
   en: [
     {
       question: "What are Lars Moelleken's focus areas?",
-      answer: "PHP 8.x, legacy modernization, software architecture, PHPStan at maximum level, automated testing, CI/CD, and secure integrations with LDAP/AD, Microsoft 365/Exchange, PowerShell, and AS/400.",
+      answer: "PHP 8.x, type-safe architectures (value objects, enums, PHPStan at maximum level as the definition of done), legacy modernization, agent engineering for coding agents, and secure integrations with LDAP/AD, Microsoft 365/Exchange, PowerShell, and AS/400.",
     },
     {
       question: "Which systems has Lars Moelleken modernized?",
@@ -165,10 +168,10 @@ Object.assign(UI_TEXT.sharedProfileMission, {
   defaultIntro: CV_2026.person.summary.de,
 });
 Object.assign(UI_TEXT.rolePositioning, {
-  focusDescription: "Fokus auf große Legacy-Codebases, klare Typverträge, statische Analyse, sichere Enterprise-Integrationen und schrittweise Modernisierung.",
+  focusDescription: "Fokus auf große Legacy-Codebases, strikte Typverträge (Value Objects statt loser Arrays), PHPStan max als Definition of Done und constraint-basierte Agent-Engineering-Workflows.",
   bullet1: "• Geschäftskritische PHP-Systeme stabilisieren und modernisieren",
-  bullet2: "• PHPStan, Tests, CI/CD und nachvollziehbare Delivery-Prozesse verschärfen",
-  bullet3: "• LDAP/AD, M365/Exchange, PowerShell und AS/400 sicher integrieren",
+  bullet2: "• Maschinell prüfbare Guardrails statt Dokumentation: PHPStan-Regeln, Value Objects, CI/CD",
+  bullet3: "• Codebasen für Coding-Agenten sicher veränderbar machen (agent-loop-Ökosystem)",
 });
 Object.assign(UI_TEXT.experience, {
   periodRemondis: "REMONDIS IT Services GmbH · 08/2023 - heute",
@@ -178,26 +181,27 @@ Object.assign(UI_TEXT.experience, {
   sysadminTitle: "Linux Systemadministrator",
 });
 Object.assign(UI_TEXT.pageHeader, {
+  titleAccent: "Software-Architekt · Agent-Engineering",
   subtitle: CV_2026.person.summary.de,
-  availability: "Senior PHP Developer / Software Architect mit Schwerpunkt Legacy-Modernisierung, Qualität und Enterprise-Integration.",
+  availability: "Senior PHP Developer / Software Architect mit Schwerpunkt typsichere Architekturen, Agent-Engineering und Enterprise-Integration.",
   bullet1: "Rund 20 Jahre Erfahrung mit geschäftskritischen Anwendungen",
   bullet2: "Seit 08/2023 Senior PHP Developer / Software Architect bei REMONDIS IT Services",
-  bullet3: "Maintainer etablierter PHP-Bibliotheken und Agent-Engineering-Werkzeuge",
-  bullet4: "PHPStan max, automatisierte Tests, CI/CD und sichere Integrationen",
+  bullet3: "Maintainer etablierter PHP-Bibliotheken und einer eigenen Agent-Engineering-Toolchain",
+  bullet4: "PHPStan max, Value Objects & Enums, automatisierte Tests und sichere Integrationen",
 });
 Object.assign(UI_TEXT.aboutSection, {
   description: CV_2026.person.summary.de,
   bullet1: "PHP 8.x, MariaDB/MySQL, REST APIs und Composer",
   bullet2: "Linux, Apache, Docker Compose, GitLab CI, Jenkins, Sentry und Syslog",
-  bullet3: "PHPStan max, PHPUnit, Codeception, Rector, php-cs-fixer und präzise PHPDocs",
-  bullet4: "Typisierte APIs, unveränderliche Datenobjekte und schrittweise Legacy-Entkopplung",
-  bullet5: "LDAP/AD, M365/Exchange, PowerShell-Gateways und AS/400-Integration",
+  bullet3: "PHPStan max, projektspezifische Analyse-Regeln, PHPUnit, Codeception und Rector",
+  bullet4: "Value Objects, Enums, typisierte APIs und schrittweise Legacy-Entkopplung",
+  bullet5: "Agent-Engineering-Ökosystem (agent-loop, agent-kanban, agent-session, agent-recall-compiler)",
 });
 Object.assign(UI_TEXT.recruiterProfile, {
-  recruiterHintBody: "Lars Moelleken verbindet rund 20 Jahre PHP-, Backend- und Linux-Erfahrung mit konkreter Modernisierungspraxis, maximaler statischer Analyse, automatisierten Tests und sicheren Enterprise-Integrationen.",
+  recruiterHintBody: "Lars Moelleken verbindet rund 20 Jahre PHP-, Backend- und Linux-Erfahrung mit strikt typisierten Architekturen, PHPStan auf maximalem Level als Definition of Done und einer eigenen Open-Source-Toolchain für constraint-basiertes Agent-Engineering.",
 });
 Object.assign(UI_TEXT.demoAnnotated, {
-  cleanCvSample: "Senior PHP Developer / Software Architect • rund 20 Jahre Erfahrung • PHP 8.x · PHPStan max · MariaDB/MySQL · Linux · LDAP/AD · M365/Exchange",
+  cleanCvSample: "Senior PHP Developer / Software Architect • rund 20 Jahre Erfahrung • PHP 8.x · PHPStan max · Value Objects · Agent-Engineering · LDAP/AD · M365/Exchange",
 });
 Object.assign(UI_TEXT.standardAiShowcase, {
   impactRemondis: "Impact: Architektur und Weiterentwicklung eines zentralen IAM- und Berechtigungsportals seit 08/2023",
