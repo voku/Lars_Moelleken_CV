@@ -79,6 +79,7 @@ export const CV_PROFILE = {
       period: "02/2023 - 08/2023",
       company: "IONOS SE",
       role: "PHP Developer",
+      context: undefined,
       bullets: [
         "Modernisierung einer rund 20 Jahre alten Codebase durch verbessertes Autoloading, präzise PHPDocs, PHPStan und automatisierte CI-Prüfungen.",
         "Stabilisierung und zuverlässigere Gestaltung der Datenbankanbindung.",
@@ -101,6 +102,7 @@ export const CV_PROFILE = {
       period: "08/2011 - 05/2017",
       company: "menadwork kommunikation GmbH",
       role: "Full Stack Developer",
+      context: undefined,
       bullets: [
         "Entwicklung eines internen CMS für die Anforderungen der Agentur.",
         "Umsetzung von Websites und E-Mail-Templates mit PHP, HTML, CSS und JavaScript.",
@@ -111,6 +113,7 @@ export const CV_PROFILE = {
       period: "08/2007 - 08/2010",
       company: "Global Village GmbH",
       role: "Linux Systemadministrator",
+      context: undefined,
       bullets: [
         "Automatisierung und Entwicklung mit Bash, PHP und Perl.",
         "Installation, Aktualisierung, Monitoring und Fehleranalyse von Linux-Servern.",
