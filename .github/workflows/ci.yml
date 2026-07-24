@@ -29,7 +29,16 @@ jobs:
       - name: TypeScript
         run: npm run lint
 
-      - name: Tests
+      - name: Trust-boundary tests
+        run: npx vitest run src/trust.test.ts
+
+      - name: Public-profile tests
+        run: npx vitest run src/webmcp/profileTools.test.ts
+
+      - name: Component tests
+        run: npx vitest run src/components/cv
+
+      - name: Full test suite
         run: npm test
 
       - name: Production build
