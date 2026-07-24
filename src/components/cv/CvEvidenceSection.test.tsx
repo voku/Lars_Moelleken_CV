@@ -17,4 +17,13 @@ describe("CvEvidenceSection", () => {
     const html = renderToStaticMarkup(<CvEvidenceSection theme="mandalorian" />);
     expect(html).toContain("mando-panel");
   });
+
+  it("restricts output to the requested sections, avoiding duplication with other page sections", () => {
+    const html = renderToStaticMarkup(<CvEvidenceSection sections={["education", "personal"]} />);
+
+    expect(html).toContain("Fachinformatiker Systemintegration");
+    expect(html).toContain("27. November 1987");
+    expect(html).not.toContain("Docker Compose");
+    expect(html).not.toContain("portable-utf8");
+  });
 });

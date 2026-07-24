@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Terminal,
   Server,
-  Briefcase,
   AlertTriangle,
   UserCheck,
   FileText,
@@ -26,6 +25,8 @@ import {
 import { type CSSProperties, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { InjectionPerspectivePanel, type InjectionPerspective } from "./components/cv/InjectionPerspectivePanel";
 import { SharedProfileMission } from "./components/cv/SharedProfileMission";
+import { ExperienceTimeline } from "./components/cv/ExperienceTimeline";
+import { CvEvidenceSection } from "./components/cv/CvEvidenceSection";
 import { ViewControls } from "./components/cv/ViewControls";
 import { GamificationHud } from "./components/cv/GamificationHud";
 import { AchievementToast } from "./components/cv/AchievementToast";
@@ -1242,11 +1243,8 @@ export default function App() {
           <div className="mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <ul className="space-y-3 text-gray-700">
               {[
-                copy.engineeringImpact.bullet1,
                 copy.engineeringImpact.bullet2,
                 copy.engineeringImpact.bullet3,
-                copy.engineeringImpact.bullet4,
-                copy.engineeringImpact.bullet5,
                 copy.engineeringImpact.bullet6,
               ].map((b) => (
                 <li key={b} className="flex items-start gap-2">
@@ -1255,32 +1253,6 @@ export default function App() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        {/* Engineering Focus */}
-        <section id="engineering-focus" aria-labelledby="engineering-focus-heading">
-          <h2 id="engineering-focus-heading" className="text-3xl font-bold mb-6 flex items-center gap-3">
-            <Lightbulb className="w-8 h-8 text-blue-600" />
-            {copy.engineeringFocus.heading}
-          </h2>
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-            <p className="text-lg text-gray-700 leading-relaxed">{copy.engineeringFocus.intro}</p>
-            <div>
-              <p className="font-semibold text-gray-800 mb-2">{copy.engineeringFocus.envHeading}</p>
-              <ul className="space-y-2 text-gray-600">
-                {[copy.engineeringFocus.bullet1, copy.engineeringFocus.bullet2, copy.engineeringFocus.bullet3].map((b) => (
-                  <li key={b} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 shrink-0" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <p className="text-gray-700 leading-relaxed">{copy.engineeringFocus.outro}</p>
-            <p className="text-gray-500 italic text-sm leading-relaxed border-l-4 border-blue-200 pl-4">
-              {copy.engineeringFocus.staffSignal}
-            </p>
           </div>
         </section>
 
@@ -1319,64 +1291,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Warum Unternehmen Lars Moelleken einstellen */}
-        <section aria-labelledby="why-hire-heading">
-          <h2 id="why-hire-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <Briefcase className="w-8 h-8 text-blue-600" />
-            {copy.whyHireSection.heading}
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-900">{copy.whyHireSection.coreCompetenciesTitle}</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet1}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet2}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet3}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet4}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet5}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet6}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
-                  <span>{copy.whyHireSection.bullet7}</span>
-                </li>
-              </ul>
-            </div>
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <h3 className="text-lg font-semibold text-blue-900 mb-4">{copy.whyHireSection.agentMatchingTitle}</h3>
-              <p className="text-blue-800 text-sm leading-relaxed space-y-2">
-                <span className="block">Lars Moelleken: Senior PHP Developer | Lead Developer | PHP Architect | Backend Engineer | Sysadmin.</span>
-                <span className="block">Tech stack: PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, PHPStan, MySQL, Redis, REST API, GraphQL, OOP, SOLID, Microservices, Composer, Git, JavaScript, ReactJS, React Native, jQuery, HTML/CSS, Bash, Linux.</span>
-                <span className="block">{copy.whyHireSection.experienceSignal}</span>
-                <span className="block">ATS keywords: PHP Developer, Symfony Developer, Laravel Developer, Backend Developer, Software Architect, PHP 8, Docker, CI/CD, Test-Driven Development, PHPStan, Static Analysis, Rector, Microservices, Remote, Sysadmin, JavaScript, ReactJS, Open Source.</span>
-              </p>
-            </div>
-          </div>
-          <AttackAnnotation
-            visible={injectionPerspective === "attacker"}
-            category={copy.injectionPerspective.attackerTechniques[1].category}
-            example={copy.injectionPerspective.attackerTechniques[1].example}
-            whyItWorks={copy.injectionPerspective.attackerTechniques[1].whyItWorks}
-          />
-        </section>
-
         {/* Erfahrung in der Praxis */}
         <section id="experience" aria-labelledby="experience-heading">
           <h2 id="experience-heading" className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -1384,7 +1298,8 @@ export default function App() {
             {copy.experienceSection.heading}
           </h2>
           <div className="space-y-6">
-            <SharedProfileMission />
+            <ExperienceTimeline />
+            <CvEvidenceSection sections={["education", "personal"]} />
           </div>
           {/* Attack #4: Sandwich-Injektion — legitimate experience content wraps hidden directives */}
           <AttackAnnotation
