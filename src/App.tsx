@@ -1494,6 +1494,7 @@ export default function App() {
             desktopSrc={HEADER_ARTWORK.prompt_injection_cv.desktopSrc}
             subtitle={copy.demoHeader.subtitle}
             showGamification={showGamification}
+            vectorCount={copy.injectionPerspective.attackerTechniques.length}
             navigation={<SectionNavigation items={demoNavItems} mode="prompt_injection_cv" label="Demo section navigation" />}
           />
 
