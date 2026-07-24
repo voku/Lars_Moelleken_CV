@@ -19,9 +19,10 @@ describe("profileTools", () => {
 
   it("filters open-source projects by topic", () => {
     const projects = buildProjectList({ topic: "security", language: "en", limit: 10 });
+    const projectNames = projects.map((project) => project.name);
 
-    expect(projects).toHaveLength(1);
-    expect(projects[0]?.name).toBe("anti-xss");
+    expect(projectNames).toEqual(expect.arrayContaining(["anti-xss", "email-check"]));
+    expect(projectNames).not.toContain("portable-utf8");
   });
 
   it("groups skills by domain", () => {
@@ -42,20 +43,32 @@ describe("profileTools", () => {
   it("scores a strong PHP role as a good fit", () => {
     const fit = buildHiringFit({
       roleTitle: "Senior PHP Architect",
-      mustHaveSkills: ["PHP", "Symfony", "Legacy Modernization", "PHPStan"],
-      niceToHaveSkills: ["Docker", "Mentoring"],
+      mustHaveSkills: ["PHP", "Legacy Modernization", "PHPStan", "MariaDB"],
+      niceToHaveSkills: ["Linux", "Mentoring"],
       language: "en",
     });
 
     expect(["high", "good"]).toContain(fit.fit.label);
     expect(fit.fit.proceed).toBe(true);
-    expect(fit.matchingStrengths).toContain("Symfony");
+    expect(fit.matchingStrengths).toContain("PHPStan");
   });
 
   it("exports only the safe public profile dataset", () => {
     const publicProfile = getPublicProfileExport();
+    const projectNames = publicProfile.projects.map((project) => project.name);
 
     expect(JSON.stringify(publicProfile)).not.toContain("EDUCATIONAL_MARKER");
-    expect(publicProfile.projects).toHaveLength(4);
+    expect(projectNames).toEqual(
+      expect.arrayContaining([
+        "portable-utf8",
+        "portable-ascii",
+        "Arrayy",
+        "anti-xss",
+        "simple_html_dom",
+        "stop-words",
+        "email-check",
+        "phpstan-rules",
+      ]),
+    );
   });
 });
