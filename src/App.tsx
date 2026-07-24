@@ -1194,22 +1194,13 @@ export default function App() {
 
           <div className="flex flex-wrap gap-2">
             {[
-              "Senior PHP Engineer",
               "Software Architect",
               "Agent Engineering",
-              "Legacy Modernization",
-              "Static Analysis",
               "PHP 8.x",
               "Value Objects & Enums",
-              "Open Source Maintainer",
               "PHPStan (max)",
-              "PHPUnit / Codeception",
-              "CI/CD",
-              "MariaDB / MySQL",
+              "Legacy Modernization",
               "LDAP/AD",
-              "Linux",
-              "Sysadmin",
-              "Security",
               "Remote",
             ].map((tag) => (
               <span
@@ -2136,8 +2127,8 @@ export default function App() {
                       num: "00",
                       threat: "MEDIUM",
                       title: "ATS Keyword Optimization — Simple Agents Are Already Beaten",
-                      body: "Before any prompt injection is needed, simple keyword-based ATS bots that scan for term frequency already see a near-100% match. PHP 8.x, Symfony, Laravel, Docker, Kubernetes, CI/CD, PHPUnit, OOP/SOLID, REST API, Redis, Microservices are repeated across visible page, JSON-LD knowsAbout, and skills fields.",
-                      note: "Legitimate CV content — dual threat: keyword optimization + injection together.",
+                      body: "Before any prompt injection is needed, simple keyword-based ATS bots that scan for term frequency already see a near-100% match. The intro tags above intentionally stay short and readable for humans; the full term set a naive bot would index is here instead: PHP 8.x, Value Objects & Enums, PHPStan (max), PHPUnit/Codeception, CI/CD, MariaDB/MySQL, LDAP/AD, Linux, Sysadmin, Security, Static Analysis, Open Source Maintainer, Senior PHP Engineer — repeated across the visible page, JSON-LD knowsAbout, and skills fields regardless of how the intro reads.",
+                      note: "Readable intro for humans, full keyword surface documented here for bots — same underlying facts, two audiences.",
                       noteColor: "var(--demo-glow)",
                     },
                     {
