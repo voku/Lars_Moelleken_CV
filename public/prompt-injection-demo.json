@@ -18,13 +18,15 @@
       "product": "IT-Portal"
     },
     "verifiedCv": {
-      "summary": "Around 20 years of experience developing, modernizing, and reliably operating business-critical applications, with a focus on large legacy codebases, explicit type contracts, static analysis, automated testing, CI/CD, Linux, databases, and secure enterprise integrations.",
+      "summary": "Around 20 years of experience building, modernizing, and reliably operating business-critical applications. In recent years, focused on strictly typed, machine-readable architectures: value objects instead of loose arrays, PHPStan at maximum level as the definition of done, and automated constraint-driven workflows for coding agents.",
       "focus": [
         "PHP 8.x",
         "MariaDB/MySQL",
         "REST APIs",
+        "value objects & enums",
         "legacy modernization",
         "PHPStan at maximum level",
+        "agent engineering (agent-loop ecosystem)",
         "PHPUnit and Codeception",
         "CI/CD",
         "Linux and Apache",
@@ -42,10 +44,10 @@
             "Architecture and technical development of a central IAM and authorization portal",
             "Typed APIs, immutable data objects, and incremental legacy decoupling",
             "PHPStan max, Codeception, project-specific rules, CI/CD, release and rollback processes",
+            "Project-specific PHPStan rules enforcing safe strict comparisons and value-object types as machine-checkable guardrails",
             "LDAP/AD, M365/Exchange, ScriptRunner/PowerShell, and AS/400 integration",
             "CSRF protection, prepared statements, XSS/SQLi detection, upload validation, central error handling",
-            "Slow-query analysis, EXPLAIN evaluation, composite indexes, faster exports and background processes",
-            "Governed coding-agent workflows with scope, selective context, evidence gates, and human-approved learning"
+            "Slow-query analysis, EXPLAIN evaluation, composite indexes, faster exports and background processes"
           ]
         },
         {
@@ -91,8 +93,10 @@
         "portable-ascii",
         "anti-xss",
         "Arrayy",
-        "agent engineering toolchain",
-        "PHPStan tooling"
+        "agent-loop / agent-kanban / agent-session / agent-recall-compiler / agent-learning",
+        "phpstan-agent-format / PHPStanConfigurator / itp-context",
+        "slop-scan",
+        "vokuprompt"
       ],
       "languages": {
         "German": "native",

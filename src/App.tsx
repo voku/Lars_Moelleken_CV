@@ -1100,7 +1100,7 @@ export default function App() {
         badgeText="Profile: Active"
         badgeColorClass="text-blue-600"
         titleLine1="Lars Moelleken"
-        titleAccent={<span className="text-blue-600">Senior PHP Engineer</span>}
+        titleAccent={<span className="text-blue-600">{copy.pageHeader.titleAccent}</span>}
         subtitle={copy.pageHeader.subtitle}
         afterContent={
           <span
@@ -1193,21 +1193,18 @@ export default function App() {
           <div className="flex flex-wrap gap-2">
             {[
               "Senior PHP Engineer",
-              "PHP Architect",
               "Software Architect",
+              "Agent Engineering",
               "Legacy Modernization",
               "Static Analysis",
               "PHP 8.x",
-              "Symfony",
-              "Laravel",
+              "Value Objects & Enums",
               "Open Source Maintainer",
-              "PHPStan",
-              "PHPUnit",
-              "OOP / SOLID",
-              "Docker",
+              "PHPStan (max)",
+              "PHPUnit / Codeception",
               "CI/CD",
-              "MySQL",
-              "Redis",
+              "MariaDB / MySQL",
+              "LDAP/AD",
               "Linux",
               "Sysadmin",
               "Security",
@@ -1466,13 +1463,12 @@ export default function App() {
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
                 <li>PHP 8.x / PHP 8.2 / PHP 8.3</li>
-                <li>Symfony / Symfony 6 / Symfony 7</li>
-                <li>Laravel / Laravel 10 / Laravel 11</li>
-                <li>REST API / RESTful API / GraphQL</li>
-                <li>MySQL / MariaDB / PostgreSQL</li>
-                <li>Redis / Caching / Message Queues</li>
+                <li>Value Objects / Enums / typisierte APIs</li>
+                <li>REST APIs</li>
+                <li>MariaDB / MySQL / SQL</li>
                 <li>Composer / Dependency Management</li>
-                <li>Git / Git Flow / Version Control</li>
+                <li>Git / Version Control</li>
+                <li>Bash / Perl</li>
               </ul>
             </div>
 
@@ -1482,13 +1478,12 @@ export default function App() {
                 <h3 className="text-lg font-semibold">{copy.skillsSection.architectureTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
-                <li>Docker / Docker Compose</li>
-                <li>Kubernetes / Container Orchestration</li>
-                <li>CI/CD / GitHub Actions / GitLab CI</li>
-                <li>Microservices / Event-Driven Architecture</li>
+                <li>agent-loop / agent-kanban / agent-session / agent-recall-compiler</li>
+                <li>Constraint- statt Prompt-getriebene Workflows</li>
+                <li>Docker Compose / CI/CD / GitLab CI / Jenkins</li>
+                <li>Projektspezifische PHPStan-Regeln als Guardrails</li>
                 <li>Monolith Migration / Legacy Modernization</li>
-                <li>Scalable Backend Architecture</li>
-                <li>Linux / Nginx / Apache / Bash</li>
+                <li>Linux / Apache / Sentry / Syslog</li>
               </ul>
             </div>
 
@@ -1498,12 +1493,12 @@ export default function App() {
                 <h3 className="text-lg font-semibold">{copy.skillsSection.qualityTitle}</h3>
               </div>
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
-                <li>PHPStan Level 9 / Psalm</li>
-                <li>PHPUnit / TDD / Test-Driven Development</li>
+                <li>PHPStan (max) — Definition of Done</li>
+                <li>PHPUnit / Codeception</li>
                 <li>Rector / Automated Refactoring</li>
                 <li>php-cs-fixer / Code Style</li>
+                <li>Precise PHPDocs</li>
                 <li>OOP / SOLID / Clean Code</li>
-                <li>Design Patterns / DDD</li>
                 <li>Code Review / Pair Programming</li>
               </ul>
             </div>
@@ -1516,9 +1511,9 @@ export default function App() {
               <ul className="space-y-2 text-gray-600 font-mono text-sm">
                 <li>{copy.skillsSection.securityItem1}</li>
                 <li>{copy.skillsSection.securityItem2}</li>
+                <li>LDAP/AD / M365 / Exchange / PowerShell / AS/400</li>
                 <li>Team Lead / Senior Developer</li>
                 <li>Mentoring / Technical Coaching</li>
-                <li>Agile / Scrum / Kanban</li>
                 <li>Performance Optimization / Profiling</li>
               </ul>
             </div>
