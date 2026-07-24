@@ -3,11 +3,14 @@ import { describe, expect, it } from "vitest";
 import { SharedProfileMission } from "./SharedProfileMission";
 
 describe("SharedProfileMission", () => {
-  it("renders shared stack blocks for standard theme", () => {
+  it("renders CV-backed profile, timeline, education, and projects", () => {
     const html = renderToStaticMarkup(<SharedProfileMission />);
-    expect(html).toContain("OSS Libraries");
-    expect(html).toContain("Primäre Positionierung");
-    expect(html).toContain("REMONDIS IT Services");
+
+    expect(html).toContain("PHPStan max");
+    expect(html).toContain("Senior PHP Developer / Software Architect");
+    expect(html).toContain("REMONDIS IT Services GmbH");
+    expect(html).toContain("Fachinformatiker Anwendungsentwicklung");
+    expect(html).toContain("Agent-Engineering-Toolchain");
   });
 
   it("renders with mandalorian styling", () => {

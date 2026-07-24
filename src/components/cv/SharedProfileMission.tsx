@@ -1,3 +1,4 @@
+import { CvEvidenceSection } from "./CvEvidenceSection";
 import { ExperienceTimeline } from "./ExperienceTimeline";
 import { ImpactMetrics } from "./ImpactMetrics";
 import { RolePositioningCards } from "./RolePositioningCards";
@@ -5,9 +6,9 @@ import { useCvCopy } from "./copy";
 import type { ComponentTheme } from "./types";
 
 interface SharedProfileMissionProps {
-  theme?: ComponentTheme;
-  introText?: string;
-  compact?: boolean;
+  readonly theme?: ComponentTheme;
+  readonly introText?: string;
+  readonly compact?: boolean;
 }
 
 export function SharedProfileMission({
@@ -25,6 +26,7 @@ export function SharedProfileMission({
       <p className={isMando ? "text-sm text-mando-body" : "text-gray-700 text-lg"}>{resolvedIntro}</p>
       <RolePositioningCards theme={theme} />
       <ExperienceTimeline theme={theme} />
+      <CvEvidenceSection theme={theme} />
     </div>
   );
 }

@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 import { ImpactMetrics } from "./ImpactMetrics";
 
 describe("ImpactMetrics", () => {
-  it("renders default metrics", () => {
+  it("renders CV-backed metrics", () => {
     const html = renderToStaticMarkup(<ImpactMetrics />);
-    expect(html).toContain("OSS Libraries");
-    expect(html).toContain("20+ Jahre");
+
+    expect(html).toContain("~20 Jahre");
+    expect(html).toContain("PHPStan max");
+    expect(html).toContain("IAM + M365");
   });
 
   it("supports mandalorian theme", () => {
