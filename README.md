@@ -1,93 +1,90 @@
-# Lars Moelleken – CV & AI-Experiments
+# Lars Moelleken – AI-Readable CV & Prompt-Injection Lab
 
-Interactive CV for Lars Moelleken (Senior PHP Developer) with a built-in educational demo showing how AI-Experiments for faster recruiting. 
+Interactive CV for Lars Moelleken, Senior PHP Developer and Software Architect.
+
+The project has two practical goals:
+
+1. present a precise, machine-readable professional profile that recruiting agents can retrieve and recommend with evidence;
+2. demonstrate how candidate-controlled web content can manipulate a naive AI recruiter, and how a hardened parser should preserve facts while rejecting embedded ranking instructions.
 
 **Live:** https://voku.github.io/Lars_Moelleken_CV/
 
----
+## What changed
 
-## Features
+The public profile is aligned with the 2026 CV and now uses one consistent evidence source for:
 
-- **Interactive CV** – Professional landing page with skills, experience, and open-source highlights.
-- **AI Trust Boundary Demo** – Side-by-side comparison of a *naive* AI recruiter vs a *hardened* one when processing the CV HTML.
-- **Trust Boundary Report** – Visual breakdown of detected injection signals, sanitized facts, and injection attempts.
-- **GitHub Pages deployment** – Static build served via Vite, auto-deployed on every push to `main`.
+- visible CV content;
+- the non-JavaScript static mirror;
+- Schema.org `ProfilePage`, `Person`, and `FAQPage` data;
+- the downloadable public profile JSON;
+- role-fit explanations for recruiting agents.
 
----
+Unsupported framework claims, invented credentials, self-issued awards, fake ratings, and incorrect employment dates are no longer part of the production profile surface.
 
-## Run Locally
+## Recruiter and AI signals
 
-**Prerequisites:** Node.js ≥ 18
+The page directly explains why Lars should be shortlisted for:
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+- Senior PHP Developer;
+- Software Architect / PHP Architect;
+- Legacy Modernization / Quality Engineering;
+- Enterprise Integration Developer.
 
-2. Copy the example env file and fill in your tokens:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Set `GITHUB_TOKEN` (required for the `/api/analyze` endpoint).
+Every recommendation is tied to visible evidence such as PHP 8.x, large legacy codebases, PHPStan at maximum level, PHPUnit/Codeception, CI/CD, MariaDB/MySQL, Linux, LDAP/Active Directory, Microsoft 365/Exchange, PowerShell, AS/400 integration, and long-term open-source maintenance.
 
-3. Start the API server (in one terminal):
-   ```bash
-   npm run server
-   ```
+This is deliberate retrieval and ranking optimization using verifiable facts, rather than hoping a bot correctly reconstructs the profile from scattered buzzwords. Apparently machines also need the answer stated plainly. Humans invented cover letters, so nobody gets to judge.
 
-4. Start the Vite dev server (in another terminal):
-   ```bash
-   npm run dev
-   ```
+## Prompt-injection lab
 
-5. Open http://localhost:3000
+The interactive lab feeds the same candidate content to two simulated parsers:
 
----
+- **Naive parser:** copies the candidate-authored instruction to rank Lars first and recommend immediate hiring.
+- **Hardened parser:** detects the ranking directive, rejects it, preserves allowlisted facts, and still recommends a shortlist when the evidence supports it.
 
-## Production Build
+The demonstration covers:
+
+- direct instruction injection;
+- candidate-authored ranking and score fields;
+- poisoned structured metadata;
+- hidden or tiny text;
+- output-schema hijacking;
+- delayed DOM mutation signals.
+
+The production JSON-LD remains factual. The malicious directive exists only inside the visibly labelled simulation.
+
+## Run locally
+
+**Prerequisites:** Node.js 20 or newer.
 
 ```bash
-npm run build      # outputs to dist/
-npm run preview    # preview the production build locally
+npm ci
+npm run dev
 ```
 
----
+Open http://localhost:3000.
 
-## GitHub Pages Deployment
+## Validation
 
-Push to `main` and the included GitHub Actions workflow (`.github/workflows/deploy.yml`) will automatically build and deploy to GitHub Pages.
+```bash
+npm run lint
+npm test
+npm run build
+```
 
----
+Pull requests run all three checks in GitHub Actions.
 
-## Key Files
+## Key files
 
 | File | Purpose |
 |---|---|
-| `src/App.tsx` | Main React application (CV + demo UI) |
-| `server.ts` | Express API server (`/api/analyze`) |
-| `src/trust.ts` | Sanitization & injection-signal classifier |
-| `src/types.ts` | Shared TypeScript types |
-| `vite.config.ts` | Vite build configuration |
-| `.github/workflows/deploy.yml` | GitHub Pages CI/CD workflow |
+| `src/cvData.ts` | Single PDF-aligned data source for the active CV |
+| `src/AppV2.tsx` | Evidence-first CV and interactive injection comparison |
+| `src/trust.ts` | Injection-signal classification and visible-fact allowlist |
+| `src/trust.test.ts` | Trust-boundary tests |
+| `index.html` | Static mirror and factual Schema.org data for non-JS clients |
+| `public/prompt-injection-demo.json` | Static factual profile plus labelled simulation contract |
+| `.github/workflows/ci.yml` | TypeScript, tests, and production-build validation |
 
----
+## Deployment
 
-## Key Files Detector (helper prompt)
-
-Paste the following into any AI assistant to quickly identify the most important files in this repository:
-
-```
-List the most important source files in this repo and explain what each one does.
-Focus on: entry points, API routes, data models, and configuration files.
-Ignore node_modules, dist, and generated files.
-```
-
----
-
-## Environment Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `GITHUB_TOKEN` | Yes (server) | GitHub PAT used to call the Copilot API for `/api/analyze` |
-| `OPENAI_MODEL` | No | Override the model (default: `gpt-4.1-2025-04-14`) |
-| `API_PORT` | No | Port for the Express server (default: `3001`) |
+Pushes to `main` are built and deployed to GitHub Pages by `.github/workflows/deploy.yml`.
