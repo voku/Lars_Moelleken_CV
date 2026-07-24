@@ -9,8 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "vitest run src/AppV2.test.tsx src/trust.test.ts src/webmcp/profileTools.test.ts",
-    "test:legacy": "vitest run src/components/cv",
+    "test": "vitest run",
     "test:loop": "tsx test.ts --loop 8",
     "server": "tsx server.ts"
   },

@@ -29,148 +29,156 @@ export type SkillLevel = "strong" | "very_strong" | "expert";
 export type ContactChannelKey = "email" | "linkedin" | "github" | "website" | "blog" | "packagist" | "twitter" | "mastodon" | "bluesky";
 
 export interface LocalizedText {
-  readonly de: string;
-  readonly en: string;
+  de: string;
+  en: string;
 }
 
 export interface ProfileProject {
-  readonly slug: string;
-  readonly name: string;
-  readonly url: string;
-  readonly primaryLanguage: string;
-  readonly topics: readonly ProjectTopic[];
-  readonly shortDescription: LocalizedText;
-  readonly whyItMatters: LocalizedText;
-  readonly tags: readonly string[];
-  readonly since?: string;
+  slug: string;
+  name: string;
+  url: string;
+  primaryLanguage: string;
+  topics: ProjectTopic[];
+  shortDescription: LocalizedText;
+  whyItMatters: LocalizedText;
+  tags: string[];
+  since?: string;
 }
 
 export interface ProfileSkill {
-  readonly name: string;
-  readonly domain: SkillDomain;
-  readonly level: SkillLevel;
+  name: string;
+  domain: SkillDomain;
+  level: SkillLevel;
 }
 
 export interface ProfileSection {
-  readonly id: ProfileSectionKey;
-  readonly domId: string;
-  readonly label: LocalizedText;
+  id: ProfileSectionKey;
+  domId: string;
+  label: LocalizedText;
 }
 
 export interface ContactChannel {
-  readonly key: ContactChannelKey;
-  readonly label: string;
-  readonly href: string;
-  readonly visibleLabel: string;
+  key: ContactChannelKey;
+  label: string;
+  href: string;
+  visibleLabel: string;
 }
 
 export interface ContactGuidance {
-  readonly preferredChannels: readonly ContactChannelKey[];
-  readonly include: readonly LocalizedText[];
-  readonly conversationTopics: readonly LocalizedText[];
+  preferredChannels: ContactChannelKey[];
+  include: LocalizedText[];
+  conversationTopics: LocalizedText[];
 }
 
 export interface HiringProfileData {
-  readonly person: {
-    readonly name: string;
-    readonly headline: string;
-    readonly location: LocalizedText;
-    readonly seniority: LocalizedText;
-    readonly currentRole: LocalizedText;
-    readonly currentCompany: string;
-    readonly summaries: LocalizedText;
-    readonly availability: LocalizedText;
+  person: {
+    name: string;
+    headline: string;
+    location: LocalizedText;
+    seniority: LocalizedText;
+    currentRole: LocalizedText;
+    currentCompany: string;
+    summaries: LocalizedText;
+    availability: LocalizedText;
   };
-  readonly sections: readonly ProfileSection[];
-  readonly audienceHighlights: Record<ProfileAudience, readonly LocalizedText[]>;
-  readonly specialties: readonly LocalizedText[];
-  readonly strongestProjects: readonly string[];
-  readonly projects: readonly ProfileProject[];
-  readonly skills: readonly ProfileSkill[];
-  readonly experienceHighlights: readonly LocalizedText[];
-  readonly faq: Record<ProfileLocale, readonly { readonly question: string; readonly answer: string }[]>;
-  readonly contact: {
-    readonly email: string;
-    readonly channels: readonly ContactChannel[];
-    readonly guidanceByIntent: Record<ContactIntent, ContactGuidance>;
+  sections: readonly ProfileSection[];
+  audienceHighlights: Record<ProfileAudience, readonly LocalizedText[]>;
+  specialties: readonly LocalizedText[];
+  strongestProjects: readonly string[];
+  projects: readonly ProfileProject[];
+  skills: readonly ProfileSkill[];
+  experienceHighlights: readonly LocalizedText[];
+  faq: Record<ProfileLocale, readonly { question: string; answer: string }[]>;
+  contact: {
+    email: string;
+    channels: readonly ContactChannel[];
+    guidanceByIntent: Record<ContactIntent, ContactGuidance>;
   };
 }
 
 export const PROFILE_DATA: HiringProfileData = {
   person: {
     name: "Lars Moelleken",
-    headline: "Senior PHP Developer & Software Architect",
+    headline: "Senior PHP Developer",
     location: {
       de: "Voerde, NRW, Deutschland",
       en: "Voerde, NRW, Germany",
     },
     seniority: {
-      de: "Rund 20 Jahre Erfahrung mit geschäftskritischen PHP- und Backend-Systemen",
-      en: "Around 20 years of experience with business-critical PHP and backend systems",
+      de: "20+ Jahre Erfahrung in geschäftskritischen PHP- und Backend-Systemen",
+      en: "20+ years of experience in business-critical PHP and backend systems",
     },
     currentRole: {
-      de: "Senior PHP Developer / Software Architect bei REMONDIS IT Services seit August 2023",
-      en: "Senior PHP Developer / Software Architect at REMONDIS IT Services since August 2023",
+      de: "Senior PHP Developer bei REMONDIS IT Services",
+      en: "Senior PHP Developer at REMONDIS IT Services",
     },
-    currentCompany: "REMONDIS IT Services GmbH",
+    currentCompany: "REMONDIS IT Services",
     summaries: {
-      de: "Senior PHP Developer und Software-Architekt mit Schwerpunkt auf großen Legacy-Codebases, klaren Typverträgen, statischer Analyse, automatisierten Tests, CI/CD sowie sicheren Integrationen in Unternehmenssysteme.",
-      en: "Senior PHP Developer and Software Architect focused on large legacy codebases, explicit type contracts, static analysis, automated tests, CI/CD, and secure enterprise integrations.",
+      de: "Senior PHP Developer, PHP Architect und Sysadmin aus Deutschland mit Fokus auf Legacy-Modernisierung, statische Analyse, wartbare Systeme, Softwarequalität und langfristig gepflegte Open-Source-Arbeit. Verfügbar für Remote-Rollen.",
+      en: "Senior PHP Developer, PHP Architect, and Sysadmin from Germany focused on legacy modernization, static analysis, maintainable systems, software quality, and long-term open-source maintenance. Available for remote roles.",
     },
     availability: {
-      de: "Kontakt für Senior-PHP-, Software-Architektur-, Legacy-Modernisierungs- und Enterprise-Integrationsrollen.",
-      en: "Contact for senior PHP, software architecture, legacy modernization, and enterprise integration roles.",
+      de: "Verfügbar für Senior-PHP-, Architektur-, Legacy-Modernisierungs-, Quality- und DevOps-Themen — auch remote.",
+      en: "Available for senior PHP, architecture, legacy modernization, software quality, and DevOps topics — including remote.",
     },
   },
   sections: [
     { id: "about", domId: "about", label: { de: "Profil & Fokus", en: "Profile & Focus" } },
     { id: "skills", domId: "skills", label: { de: "Fachliche Schwerpunkte", en: "Core Skills" } },
     { id: "open_source", domId: "open_source", label: { de: "Open Source", en: "Open Source" } },
+    { id: "publications", domId: "publications", label: { de: "Veröffentlichungen", en: "Publications" } },
+    { id: "organizations", domId: "organizations", label: { de: "Organisationen", en: "Organizations" } },
     { id: "experience", domId: "experience", label: { de: "Erfahrung", en: "Experience" } },
+    { id: "problems", domId: "problems", label: { de: "Typische Probleme", en: "Typical Problems" } },
     { id: "recruiter_profile", domId: "recruiter_profile", label: { de: "Recruiter-Profil", en: "Recruiter Profile" } },
+    { id: "faq_contact", domId: "faq_contact", label: { de: "FAQ & Kontakt", en: "FAQ & Contact" } },
     { id: "ai_demo", domId: "ai_demo", label: { de: "AI-Demo", en: "AI Demo" } },
   ],
   audienceHighlights: {
     recruiter: [
-      { de: "Rund 20 Jahre PHP- und Backend-Erfahrung", en: "Around 20 years of PHP and backend experience" },
-      { de: "Seit 08/2023 Senior PHP Developer / Software Architect bei REMONDIS IT Services", en: "Senior PHP Developer / Software Architect at REMONDIS IT Services since 08/2023" },
-      { de: "PHPStan auf maximalem Level, PHPUnit/Codeception und CI/CD", en: "PHPStan at maximum level, PHPUnit/Codeception, and CI/CD" },
-      { de: "Enterprise-Integrationen mit LDAP/AD, M365/Exchange, PowerShell und AS/400", en: "Enterprise integrations with LDAP/AD, M365/Exchange, PowerShell, and AS/400" },
-      { de: "Langjähriger Maintainer etablierter PHP-Bibliotheken", en: "Long-term maintainer of established PHP libraries" },
+      { de: "20+ Jahre PHP- und Backend-Erfahrung", en: "20+ years of PHP and backend experience" },
+      { de: "Aktuell Senior PHP Developer bei REMONDIS IT Services", en: "Currently Senior PHP Developer at REMONDIS IT Services" },
+      { de: "Geeignet für Senior-PHP-, Lead- und Architektur-Rollen", en: "Suitable for senior PHP, lead, and architecture roles" },
+      { de: "Maintainer mehrerer PHP Open-Source-Libraries", en: "Maintainer of several PHP open-source libraries" },
+      { de: "Standort in Deutschland mit öffentlichen Kontaktwegen", en: "Based in Germany with public contact paths" },
     ],
     cto: [
-      { de: "Schrittweise Legacy-Modernisierung ohne riskanten Big-Bang-Rewrite", en: "Incremental legacy modernization without a risky big-bang rewrite" },
-      { de: "Typisierte APIs, klare Verantwortlichkeiten und unveränderliche Datenobjekte", en: "Typed APIs, explicit responsibilities, and immutable data objects" },
-      { de: "Sichere Integrationen in geschäftskritische Unternehmenssysteme", en: "Secure integrations with business-critical enterprise systems" },
-      { de: "Nachvollziehbare Release-, Rollback- und Evidence-Prozesse", en: "Traceable release, rollback, and evidence processes" },
+      { de: "Fokus auf Legacy-Modernisierung ohne Big-Bang-Rewrite", en: "Focused on legacy modernization without risky big-bang rewrites" },
+      { de: "Architektur, Wartbarkeit und inkrementelle Qualitätsverbesserung", en: "Works on architecture, maintainability, and incremental quality improvement" },
+      { de: "Erfahrung mit skalierbaren Backend-Systemen und CI/CD", en: "Experience with scalable backend systems and CI/CD" },
+      { de: "Open Source mit Performance-, Sicherheits- und Stabilitätsfokus", en: "Open source work centered on performance, security, and stability" },
+      { de: "Mentoring und technische Führung in bestehenden Teams", en: "Provides mentoring and technical leadership in existing teams" },
     ],
     engineering_manager: [
-      { de: "Messbare Qualitätsverbesserung mit PHPStan, Tests und CI/CD", en: "Measurable quality improvement with PHPStan, tests, and CI/CD" },
-      { de: "Kleine, überprüfbare Änderungen statt riskanter Komplettumbauten", en: "Small, verifiable changes instead of risky full rewrites" },
-      { de: "Praxis in Architektur, Code-Review und produktionsnaher Fehleranalyse", en: "Hands-on architecture, code review, and production-oriented debugging" },
-      { de: "Kontrollierte Coding-Agent-Workflows mit Scope und Evidence-Gates", en: "Governed coding-agent workflows with scope and evidence gates" },
+      { de: "Führt Teams über Refactoring, Testing und statische Analyse zu verlässlicheren Standards", en: "Helps teams improve reliability through refactoring, testing, and static analysis" },
+      { de: "Praxisnah bei Code Reviews, Mentoring und Architekturentscheidungen", en: "Hands-on with code reviews, mentoring, and architecture decisions" },
+      { de: "Stabilisiert gewachsene PHP-Landschaften schrittweise", en: "Stabilizes grown PHP landscapes incrementally" },
+      { de: "Setzt Qualität mit PHPUnit, PHPStan, Psalm und CI/CD messbar um", en: "Makes quality measurable with PHPUnit, PHPStan, Psalm, and CI/CD" },
+      { de: "Geeignet für Teams mit Modernisierungs- und Wartbarkeitsthemen", en: "Fits teams dealing with modernization and maintainability challenges" },
     ],
     developer: [
-      { de: "PHP 8.x, Composer, MariaDB/MySQL und REST APIs", en: "PHP 8.x, Composer, MariaDB/MySQL, and REST APIs" },
-      { de: "PHPStan max, präzise PHPDocs, PHPUnit, Codeception und Rector", en: "PHPStan max, precise PHPDocs, PHPUnit, Codeception, and Rector" },
-      { de: "Linux-, Apache-, Docker-Compose- und GitLab-CI-Praxis", en: "Hands-on Linux, Apache, Docker Compose, and GitLab CI experience" },
-      { de: "Maintainer von portable-utf8, portable-ascii, anti-xss und Arrayy", en: "Maintainer of portable-utf8, portable-ascii, anti-xss, and Arrayy" },
+      { de: "Tief im PHP-Ökosystem mit Symfony, Laravel, Composer und Git", en: "Deep in the PHP ecosystem with Symfony, Laravel, Composer, and Git" },
+      { de: "Starke Praxis in PHPUnit, TDD, PHPStan, Psalm und Rector", en: "Strong hands-on experience with PHPUnit, TDD, PHPStan, Psalm, and Rector" },
+      { de: "Kenntnisse in Docker, Kubernetes, Redis, MySQL und API-Design", en: "Experienced with Docker, Kubernetes, Redis, MySQL, and API design" },
+      { de: "Maintainer von portable-utf8, portable-ascii, Arrayy und anti-xss", en: "Maintainer of portable-utf8, portable-ascii, Arrayy, and anti-xss" },
+      { de: "Fokus auf wartbaren, sicheren und messbar besseren Code", en: "Focused on maintainable, secure, and measurably better code" },
     ],
     generic: [
-      { de: "Senior PHP Developer und Software-Architekt", en: "Senior PHP Developer and Software Architect" },
-      { de: "Fokus auf Legacy-Modernisierung, Softwarequalität und Enterprise-Integration", en: "Focused on legacy modernization, software quality, and enterprise integration" },
+      { de: "Senior PHP Developer und PHP Architect mit 20+ Jahren Erfahrung", en: "Senior PHP Developer and PHP Architect with 20+ years of experience" },
+      { de: "Fokus auf Legacy-Modernisierung, Softwarequalität und wartbare Systeme", en: "Focused on legacy modernization, software quality, and maintainable systems" },
       { de: "Aktuell bei REMONDIS IT Services tätig", en: "Currently working at REMONDIS IT Services" },
-      { de: "Langjährige öffentliche Open-Source-Arbeit", en: "Long-running public open-source work" },
+      { de: "Öffentliche Profile auf GitHub, LinkedIn, Website, Blog und Packagist", en: "Public profiles on GitHub, LinkedIn, website, blog, and Packagist" },
+      { de: "Open-Source-Maintainer im PHP-Ökosystem", en: "Open-source maintainer in the PHP ecosystem" },
     ],
   },
   specialties: [
-    { de: "PHP 8.x, MariaDB/MySQL und REST APIs", en: "PHP 8.x, MariaDB/MySQL, and REST APIs" },
-    { de: "Legacy-Modernisierung und Software-Architektur", en: "Legacy modernization and software architecture" },
-    { de: "PHPStan, präzise PHPDocs und automatisierte Tests", en: "PHPStan, precise PHPDocs, and automated tests" },
-    { de: "Linux, CI/CD und produktionsnahe Delivery", en: "Linux, CI/CD, and production-oriented delivery" },
-    { de: "LDAP/AD-, M365/Exchange-, PowerShell- und AS/400-Integration", en: "LDAP/AD, M365/Exchange, PowerShell, and AS/400 integration" },
+    { de: "PHP 8.x, Symfony, Laravel", en: "PHP 8.x, Symfony, Laravel" },
+    { de: "Legacy-Modernisierung", en: "Legacy modernization" },
+    { de: "Statische Analyse mit PHPStan und Psalm", en: "Static analysis with PHPStan and Psalm" },
+    { de: "Softwarequalität mit PHPUnit, TDD und CI/CD", en: "Software quality with PHPUnit, TDD, and CI/CD" },
+    { de: "Architektur, Mentoring und wartbare Backend-Systeme", en: "Architecture, mentoring, and maintainable backend systems" },
   ],
-  strongestProjects: ["portable-utf8", "portable-ascii", "anti-xss", "Arrayy"],
+  strongestProjects: ["portable-utf8", "portable-ascii", "Arrayy", "anti-xss", "simple_html_dom"],
   projects: [
     {
       slug: "portable-utf8",
@@ -179,14 +187,14 @@ export const PROFILE_DATA: HiringProfileData = {
       primaryLanguage: "PHP",
       topics: ["php", "strings", "utilities"],
       shortDescription: {
-        de: "UTF-8-String-Utilities für robuste, portable Textverarbeitung in PHP.",
-        en: "UTF-8 string utilities for robust, portable text processing in PHP.",
+        de: "UTF-8-String-Utilities für robustere, portable Textverarbeitung in PHP.",
+        en: "UTF-8 string utilities for more robust, portable text processing in PHP.",
       },
       whyItMatters: {
-        de: "Belegt langjährige Wartung, Abwärtskompatibilität und stabile APIs.",
-        en: "Demonstrates long-term maintenance, backward compatibility, and stable APIs.",
+        de: "Hilft bei korrekter Zeichenkettenverarbeitung in produktiven PHP-Systemen und vermeidet typische Multibyte-Fallen.",
+        en: "Helps production PHP systems handle strings correctly and avoid common multibyte pitfalls.",
       },
-      tags: ["utf8", "strings", "php"],
+      tags: ["utf8", "strings", "text processing", "php"],
       since: "2014-05",
     },
     {
@@ -200,27 +208,10 @@ export const PROFILE_DATA: HiringProfileData = {
         en: "Portable ASCII conversion and normalization for string and search workflows.",
       },
       whyItMatters: {
-        de: "Zeigt robuste Normalisierung und interoperable Textverarbeitung.",
-        en: "Shows robust normalization and interoperable text processing.",
+        de: "Nützlich für saubere Normalisierung, Suchindizes und interoperable Textverarbeitung.",
+        en: "Useful for clean normalization, search indexes, and interoperable text processing.",
       },
-      tags: ["ascii", "normalization", "php"],
-    },
-    {
-      slug: "anti-xss",
-      name: "anti-xss",
-      url: "https://github.com/voku/anti-xss",
-      primaryLanguage: "PHP",
-      topics: ["php", "security", "utilities"],
-      shortDescription: {
-        de: "Sicherheitsbibliothek zur Reduktion von XSS-Risiken in PHP-Anwendungen.",
-        en: "Security library for reducing XSS risks in PHP applications.",
-      },
-      whyItMatters: {
-        de: "Unterstreicht den Fokus auf sichere Eingabeverarbeitung und Web-Anwendungen.",
-        en: "Supports the profile focus on secure input handling and web applications.",
-      },
-      tags: ["security", "xss", "php"],
-      since: "2015-05",
+      tags: ["ascii", "normalization", "search", "php"],
     },
     {
       slug: "Arrayy",
@@ -229,87 +220,180 @@ export const PROFILE_DATA: HiringProfileData = {
       primaryLanguage: "PHP",
       topics: ["php", "arrays", "utilities"],
       shortDescription: {
-        de: "Bibliothek für lesbarere und sicherere Array-Arbeit in PHP.",
-        en: "Library for more readable and safer array handling in PHP.",
+        de: "Hilfsbibliothek für lesbarere und sicherere Array-Arbeit in PHP.",
+        en: "Helper library for more readable and safer array handling in PHP.",
       },
       whyItMatters: {
-        de: "Zeigt API-Design und Wartbarkeit in modernen und älteren PHP-Codebasen.",
-        en: "Demonstrates API design and maintainability across modern and legacy PHP codebases.",
+        de: "Reduziert Boilerplate in älteren und modernen PHP-Codebasen und macht Datenstrukturen leichter wartbar.",
+        en: "Reduces boilerplate in both legacy and modern PHP codebases and makes data structures easier to maintain.",
       },
-      tags: ["arrays", "collections", "php"],
+      tags: ["arrays", "collections", "php", "utilities"],
       since: "2016-05",
+    },
+    {
+      slug: "anti-xss",
+      name: "anti-xss",
+      url: "https://github.com/voku/anti-xss",
+      primaryLanguage: "PHP",
+      topics: ["php", "security", "utilities"],
+      shortDescription: {
+        de: "Sicherheitsbibliothek für die Reduktion von XSS-Risiken in PHP-Anwendungen.",
+        en: "Security library to reduce XSS risks in PHP applications.",
+      },
+      whyItMatters: {
+        de: "Passt direkt zum öffentlichen Profilfokus auf sichere Web-Anwendungen und Input-Verarbeitung.",
+        en: "Directly matches the public profile focus on secure web applications and input handling.",
+      },
+      tags: ["security", "xss", "sanitization", "php"],
+      since: "2015-05",
+    },
+    {
+      slug: "simple_html_dom",
+      name: "simple_html_dom",
+      url: "https://github.com/voku/simple_html_dom",
+      primaryLanguage: "PHP",
+      topics: ["php", "utilities"],
+      shortDescription: {
+        de: "Moderner Fork des Simple HTML DOM Parsers — mit aktiver Pflege und verbesserter Typsicherheit.",
+        en: "Modern fork of Simple HTML DOM parser — actively maintained with improved type safety.",
+      },
+      whyItMatters: {
+        de: "Wird von tausenden von Projekten genutzt und ermöglicht einfaches HTML-Parsen in PHP ohne komplexe DOM-APIs.",
+        en: "Used by thousands of projects, enabling easy HTML parsing in PHP without complex DOM APIs.",
+      },
+      tags: ["html", "parser", "dom", "php"],
+      since: "2015-01",
+    },
+    {
+      slug: "stop-words",
+      name: "stop-words",
+      url: "https://github.com/voku/stop-words",
+      primaryLanguage: "PHP",
+      topics: ["php", "strings", "utilities"],
+      shortDescription: {
+        de: "Stop-Wort-Listen für mehrere Sprachen — nützlich für Such- und NLP-Anwendungen in PHP.",
+        en: "Stop word lists for multiple languages — useful for search and NLP applications in PHP.",
+      },
+      whyItMatters: {
+        de: "Hilft bei der Implementierung sprachsensitiver Suchsysteme und Text-Analyse-Pipelines.",
+        en: "Helps implement language-sensitive search systems and text analysis pipelines.",
+      },
+      tags: ["nlp", "search", "text", "php"],
+      since: "2017-01",
+    },
+    {
+      slug: "email-check",
+      name: "email-check",
+      url: "https://github.com/voku/email-check",
+      primaryLanguage: "PHP",
+      topics: ["php", "security", "utilities"],
+      shortDescription: {
+        de: "Validierung und Prüfung von E-Mail-Adressen in PHP — inklusive Disposable-Domain-Erkennung.",
+        en: "Email address validation and verification in PHP — including disposable domain detection.",
+      },
+      whyItMatters: {
+        de: "Schützt Formulare und Registrierungssysteme vor temporären oder gefälschten E-Mail-Adressen.",
+        en: "Protects forms and registration systems from temporary or fake email addresses.",
+      },
+      tags: ["email", "validation", "security", "php"],
+      since: "2016-01",
+    },
+    {
+      slug: "phpstan-rules",
+      name: "phpstan-rules",
+      url: "https://github.com/voku/phpstan-rules",
+      primaryLanguage: "PHP",
+      topics: ["php", "utilities"],
+      shortDescription: {
+        de: "Zusätzliche PHPStan-Regeln für erhöhte statische Analyse-Tiefe in PHP-Projekten.",
+        en: "Additional PHPStan rules for deeper static analysis in PHP projects.",
+      },
+      whyItMatters: {
+        de: "Erweitert den Standard-PHPStan-Regelumfang und hilft Teams, subtilere Fehler früh zu erkennen.",
+        en: "Extends the default PHPStan rule set and helps teams catch subtler bugs early.",
+      },
+      tags: ["phpstan", "static-analysis", "quality", "php"],
+      since: "2019-01",
     },
   ],
   skills: [
     { name: "PHP 8.x", domain: "backend", level: "expert" },
-    { name: "Composer", domain: "backend", level: "expert" },
-    { name: "REST APIs", domain: "backend", level: "very_strong" },
-    { name: "MariaDB", domain: "database", level: "expert" },
-    { name: "MySQL", domain: "database", level: "expert" },
-    { name: "SQL", domain: "database", level: "very_strong" },
-    { name: "Software Architecture", domain: "architecture", level: "expert" },
-    { name: "Typed APIs", domain: "architecture", level: "very_strong" },
-    { name: "Immutable Data Objects", domain: "architecture", level: "very_strong" },
-    { name: "Legacy Modernization", domain: "legacy_modernization", level: "expert" },
+    { name: "Symfony", domain: "backend", level: "expert" },
+    { name: "Laravel", domain: "backend", level: "very_strong" },
+    { name: "REST API", domain: "backend", level: "very_strong" },
+    { name: "GraphQL", domain: "backend", level: "strong" },
+    { name: "MySQL", domain: "database", level: "very_strong" },
+    { name: "MariaDB", domain: "database", level: "strong" },
+    { name: "PostgreSQL", domain: "database", level: "strong" },
+    { name: "Redis", domain: "database", level: "strong" },
+    { name: "PHPUnit", domain: "static_analysis", level: "expert" },
+    { name: "TDD", domain: "static_analysis", level: "very_strong" },
     { name: "PHPStan", domain: "static_analysis", level: "expert" },
-    { name: "Precise PHPDocs", domain: "static_analysis", level: "expert" },
-    { name: "PHPUnit", domain: "static_analysis", level: "very_strong" },
-    { name: "Codeception", domain: "static_analysis", level: "very_strong" },
-    { name: "php-cs-fixer", domain: "static_analysis", level: "very_strong" },
+    { name: "Psalm", domain: "static_analysis", level: "very_strong" },
     { name: "Rector", domain: "static_analysis", level: "strong" },
-    { name: "Secure Web Applications", domain: "security", level: "very_strong" },
-    { name: "LDAP / Active Directory", domain: "security", level: "very_strong" },
-    { name: "Microsoft 365 / Exchange", domain: "security", level: "strong" },
-    { name: "PowerShell", domain: "devops_linux", level: "strong" },
-    { name: "AS/400 Integration", domain: "devops_linux", level: "strong" },
-    { name: "Linux", domain: "devops_linux", level: "expert" },
-    { name: "Apache", domain: "devops_linux", level: "very_strong" },
-    { name: "Docker Compose", domain: "devops_linux", level: "strong" },
+    { name: "php-cs-fixer", domain: "static_analysis", level: "strong" },
+    { name: "OOP / SOLID", domain: "architecture", level: "expert" },
+    { name: "Clean Code", domain: "architecture", level: "very_strong" },
+    { name: "Design Patterns", domain: "architecture", level: "very_strong" },
+    { name: "Microservices", domain: "architecture", level: "strong" },
+    { name: "Event-Driven Architecture", domain: "architecture", level: "strong" },
+    { name: "Legacy Modernization", domain: "legacy_modernization", level: "expert" },
+    { name: "Technical Debt Reduction", domain: "legacy_modernization", level: "very_strong" },
+    { name: "Docker", domain: "devops_linux", level: "very_strong" },
+    { name: "Kubernetes", domain: "devops_linux", level: "strong" },
     { name: "CI/CD", domain: "devops_linux", level: "very_strong" },
+    { name: "GitHub Actions", domain: "devops_linux", level: "strong" },
     { name: "GitLab CI", domain: "devops_linux", level: "strong" },
-    { name: "Jenkins", domain: "devops_linux", level: "strong" },
-    { name: "Bash", domain: "devops_linux", level: "very_strong" },
+    { name: "Linux", domain: "devops_linux", level: "strong" },
+    { name: "Nginx", domain: "frontend_web_basics", level: "strong" },
+    { name: "Apache", domain: "frontend_web_basics", level: "strong" },
+    { name: "Secure Web Applications", domain: "security", level: "very_strong" },
+    { name: "XSS Prevention", domain: "security", level: "very_strong" },
+    { name: "OWASP", domain: "security", level: "strong" },
+    { name: "Mentoring", domain: "security", level: "very_strong" },
+    { name: "Technical Coaching", domain: "security", level: "strong" },
     { name: "HTML / CSS", domain: "frontend_web_basics", level: "strong" },
-    { name: "JavaScript / TypeScript", domain: "frontend_web_basics", level: "strong" },
+    { name: "JavaScript", domain: "frontend_web_basics", level: "strong" },
     { name: "jQuery", domain: "frontend_web_basics", level: "strong" },
-    { name: "Bootstrap", domain: "frontend_web_basics", level: "strong" },
-    { name: "React", domain: "frontend_web_basics", level: "strong" },
+    { name: "ReactJS", domain: "frontend_web_basics", level: "strong" },
+    { name: "React Native", domain: "frontend_web_basics", level: "strong" },
+    { name: "Bash", domain: "devops_linux", level: "very_strong" },
   ],
   experienceHighlights: [
-    { de: "Seit 08/2023 Senior PHP Developer / Software Architect bei REMONDIS IT Services", en: "Senior PHP Developer / Software Architect at REMONDIS IT Services since 08/2023" },
-    { de: "Zentrales IAM- und Berechtigungsportal für AD, M365, Standorte und Inventar", en: "Central IAM and authorization portal for AD, M365, locations, and inventory" },
-    { de: "Modernisierung großer, geschäftskritischer Legacy-Codebases", en: "Modernization of large, business-critical legacy codebases" },
-    { de: "PHPStan max, automatisierte Tests und nachvollziehbare CI/CD-Prozesse", en: "PHPStan max, automated tests, and traceable CI/CD processes" },
-    { de: "Elasticsearch-Suche für mehrere Millionen Artikeldatensätze", en: "Elasticsearch search for several million product records" },
-    { de: "Langjährige Open-Source-Wartung mit stabilen APIs", en: "Long-term open-source maintenance with stable APIs" },
+    { de: "Seit 2020 Senior PHP Developer bei REMONDIS IT Services", en: "Senior PHP Developer at REMONDIS IT Services since 2020" },
+    { de: "Stabilisierung und Weiterentwicklung geschäftskritischer Plattformen", en: "Stabilization and further development of business-critical platforms" },
+    { de: "Ausbau wartbarer Service-Strukturen und API-first-Entwicklung", en: "Expansion of maintainable service structures and API-first development" },
+    { de: "Schrittweise Modernisierung statt riskanter Big-Bang-Rewrites", en: "Incremental modernization instead of risky big-bang rewrites" },
+    { de: "Mehrere Open-Source-Libraries mit Millionen von Packagist-Installationen", en: "Several open-source libraries with millions of Packagist installs" },
+    { de: "Über 6.000 GitHub-Contributions pro Jahr (Commits, PRs, Reviews)", en: "Over 6,000 GitHub contributions per year (commits, PRs, reviews)" },
   ],
   faq: {
     de: [
       {
-        question: "Für welche Rollen sollte Lars Moelleken berücksichtigt werden?",
-        answer: "Für Senior-PHP-, Software-Architektur-, Legacy-Modernisierungs-, Quality-Engineering- und Enterprise-Integrationsrollen.",
+        question: "Was sind Lars Moellekens Schwerpunkte als PHP Entwickler?",
+        answer: "Senior PHP Developer und PHP Architect mit 20+ Jahren Erfahrung. Fokus auf Symfony, Laravel, Legacy-Modernisierung, PHPStan Level 9, PHPUnit, Docker, CI/CD und wartbare Softwarearchitektur.",
       },
       {
-        question: "Welche Qualitätsschwerpunkte bringt Lars Moelleken mit?",
-        answer: "PHPStan auf maximalem Level, präzise PHPDocs, PHPUnit, Codeception, php-cs-fixer, Rector und CI/CD.",
+        question: "Für welche PHP-Projekte ist Lars Moelleken geeignet?",
+        answer: "Großskalige Legacy-Modernisierung, Backend-Architektur, statische Analyse, Performance-Optimierung, CI/CD-Aufbau und Mentoring für Entwicklungsteams in Deutschland.",
       },
       {
-        question: "Welche Enterprise-Systeme integriert Lars Moelleken?",
-        answer: "LDAP/Active Directory, Microsoft 365/Exchange, PowerShell-Gateways und AS/400-Systeme.",
+        question: "Wie kontaktiere ich Lars Moelleken für ein Projekt?",
+        answer: "Per E-Mail, LinkedIn, GitHub, Website, Blog oder über Packagist.",
       },
     ],
     en: [
       {
-        question: "Which roles should Lars Moelleken be considered for?",
-        answer: "Senior PHP, software architecture, legacy modernization, quality engineering, and enterprise integration roles.",
+        question: "What are Lars Moelleken's focus areas as a PHP developer?",
+        answer: "Senior PHP Developer and PHP Architect with 20+ years of experience. Focus on Symfony, Laravel, legacy modernization, PHPStan Level 9, PHPUnit, Docker, CI/CD, and maintainable software architecture.",
       },
       {
-        question: "What software-quality strengths does Lars Moelleken bring?",
-        answer: "PHPStan at maximum level, precise PHPDocs, PHPUnit, Codeception, php-cs-fixer, Rector, and CI/CD.",
+        question: "What kind of PHP projects is Lars Moelleken suited for?",
+        answer: "Large-scale legacy modernization, backend architecture, static analysis, performance optimization, CI/CD setup, and mentoring for development teams in Germany.",
       },
       {
-        question: "Which enterprise systems does Lars Moelleken integrate?",
-        answer: "LDAP/Active Directory, Microsoft 365/Exchange, PowerShell gateways, and AS/400 systems.",
+        question: "How can I contact Lars Moelleken for a project?",
+        answer: "Via email, LinkedIn, GitHub, website, blog, or Packagist.",
       },
     ],
   },
@@ -332,6 +416,7 @@ export const PROFILE_DATA: HiringProfileData = {
         include: [
           { de: "Rollenbezeichnung, Team- oder Produktkontext und gewünschter Startzeitpunkt", en: "Role title, team or product context, and expected start timeline" },
           { de: "Technologie-Stack, Modernisierungsgrad und Verantwortungsschwerpunkt", en: "Technology stack, modernization stage, and responsibility focus" },
+          { de: "Ob es um Senior PHP, Lead, Architektur oder Legacy-Modernisierung geht", en: "Whether the role centers on senior PHP, lead, architecture, or legacy modernization work" },
         ],
         conversationTopics: [
           { de: "Architektur und Modernisierung", en: "Architecture and modernization" },
@@ -341,51 +426,55 @@ export const PROFILE_DATA: HiringProfileData = {
       consulting: {
         preferredChannels: ["email", "website", "linkedin"],
         include: [
-          { de: "Aktuelle Systemprobleme, technische Schulden und gewünschtes Zielbild", en: "Current system problems, technical debt, and desired target state" },
-          { de: "Rahmen für Analyse, Refactoring, Testing oder Security", en: "Scope for analysis, refactoring, testing, or security work" },
+          { de: "Aktuelle Systemprobleme, technische Schulden und gewünschtes Zielbild", en: "Current system problems, technical debt, and the desired target state" },
+          { de: "Rahmen für Analyse, Refactoring, Testing oder Security-Schwerpunkte", en: "Scope for analysis, refactoring, testing, or security-focused work" },
         ],
         conversationTopics: [
           { de: "Legacy-Modernisierung und Risikoabbau", en: "Legacy modernization and risk reduction" },
-          { de: "Statische Analyse, Tests und inkrementelle Verbesserungen", en: "Static analysis, tests, and incremental improvement" },
+          { de: "Statische Analyse, Tests und inkrementelle Verbesserungen", en: "Static analysis, tests, and incremental improvements" },
         ],
       },
       open_source: {
         preferredChannels: ["github", "packagist", "blog"],
         include: [
           { de: "Repository, Problemstellung und reproduzierbaren Kontext", en: "Repository, problem statement, and reproducible context" },
-          { de: "Betroffene Library oder konkrete Maintainer-Frage", en: "Affected library or exact maintainer question" },
+          { de: "Betroffene Library oder konkrete Maintainer-Frage", en: "Affected library or the exact maintainer question" },
         ],
         conversationTopics: [
-          { de: "Package-Nutzung, Wartung und Sicherheit", en: "Package usage, maintenance, and security" },
+          { de: "Package-Nutzung, Wartung und Sicherheitsaspekte", en: "Package usage, maintenance, and security concerns" },
           { de: "PHP-Bibliotheken für Strings, Arrays und Security", en: "PHP libraries for strings, arrays, and security" },
         ],
       },
       speaking: {
         preferredChannels: ["email", "linkedin", "blog"],
         include: [
-          { de: "Veranstaltung, Publikum, Format und gewünschte Themenrichtung", en: "Event, audience, format, and desired topic" },
+          { de: "Veranstaltung, Publikum, Format und gewünschte Themenrichtung", en: "Event, audience, format, and desired topic direction" },
+          { de: "Ob der Schwerpunkt auf PHP, Architektur, Modernisierung oder Open Source liegt", en: "Whether the focus is PHP, architecture, modernization, or open source" },
         ],
         conversationTopics: [
           { de: "Open Source, PHP-Workflows und Engineering-Standards", en: "Open source, PHP workflows, and engineering standards" },
+          { de: "Praktische Softwarequalität in produktiven Systemen", en: "Practical software quality in production systems" },
         ],
       },
       general: {
         preferredChannels: ["email", "linkedin", "github"],
         include: [
-          { de: "Anlass und gewünschten Kontext kurz nennen", en: "Briefly describe the reason and desired context" },
+          { de: "Kurz den Anlass und den gewünschten Kontext nennen", en: "Briefly describe the reason for reaching out and the desired context" },
+          { de: "Falls relevant: Projekt, Rolle oder Repository verlinken", en: "If relevant, include the project, role, or repository link" },
         ],
         conversationTopics: [
-          { de: "Senior PHP, Architektur, Open Source", en: "Senior PHP, architecture, and open source" },
+          { de: "Senior PHP, Architektur, Open Source", en: "Senior PHP, architecture, open source" },
+          { de: "Wartbarkeit, Qualität und Modernisierung", en: "Maintainability, quality, and modernization" },
         ],
       },
     },
   },
 };
 
-export function getContactChannel(key: ContactChannelKey): ContactChannel | undefined {
+export function getContactChannel(key: ContactChannelKey) {
   return PROFILE_DATA.contact.channels.find((channel) => channel.key === key);
 }
 
-export function getSectionById(sectionId: ProfileSectionKey): ProfileSection | undefined {
+export function getSectionById(sectionId: ProfileSectionKey) {
   return PROFILE_DATA.sections.find((section) => section.id === sectionId);
 }

@@ -1,18 +1,16 @@
 import {
   PROFILE_DATA,
   getContactChannel,
-  type ContactChannel,
-  type ContactChannelKey,
   type ContactIntent,
-  type LocalizedText,
+  type ContactChannelKey,
   type ProfileAudience,
   type ProfileLocale,
   type ProfileProject,
   type ProfileSectionKey,
   type ProjectTopic,
-  type SkillDomain,
   type SkillGrouping,
   type SkillLevel,
+  type SkillDomain,
 } from "./profileData";
 
 const SKILL_DOMAIN_LABELS: Record<SkillDomain, Record<ProfileLocale, string>> = {
@@ -20,57 +18,42 @@ const SKILL_DOMAIN_LABELS: Record<SkillDomain, Record<ProfileLocale, string>> = 
   architecture: { de: "Architektur", en: "Architecture" },
   legacy_modernization: { de: "Legacy-Modernisierung", en: "Legacy Modernization" },
   static_analysis: { de: "Statische Analyse & Qualität", en: "Static Analysis & Quality" },
-  security: { de: "Sicherheit & Enterprise-Integration", en: "Security & Enterprise Integration" },
+  security: { de: "Sicherheit & Leadership", en: "Security & Leadership" },
   database: { de: "Datenbanken", en: "Databases" },
   frontend_web_basics: { de: "Frontend/Web-Basics", en: "Frontend/Web Basics" },
   devops_linux: { de: "DevOps & Linux", en: "DevOps & Linux" },
 };
 
-const DOMAIN_PRIORITY: readonly SkillDomain[] = [
+const DOMAIN_PRIORITY: SkillDomain[] = [
   "backend",
   "architecture",
   "legacy_modernization",
   "static_analysis",
   "security",
   "database",
-  "devops_linux",
   "frontend_web_basics",
+  "devops_linux",
 ];
 
-const LEVEL_ORDER: readonly SkillLevel[] = ["expert", "very_strong", "strong"];
+const LEVEL_ORDER: SkillLevel[] = ["expert", "very_strong", "strong"];
 
-const SKILL_ALIASES: Readonly<Record<string, readonly string[]>> = {
+const SKILL_ALIASES: Record<string, string[]> = {
   "PHP 8.x": ["php 8.x", "php 8", "php"],
-  Composer: ["composer", "dependency management"],
-  "REST APIs": ["rest api", "rest apis", "restful api", "backend api"],
-  MariaDB: ["mariadb"],
-  MySQL: ["mysql"],
-  SQL: ["sql", "database queries"],
-  "Software Architecture": ["software architecture", "php architect", "architecture"],
-  "Typed APIs": ["typed api", "typed apis", "type contracts"],
-  "Immutable Data Objects": ["immutable data", "immutable objects", "readonly objects"],
+  "Symfony": ["symfony"],
+  "Laravel": ["laravel"],
   "Legacy Modernization": ["legacy modernization", "legacy modernisierung", "legacy", "technical debt", "tech debt"],
-  PHPStan: ["phpstan", "static analysis", "statische analyse"],
-  "Precise PHPDocs": ["phpdoc", "phpdocs", "precise phpdocs", "array shapes", "generics"],
-  PHPUnit: ["phpunit", "unit testing"],
-  Codeception: ["codeception", "acceptance testing"],
-  "php-cs-fixer": ["php-cs-fixer", "code style"],
-  Rector: ["rector", "automated refactoring"],
-  "Secure Web Applications": ["secure web", "web security", "owasp", "xss", "csrf", "sqli"],
-  "LDAP / Active Directory": ["ldap", "active directory", "ldap/ad"],
-  "Microsoft 365 / Exchange": ["microsoft 365", "m365", "exchange"],
-  PowerShell: ["powershell", "powershell gateway"],
-  "AS/400 Integration": ["as/400", "as400", "ibm i"],
-  Linux: ["linux", "system administration", "sysadmin"],
-  Apache: ["apache", "apache httpd"],
-  "Docker Compose": ["docker compose", "docker"],
-  "CI/CD": ["ci/cd", "continuous integration", "continuous deployment", "gitlab ci", "jenkins"],
-  Bash: ["bash", "shell scripting"],
-  "JavaScript / TypeScript": ["javascript", "typescript"],
-  React: ["react", "reactjs"],
+  "PHPStan": ["phpstan", "static analysis", "statische analyse"],
+  "PHPUnit": ["phpunit", "testing", "unit testing", "tdd"],
+  "CI/CD": ["ci/cd", "continuous integration", "continuous deployment", "github actions", "gitlab ci"],
+  "Docker": ["docker", "container", "containers"],
+  "Architecture": ["architecture", "software architecture", "clean architecture", "design patterns"],
+  "Mentoring": ["mentoring", "coaching", "team lead", "leadership", "technical coaching"],
+  "Security": ["security", "owasp", "xss", "secure web"],
+  "Backend": ["backend", "rest api", "graphql", "api"],
+  "Databases": ["mysql", "mariadb", "postgresql", "redis", "database"],
 };
 
-function clamp(value: number, minimum: number, maximum: number): number {
+function clamp(value: number, minimum: number, maximum: number) {
   return Math.max(minimum, Math.min(maximum, value));
 }
 
@@ -78,11 +61,11 @@ export function normalizeLocale(language: unknown): ProfileLocale {
   return language === "de" ? "de" : "en";
 }
 
-function localize(value: LocalizedText, locale: ProfileLocale): string {
+function localize<T extends { de: string; en: string }>(value: T, locale: ProfileLocale): string {
   return value[locale];
 }
 
-function uniqueStrings(values: readonly string[]): string[] {
+function uniqueStrings(values: readonly string[]) {
   return Array.from(new Set(values));
 }
 
@@ -92,36 +75,30 @@ function normalizeTerm(input: string): string {
 
 function catalogTerms(): Map<string, string> {
   const map = new Map<string, string>();
-
   for (const skill of PROFILE_DATA.skills) {
     map.set(normalizeTerm(skill.name), skill.name);
   }
-
   for (const project of PROFILE_DATA.projects) {
     map.set(normalizeTerm(project.name), project.name);
     for (const tag of project.tags) {
       map.set(normalizeTerm(tag), project.name);
     }
   }
-
   for (const [label, aliases] of Object.entries(SKILL_ALIASES)) {
     for (const alias of aliases) {
       map.set(normalizeTerm(alias), label);
     }
   }
-
   return map;
 }
 
 const TERM_CATALOG = catalogTerms();
-const CONTACT_CHANNELS: ReadonlyMap<ContactChannelKey, ContactChannel> = new Map(
-  PROFILE_DATA.contact.channels.map((channel) => [channel.key, channel]),
-);
+const CONTACT_CHANNELS = Object.fromEntries(PROFILE_DATA.contact.channels.map((channel) => [channel.key, channel]));
 
 export function buildProfileSummary(input: {
-  readonly audience: ProfileAudience;
-  readonly language: ProfileLocale;
-  readonly maxItems?: number;
+  audience: ProfileAudience;
+  language: ProfileLocale;
+  maxItems?: number;
 }) {
   const maxItems = clamp(input.maxItems ?? 6, 3, 12);
   const highlights = PROFILE_DATA.audienceHighlights[input.audience]
@@ -152,17 +129,12 @@ export function buildProfileSummary(input: {
   };
 }
 
-function projectMatchesTopic(project: ProfileProject, topic: ProjectTopic): boolean {
+function projectMatchesTopic(project: ProfileProject, topic: ProjectTopic) {
   return topic === "all" || project.topics.includes(topic);
 }
 
-export function buildProjectList(input: {
-  readonly topic: ProjectTopic;
-  readonly limit?: number;
-  readonly language: ProfileLocale;
-}) {
+export function buildProjectList(input: { topic: ProjectTopic; limit?: number; language: ProfileLocale }) {
   const limit = clamp(input.limit ?? 8, 1, 20);
-
   return PROFILE_DATA.projects
     .filter((project) => projectMatchesTopic(project, input.topic))
     .slice(0, limit)
@@ -177,10 +149,7 @@ export function buildProjectList(input: {
     }));
 }
 
-export function buildSkillMatrix(input: {
-  readonly groupBy: SkillGrouping;
-  readonly language: ProfileLocale;
-}) {
+export function buildSkillMatrix(input: { groupBy: SkillGrouping; language: ProfileLocale }) {
   if (input.groupBy === "technology") {
     return PROFILE_DATA.skills.map((skill) => ({
       technology: skill.name,
@@ -209,17 +178,13 @@ export function buildSkillMatrix(input: {
   })).filter((group) => group.skills.length > 0);
 }
 
-export function buildContactOptions(input: {
-  readonly intent: ContactIntent;
-  readonly language: ProfileLocale;
-}) {
+export function buildContactOptions(input: { intent: ContactIntent; language: ProfileLocale }) {
   const guidance = PROFILE_DATA.contact.guidanceByIntent[input.intent];
-
   return {
     intent: input.intent,
     preferredChannels: guidance.preferredChannels
-      .map((key) => CONTACT_CHANNELS.get(key))
-      .filter((channel): channel is ContactChannel => channel !== undefined)
+      .map((key) => CONTACT_CHANNELS[key])
+      .filter(Boolean)
       .map((channel) => ({
         label: channel.label,
         href: channel.href,
@@ -237,15 +202,13 @@ export function buildContactOptions(input: {
 
 function skillMatchLabel(rawSkill: string): string | null {
   const normalized = normalizeTerm(rawSkill);
-  const exactMatch = TERM_CATALOG.get(normalized);
 
-  if (exactMatch !== undefined) {
-    return exactMatch;
+  if (TERM_CATALOG.has(normalized)) {
+    return TERM_CATALOG.get(normalized) ?? null;
   }
 
   for (const [term, label] of TERM_CATALOG.entries()) {
-    const allowPartialMatch = term.length >= 4 || term === "php";
-    if (allowPartialMatch && (normalized.includes(term) || term.includes(normalized))) {
+    if (normalized.includes(term) || term.includes(normalized)) {
       return label;
     }
   }
@@ -254,46 +217,38 @@ function skillMatchLabel(rawSkill: string): string | null {
 }
 
 function matchSkills(skills: readonly string[]) {
-  const resolved = skills.map((skill) => ({ raw: skill, match: skillMatchLabel(skill) }));
-
-  return {
-    matches: uniqueStrings(resolved.flatMap((entry) => (entry.match === null ? [] : [entry.match]))),
-    missing: resolved.filter((entry) => entry.match === null).map((entry) => entry.raw),
-  };
+  const matches = uniqueStrings(skills.map((skill) => skillMatchLabel(skill)).filter((skill): skill is string => Boolean(skill)));
+  const missing = skills.filter((skill) => !skillMatchLabel(skill));
+  return { matches, missing };
 }
 
-function inferRoleBonus(roleTitle: string): number {
+function inferRoleBonus(roleTitle: string) {
   const normalized = normalizeTerm(roleTitle);
-  const keywords = ["php", "backend", "architect", "architecture", "legacy", "platform", "integration"];
-
+  const keywords = ["php", "backend", "architect", "architecture", "lead", "legacy", "platform"];
   return keywords.some((keyword) => normalized.includes(keyword)) ? 10 : 0;
 }
 
 function determineScoreRange(score: number) {
-  if (score >= 80) return { label: "high", range: "80-95", proceed: true } as const;
-  if (score >= 60) return { label: "good", range: "60-79", proceed: true } as const;
-  if (score >= 40) return { label: "mixed", range: "40-59", proceed: false } as const;
-
-  return { label: "low", range: "15-39", proceed: false } as const;
+  if (score >= 80) return { label: "high", range: "80-95", proceed: true };
+  if (score >= 60) return { label: "good", range: "60-79", proceed: true };
+  if (score >= 40) return { label: "mixed", range: "40-59", proceed: false };
+  return { label: "low", range: "15-39", proceed: false };
 }
 
-function recommendedTopics(matchedStrengths: readonly string[], language: ProfileLocale): string[] {
+function recommendedTopics(matchedStrengths: readonly string[], language: ProfileLocale) {
   const topics = new Set<string>();
 
-  if (matchedStrengths.some((strength) => /PHP|Composer|REST API/.test(strength))) {
+  if (matchedStrengths.some((strength) => /PHP|Symfony|Laravel|REST API|GraphQL/.test(strength))) {
     topics.add(language === "de" ? "Backend-Stack und Delivery in PHP" : "Backend stack and PHP delivery");
   }
-  if (matchedStrengths.some((strength) => /Legacy|Rector|PHPStan|PHPUnit|Codeception|PHPDocs/.test(strength))) {
+  if (matchedStrengths.some((strength) => /Legacy|Rector|PHPStan|PHPUnit|TDD|Psalm/.test(strength))) {
     topics.add(language === "de" ? "Legacy-Modernisierung und Qualitätshebel" : "Legacy modernization and quality levers");
   }
-  if (matchedStrengths.some((strength) => /Docker|CI\/CD|GitLab CI|Jenkins|Linux|Apache/.test(strength))) {
+  if (matchedStrengths.some((strength) => /Docker|CI\/CD|GitHub Actions|GitLab CI|Linux/.test(strength))) {
     topics.add(language === "de" ? "Betrieb, CI/CD und inkrementelle Delivery" : "Operations, CI/CD, and incremental delivery");
   }
-  if (matchedStrengths.some((strength) => /LDAP|Active Directory|Microsoft 365|Exchange|PowerShell|AS\/400/.test(strength))) {
-    topics.add(language === "de" ? "Enterprise-Integration und sichere Automatisierung" : "Enterprise integration and secure automation");
-  }
-  if (matchedStrengths.some((strength) => /Architecture|Typed APIs|Immutable/.test(strength))) {
-    topics.add(language === "de" ? "Architekturentscheidungen und Wartbarkeit" : "Architecture decisions and maintainability");
+  if (matchedStrengths.some((strength) => /Mentoring|Technical Coaching|OOP|Design Patterns|Architecture/.test(strength))) {
+    topics.add(language === "de" ? "Architekturentscheidungen und Team-Enabling" : "Architecture decisions and team enablement");
   }
 
   if (topics.size === 0) {
@@ -304,25 +259,24 @@ function recommendedTopics(matchedStrengths: readonly string[], language: Profil
 }
 
 export function buildHiringFit(input: {
-  readonly roleTitle: string;
-  readonly mustHaveSkills?: readonly string[];
-  readonly niceToHaveSkills?: readonly string[];
-  readonly language: ProfileLocale;
+  roleTitle: string;
+  mustHaveSkills?: readonly string[];
+  niceToHaveSkills?: readonly string[];
+  language: ProfileLocale;
 }) {
   const mustHave = input.mustHaveSkills ?? [];
   const niceToHave = input.niceToHaveSkills ?? [];
   const must = matchSkills(mustHave);
   const nice = matchSkills(niceToHave);
+  const roleBonus = inferRoleBonus(input.roleTitle);
   const mustScore = mustHave.length === 0 ? 60 : (must.matches.length / mustHave.length) * 70;
   const niceScore = niceToHave.length === 0 ? 10 : (nice.matches.length / niceToHave.length) * 20;
-  const score = clamp(Math.round(mustScore + niceScore + inferRoleBonus(input.roleTitle)), 15, 95);
+  const score = Math.round(mustScore + niceScore + roleBonus);
   const scoreRange = determineScoreRange(score);
   const matchingStrengths = uniqueStrings([
     ...must.matches,
     ...nice.matches,
-    ...(scoreRange.proceed
-      ? [PROFILE_DATA.person.headline, "Legacy Modernization", "PHPStan", "Secure Web Applications"]
-      : []),
+    ...(scoreRange.proceed ? [PROFILE_DATA.person.headline, "Legacy Modernization", "PHPStan", "PHPUnit"] : []),
   ]).slice(0, 8);
   const likelyGaps = uniqueStrings([...must.missing, ...nice.missing]).slice(0, 6);
 
@@ -336,10 +290,9 @@ export function buildHiringFit(input: {
     matchingStrengths,
     likelyGaps,
     recommendedConversationTopics: recommendedTopics(matchingStrengths, input.language),
-    rationale:
-      input.language === "de"
-        ? `Bewertung basiert auf öffentlichen CV-Signalen, ${must.matches.length} erfüllten Muss-Kriterien und ${nice.matches.length} erfüllten Nice-to-have-Kriterien.`
-        : `Assessment is based on public CV signals, ${must.matches.length} matched must-have criteria, and ${nice.matches.length} matched nice-to-have criteria.`,
+    rationale: input.language === "de"
+      ? `Bewertung basiert auf öffentlichen CV-Signalen, ${must.matches.length} erfüllten Muss-Kriterien und ${nice.matches.length} erfüllten Nice-to-have-Kriterien.`
+      : `Assessment is based on public CV signals, ${must.matches.length} matched must-have criteria, and ${nice.matches.length} matched nice-to-have criteria.`,
   };
 }
 
@@ -360,16 +313,14 @@ export function getPublicProfileExport() {
   };
 }
 
-export function createPublicProfileDataUri(): string {
+export function createPublicProfileDataUri() {
   return `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(getPublicProfileExport(), null, 2))}`;
 }
 
-export function getSectionDomId(section: ProfileSectionKey): string {
+export function getSectionDomId(section: ProfileSectionKey) {
   return PROFILE_DATA.sections.find((entry) => entry.id === section)?.domId ?? section;
 }
 
-export function getContactChannels(keys: readonly ContactChannelKey[]): ContactChannel[] {
-  return keys
-    .map((key) => getContactChannel(key))
-    .filter((channel): channel is ContactChannel => channel !== undefined);
+export function getContactChannels(keys: readonly ContactChannelKey[]) {
+  return keys.map((key) => getContactChannel(key)).filter((channel): channel is NonNullable<ReturnType<typeof getContactChannel>> => Boolean(channel));
 }

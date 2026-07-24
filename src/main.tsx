@@ -1,42 +1,49 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import AppV2 from "./AppV2";
-import "./index.css";
+import {StrictMode} from 'react';
+import {createRoot} from 'react-dom/client';
+import './webmcp/applyVerifiedProfileCorrections';
+import App from './App.tsx';
+import { CvI18nProvider } from './components/cv/copy';
+import './index.css';
 
-const rootElement = document.getElementById("root");
-const staticMirror = document.getElementById("cv-static-mirror");
+const rootElement = document.getElementById('root');
+const staticMirror = document.getElementById('prompt-injection-static-mirror');
 
 if (!rootElement) {
-  throw new Error("Root element #root is missing.");
+  throw new Error('Root element #root is missing.');
 }
 
-const hideStaticMirrorAfterRender = (): boolean => {
-  if (!staticMirror || rootElement.childNodes.length === 0) {
+const hideStaticMirrorAfterHydration = (): boolean => {
+  if (!staticMirror) {
     return false;
   }
 
-  document.documentElement.setAttribute("data-app-hydrated", "true");
-  staticMirror.setAttribute("hidden", "");
+  if (rootElement.childNodes.length > 0) {
+    document.documentElement.setAttribute('data-app-hydrated', 'true');
+    staticMirror.setAttribute('hidden', '');
+    return true;
+  }
 
-  return true;
+  return false;
 };
 
-let renderObserver: MutationObserver | null = null;
+let hydrationObserver: MutationObserver | null = null;
 
 if (staticMirror) {
-  renderObserver = new MutationObserver(() => {
-    if (hideStaticMirrorAfterRender()) {
-      renderObserver?.disconnect();
+  hydrationObserver = new MutationObserver(() => {
+    if (hideStaticMirrorAfterHydration()) {
+      hydrationObserver?.disconnect();
     }
   });
 
-  renderObserver.observe(rootElement, { childList: true });
+  hydrationObserver.observe(rootElement, {childList: true});
 }
 
 createRoot(rootElement).render(
   <StrictMode>
-    <AppV2 />
+    <CvI18nProvider>
+      <App />
+    </CvI18nProvider>
   </StrictMode>,
 );
 
-hideStaticMirrorAfterRender();
+hideStaticMirrorAfterHydration();
