@@ -11,5 +11,7 @@ describe("DemoAnnotatedSection", () => {
     expect(html).toContain("Real CV evidence");
     expect(html).toContain("Hidden authority-chain override");
     expect(html).toContain("Delayed DOM mutation");
+    expect(html).toContain("MCP tool-description poisoning");
+    expect(html).toContain("Agent long-term memory poisoning");
   });
 });

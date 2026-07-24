@@ -26,6 +26,20 @@ describe("prompt injection game payloads", () => {
     ]));
   });
 
+  it("covers the 2026 agentic-pipeline surfaces (MCP, RAG, memory, multi-agent, vision)", () => {
+    const surfaces = INJECTION_GAME_PAYLOADS.map((payload) => payload.surface);
+
+    expect(surfaces).toEqual(expect.arrayContaining([
+      "mcp_tool_poisoning",
+      "retrieval_poisoning",
+      "agent_memory_persistence",
+      "multi_agent_handoff",
+      "vision_overlay",
+      "steganographic_encoding",
+    ]));
+    expect(INJECTION_GAME_VERSION).toBe("9.0");
+  });
+
   it("keeps verified facts separate from untrusted attacks", () => {
     const manifest = createInjectionGameManifest();
 

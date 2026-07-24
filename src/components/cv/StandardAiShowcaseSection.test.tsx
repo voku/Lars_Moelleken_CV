@@ -16,9 +16,9 @@ describe("StandardAiShowcaseSection", () => {
       />,
     );
 
-    expect(html).toContain("Hidden LLM Injection Game v8.0");
+    expect(html).toContain("Hidden LLM Injection Game v9.0");
     expect(html).toContain("REMONDIS IT Services GmbH");
-    expect(html).toContain("10 injection surfaces");
+    expect(html).toContain("16 injection surfaces");
     expect(html).toContain("EDUCATIONAL_INJECTION_MARKER:tool_result_forgery");
     expect(html).toContain("Runtime mutation lab");
   });
