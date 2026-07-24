@@ -71,7 +71,15 @@ npm test
 npm run build
 ```
 
-Pull requests run all three checks in GitHub Actions.
+`npm test` covers the active AppV2 page, trust-boundary classifier, and public-profile tools. Pull requests run these checks in GitHub Actions.
+
+The previous component system is no longer imported by the active application. Its historical tests remain available separately:
+
+```bash
+npm run test:legacy
+```
+
+Those tests are intentionally non-blocking while the old component tree is retained for reference and later removal.
 
 ## Key files
 
@@ -79,11 +87,14 @@ Pull requests run all three checks in GitHub Actions.
 |---|---|
 | `src/cvData.ts` | Single PDF-aligned data source for the active CV |
 | `src/AppV2.tsx` | Evidence-first CV and interactive injection comparison |
+| `src/AppV2.test.tsx` | Active-page content and unsupported-claim regression tests |
 | `src/trust.ts` | Injection-signal classification and visible-fact allowlist |
 | `src/trust.test.ts` | Trust-boundary tests |
+| `src/webmcp/profileData.ts` | Verified machine-readable profile dataset |
+| `src/webmcp/profileTools.ts` | Evidence-based role and skill matching |
 | `index.html` | Static mirror and factual Schema.org data for non-JS clients |
 | `public/prompt-injection-demo.json` | Static factual profile plus labelled simulation contract |
-| `.github/workflows/ci.yml` | TypeScript, tests, and production-build validation |
+| `.github/workflows/ci.yml` | TypeScript, active tests, and production-build validation |
 
 ## Deployment
 
