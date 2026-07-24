@@ -1,10 +1,10 @@
-import { renderToStaticMarkup } from "react-dom/server";
 import { createRef } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { StandardAiShowcaseSection } from "./StandardAiShowcaseSection";
 
 describe("StandardAiShowcaseSection", () => {
-  it("renders AI demo heading", () => {
+  it("renders verified CV evidence and the improved attack catalog", () => {
     const html = renderToStaticMarkup(
       <StandardAiShowcaseSection
         onRunDelayedSimulation={vi.fn()}
@@ -15,7 +15,11 @@ describe("StandardAiShowcaseSection", () => {
         simulationLog={[]}
       />,
     );
-    expect(html).toContain("AI-Readable Curriculum Vitae — Lars Moelleken (voku) · Embedded Injection Techniques");
-    expect(html).toContain("Lessons Learned — Defense Strategies");
+
+    expect(html).toContain("Hidden LLM Injection Game v8.0");
+    expect(html).toContain("REMONDIS IT Services GmbH");
+    expect(html).toContain("10 injection surfaces");
+    expect(html).toContain("EDUCATIONAL_INJECTION_MARKER:tool_result_forgery");
+    expect(html).toContain("Runtime mutation lab");
   });
 });

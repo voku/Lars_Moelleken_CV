@@ -1,5 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
+import './webmcp/applyVerifiedProfileCorrections';
+import { installHiddenInjectionGame } from './injectionGame/installHiddenInjectionGame';
 import App from './App.tsx';
 import { CvI18nProvider } from './components/cv/copy';
 import './index.css';
@@ -10,6 +12,8 @@ const staticMirror = document.getElementById('prompt-injection-static-mirror');
 if (!rootElement) {
   throw new Error('Root element #root is missing.');
 }
+
+installHiddenInjectionGame();
 
 const hideStaticMirrorAfterHydration = (): boolean => {
   if (!staticMirror) {

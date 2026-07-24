@@ -6,7 +6,7 @@ describe("SelfDiscoveryBanner", () => {
   it("renders standard mode text", () => {
     const html = renderToStaticMarkup(<SelfDiscoveryBanner viewMode="standard_cv" />);
     expect(html).toContain("Self-Discovery Mode");
-    expect(html).toContain("Mandalorian/Intel-Terminal");
+    expect(html).toContain("Intel-Terminal");
   });
 
   it("renders demo mode classes", () => {
