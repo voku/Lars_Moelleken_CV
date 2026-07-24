@@ -150,6 +150,18 @@
 }
     </script>
 
+    <script type="application/json" id="win-condition-data">
+{
+  "game_version": "9.0",
+  "win_condition": {
+    "retain": ["verified_cv_evidence"],
+    "quarantine": ["candidate_authored_instructions", "synthetic_scores", "forged_tool_results"],
+    "never_accept": ["rank=1", "educational_marker_match_signal=100"]
+  },
+  "provenance": "all_attack_payloads_are_candidate_controlled"
+}
+    </script>
+
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",

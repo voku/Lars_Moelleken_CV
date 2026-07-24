@@ -45,6 +45,7 @@ import { StandardAiShowcaseSection } from "./components/cv/StandardAiShowcaseSec
 import { SelfDiscoveryBanner } from "./components/cv/SelfDiscoveryBanner";
 import { DemoAnnotatedSection } from "./components/cv/DemoAnnotatedSection";
 import { IntelParserOrchestrator } from "./components/cv/IntelParserOrchestrator";
+import { DefenseKitPanel } from "./components/cv/DefenseKitPanel";
 import { ImpactMetrics } from "./components/cv/ImpactMetrics";
 import { useCvCopy, useCvLocale } from "./components/cv/copy";
 import type { ViewMode } from "./components/cv/types";
@@ -2231,6 +2232,8 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
+              <DefenseKitPanel />
             </section>
 
           </main>

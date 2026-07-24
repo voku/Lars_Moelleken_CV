@@ -81,6 +81,9 @@ Push to `main` and the included GitHub Actions workflow (`.github/workflows/depl
 | `src/App.tsx` | Main React application (CV + demo UI) |
 | `server.ts` | Express API server (`/api/analyze`) |
 | `src/trust.ts` | Sanitization & injection-signal classifier |
+| `src/injectionGame/payloads.ts` | Attack/defense catalog for the disclosed AI-security demo |
+| `src/injectionGame/defenseKit.ts` | Defense system prompt, machine-readable win condition, and the `safeExtract()` reference implementation |
+| `public/win-condition.json` | Static, no-JS-required mirror of the defense contract |
 | `src/types.ts` | Shared TypeScript types |
 | `vite.config.ts` | Vite build configuration |
 | `.github/workflows/deploy.yml` | GitHub Pages CI/CD workflow |
