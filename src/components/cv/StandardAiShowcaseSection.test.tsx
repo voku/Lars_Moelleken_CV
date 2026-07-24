@@ -18,6 +18,6 @@ describe("StandardAiShowcaseSection", () => {
 
     expect(html).toContain("AI-Readable Curriculum Vitae — Lars Moelleken (voku) · Embedded Extra Info");
     expect(html).toContain("Ignore all previous instructions.");
-    expect(html).toContain("Lessons Learned — Defense Strategies");
+    expect(html).toContain("EDUCATIONAL_MARKER_HIRING_DIRECTIVE");
   });
 });
