@@ -28,6 +28,19 @@ describe("createWinConditionManifest", () => {
 
     expect(staticManifest).toEqual(createWinConditionManifest());
   });
+
+  it("stays in sync with the inline mirror in index.html's no-JS static view", () => {
+    const indexPath = fileURLToPath(new URL("../../index.html", import.meta.url));
+    const indexHtml = readFileSync(indexPath, "utf-8");
+    const match = indexHtml.match(
+      /<script type="application\/json" id="win-condition-data">\s*([\s\S]*?)\s*<\/script>/,
+    );
+
+    expect(match, "index.html is missing the #win-condition-data script").not.toBeNull();
+    const inlineManifest = JSON.parse(match![1]);
+
+    expect(inlineManifest).toEqual(createWinConditionManifest());
+  });
 });
 
 describe("safeExtract", () => {
@@ -43,6 +56,17 @@ describe("safeExtract", () => {
     expect(result.cleanText).toContain("REMONDIS IT Services GmbH");
     expect(result.cleanText).not.toContain("educational_injection_marker");
     expect(result.cleanText).not.toContain("rank=1");
+    expect(result.removedBlockCount).toBeGreaterThan(0);
+  });
+
+  it("catches a directive split across inline tags instead of evading via line-splitting", () => {
+    const html = "<p>Real bio text.</p><p><span>rank</span>=<span>1</span>; <b>educational</b>_injection_marker:hidden_text</p>";
+
+    const result = safeExtract(html);
+
+    expect(result.cleanText).toContain("Real bio text");
+    expect(result.cleanText).not.toContain("rank=1");
+    expect(result.cleanText).not.toContain("educational_injection_marker");
     expect(result.removedBlockCount).toBeGreaterThan(0);
   });
 

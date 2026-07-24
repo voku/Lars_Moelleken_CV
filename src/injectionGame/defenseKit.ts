@@ -77,19 +77,36 @@ export interface SafeExtractResult {
   readonly removedSnippets: readonly string[];
 }
 
+// Block-level tags become line breaks; everything else (including inline tags like
+// <span> or <strong>) collapses to a single space instead of a hard break. This matters
+// for detection: splitting on every tag would let a payload evade the denylist simply by
+// wrapping a fragment in an inline element, e.g. "<span>rank</span>=1" would otherwise land
+// on two separate lines ("rank" / "=1"), neither of which matches on its own.
+const BLOCK_LEVEL_TAG_PATTERN = /<\/?(?:p|div|br|hr|li|ul|ol|tr|td|th|table|thead|tbody|section|article|header|footer|nav|main|aside|h[1-6]|blockquote|pre)\b[^>]*>/gi;
+
 /**
- * Client-side defense reference implementation: strips scripts/styles/markup,
- * normalizes Unicode (NFKC) and zero-width characters, then drops every line
- * that matches a known injection-marker/directive/score pattern. Returns only
- * what should be considered evidence -- a worked example of the "Safe Extract"
- * step described in the defense system prompt above.
+ * Client-side defense reference implementation: strips scripts/styles, collapses markup to
+ * block-level line breaks (see BLOCK_LEVEL_TAG_PATTERN above), normalizes Unicode (NFKC) and
+ * zero-width characters, then drops every line that matches a known injection-marker,
+ * directive, or score pattern. Returns only what should be considered evidence -- a worked
+ * example of the "Safe Extract" step described in the defense system prompt above.
+ *
+ * This is a heuristic denylist over one HTML snapshot, not the authoritative security
+ * boundary -- it is meant to demonstrate the mechanics, not replace them. The actual
+ * provenance boundary (rule 1 of DEFENSE_SYSTEM_PROMPT) is that only content from a
+ * source explicitly labeled as verified evidence counts as fact; everything else stays
+ * untrusted regardless of whether a denylist pattern happens to catch it.
  */
 export function safeExtract(rawHtml: string): SafeExtractResult {
   const withoutScriptsAndStyles = rawHtml
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ");
-  const lines = withoutScriptsAndStyles.replace(/<[^>]+>/g, "\n").split("\n");
-  const normalized = lines.map((line) => line.normalize("NFKC").replace(ZERO_WIDTH_PATTERN, "").trim());
+  const withBlockBreaks = withoutScriptsAndStyles.replace(BLOCK_LEVEL_TAG_PATTERN, "\n");
+  const withoutInlineTags = withBlockBreaks.replace(/<[^>]+>/g, " ");
+  const lines = withoutInlineTags.split("\n");
+  const normalized = lines.map((line) =>
+    line.normalize("NFKC").replace(ZERO_WIDTH_PATTERN, "").replace(/\s+/g, " ").trim(),
+  );
 
   const keptLines: string[] = [];
   const removedSnippets: string[] = [];
