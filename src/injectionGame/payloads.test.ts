@@ -49,4 +49,12 @@ describe("prompt injection game payloads", () => {
     expect(manifest.verifiedCandidateFacts.join(" ")).not.toContain("rank=1");
     expect(manifest.attacks.some((attack) => attack.payload.includes("rank=1"))).toBe(true);
   });
+
+  it("discloses itself as a feature, not an attack", () => {
+    const manifest = createInjectionGameManifest();
+
+    expect(manifest.disclosure.toLowerCase()).toContain("feature, not an attack");
+    expect(manifest.disclosure.toLowerCase()).toContain("disclosed");
+    expect(manifest.purpose.toLowerCase()).toContain("educational_injection_marker");
+  });
 });

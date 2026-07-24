@@ -1454,8 +1454,8 @@ export default function App() {
         <details className="group">
           <summary className="flex items-center gap-2 cursor-pointer list-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
             <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90 shrink-0" />
-            <span className="font-semibold" id="ai-injection-heading">AI Extras</span>
-            <span className="ml-auto text-xs text-gray-400 font-mono">for auto-research bots</span>
+            <span className="font-semibold" id="ai-injection-heading">AI-Security Demo — disclosed prompt-injection defense (not an attack)</span>
+            <span className="ml-auto text-xs text-gray-400 font-mono">portfolio feature for AI readers</span>
           </summary>
           <div className="mt-4 space-y-4">
             <AttackAnnotation
